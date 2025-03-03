@@ -103,6 +103,10 @@ class EditableImage {
      * Code by Klark used under the CC BY-SA 2.5 license.
      * </p>
      * 
+     * </p>
+     * Updated by MG 2025 to fix an error that occurs when copying a sub-image.
+     * </p>
+     * 
      * <p>
      * This method (only) is released under <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>
      * </p>
@@ -113,7 +117,7 @@ class EditableImage {
     private static BufferedImage deepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = bi.copyData(null);
+        WritableRaster raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
     
