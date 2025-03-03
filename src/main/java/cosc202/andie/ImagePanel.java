@@ -63,6 +63,7 @@ public class ImagePanel extends JPanel {
      *
      * @return the image currently displayed.
      */
+    @SuppressWarnings("NonPublicExported")
     public EditableImage getImage() {
         return image;
     }

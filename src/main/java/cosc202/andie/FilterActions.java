@@ -36,8 +36,8 @@ public class FilterActions {
      * </p>
      */
     public FilterActions() {
-        actions = new ArrayList<Action>();
-        actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions = new ArrayList<>();
+        actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", KeyEvent.VK_M));
     }
 
     /**
@@ -94,6 +94,7 @@ public class FilterActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
 
             // Determine the radius - ask the user.

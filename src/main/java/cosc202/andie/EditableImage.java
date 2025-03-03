@@ -79,8 +79,8 @@ class EditableImage {
     public EditableImage() {
         original = null;
         current = null;
-        ops = new Stack<ImageOperation>();
-        redoOps = new Stack<ImageOperation>();
+        ops = new Stack<>();
+        redoOps = new Stack<>();
         imageFilename = null;
         opsFilename = null;
     }
@@ -167,10 +167,10 @@ class EditableImage {
         original = ImageIO.read(imageFile);
         current = deepCopy(original);
 
-        try {
+        try (
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
-
+            ) {
             // Silence the Java compiler warning about type casting.
             // Understanding the cause of the warning is way beyond
             // the scope of COSC202, but if you're interested, it has
@@ -214,12 +214,12 @@ class EditableImage {
         // Write image file based on file extension
         String extension = imageFilename.substring(1 + imageFilename.lastIndexOf(".")).toLowerCase();
         ImageIO.write(original, extension, new File(imageFilename));
-        // Write operations file
-        FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
-        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-        objOut.writeObject(this.ops);
-        objOut.close();
-        fileOut.close();
+        try ( // Write operations file
+            FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+            ) {
+            objOut.writeObject(this.ops);
+        }
     }
 
     /**

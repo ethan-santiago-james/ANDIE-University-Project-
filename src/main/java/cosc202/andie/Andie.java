@@ -106,14 +106,12 @@ public class Andie {
      * @see #createAndShowGUI()
      */
     public static void main(String[] args) throws Exception {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    createAndShowGUI();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.exit(1);
-                }
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                createAndShowGUI();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.exit(1);
             }
         });
     }

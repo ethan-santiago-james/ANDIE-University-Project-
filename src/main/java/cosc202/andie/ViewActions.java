@@ -36,10 +36,10 @@ public class ViewActions {
      * </p>
      */
     public ViewActions() {
-        actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        actions = new ArrayList<>();
+        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", KeyEvent.VK_PLUS));
+        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", KeyEvent.VK_MINUS));
+        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", KeyEvent.VK_1));
     }
 
     /**
@@ -98,6 +98,7 @@ public class ViewActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             target.setZoom(target.getZoom() + 10);
             target.repaint();
@@ -145,6 +146,7 @@ public class ViewActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             target.setZoom(target.getZoom() - 10);
             target.repaint();
@@ -192,6 +194,7 @@ public class ViewActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             target.setZoom(100);
             target.repaint();

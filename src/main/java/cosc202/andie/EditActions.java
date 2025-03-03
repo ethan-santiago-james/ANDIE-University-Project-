@@ -36,9 +36,9 @@ public class EditActions {
      * </p>
      */
     public EditActions() {
-        actions = new ArrayList<Action>();
-        actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
+        actions = new ArrayList<>();
+        actions.add(new UndoAction("Undo", null, "Undo", KeyEvent.VK_Z));
+        actions.add(new RedoAction("Redo", null, "Redo", KeyEvent.VK_Y));
     }
 
     /**
@@ -94,6 +94,7 @@ public class EditActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             target.getImage().undo();
             target.repaint();
@@ -137,6 +138,7 @@ public class EditActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             target.getImage().redo();
             target.repaint();

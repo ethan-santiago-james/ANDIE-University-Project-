@@ -36,8 +36,8 @@ public class ColourActions {
      * </p>
      */
     public ColourActions() {
-        actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions = new ArrayList<>();
+        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", KeyEvent.VK_G));
     }
 
     /**
@@ -93,6 +93,7 @@ public class ColourActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             target.getImage().apply(new ConvertToGrey());
             target.repaint();

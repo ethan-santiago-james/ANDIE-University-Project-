@@ -36,11 +36,11 @@ public class FileActions {
      * </p>
      */
     public FileActions() {
-        actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
+        actions = new ArrayList<>();
+        actions.add(new FileOpenAction("Open", null, "Open a file", KeyEvent.VK_O));
+        actions.add(new FileSaveAction("Save", null, "Save the file", KeyEvent.VK_S));
+        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", KeyEvent.VK_A));
+        actions.add(new FileExitAction("Exit", null, "Exit the program", 0));
     }
 
     /**
@@ -96,6 +96,7 @@ public class FileActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
@@ -151,6 +152,7 @@ public class FileActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 target.getImage().save();
@@ -197,6 +199,7 @@ public class FileActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(target);
@@ -249,6 +252,7 @@ public class FileActions {
          *
          * @param e The event triggering this callback.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
