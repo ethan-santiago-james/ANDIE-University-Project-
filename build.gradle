@@ -12,24 +12,20 @@ repositories {
     mavenCentral();
 }
 
-// use a project layout that is compatible with the standard VS Code java extension
-sourceSets {
-    main {
-        resources {
-            srcDirs = ['src']
-        }
-        java{
-            srcDirs = ['src']
-        }
-    }
-}
-
 dependencies {
 
 }
 
 run {
     standardInput = System.in;
+}
+
+test {
+    useJUnitPlatform();
+
+    testLogging {
+        showStandardStreams = true;
+    }
 }
 
 /* convenience tasks for working with a project */
@@ -82,29 +78,49 @@ tasks.register("openBuildDir") {
     }
 }
 
+tasks.register("openInTerminal") {
+    group = "Project";
+    description = "Open the project directory in a terminal.";
+    doLast {
+        def osName = System.getProperty("os.name").toLowerCase()
+
+        if (osName.contains("mac")) {
+            exec {
+                commandLine 'open', '-a', 'Terminal', '.'
+                workingDir projectDir
+            }
+        } else if (osName.contains("win")) {
+            exec {
+                commandLine 'powershell', '-NoExit', '-Command', 'Start-Process', 'powershell.exe'
+                workingDir projectDir
+            }
+        }        
+    }
+}
+
 tasks.register("createGitIgnore") {
     group = "Project";
     description = "Create the project's .gitignore file.";
 
     def gitIgnored="""
-        .gradle/
-        .nb-gradle/
-        .settings/
-        nbproject/
-        build/
-        bin/
-        dist/
-        tmp/
-        .classpath
-        .project
-        *.zip
-        *.tgz
-        *.tar.gz
-        *.class
-        *.jar
-        .DS_Store
-        !gradle-wrapper.jar
-        """;
+		.gradle/
+		.nb-gradle/
+		.settings/
+		nbproject/
+		build/
+		bin/
+		dist/
+		tmp/
+		.classpath
+		.project
+		*.zip
+		*.tgz
+		*.tar.gz
+		*.class
+		*.jar
+		.DS_Store
+		!gradle-wrapper.jar
+		""";
 
     doLast {
         def file = new File(projectDir, ".gitignore");
@@ -121,13 +137,12 @@ tasks.register("createGitIgnore") {
             println(".gitignore already exists");
         }
     }
-
 }
 
-tasks.register("info") { 
+tasks.register("info") {
     group = "Project";
     description = "Show version and location information for Java, Gradle, and project.";
-    doLast { 
+    doLast {
         println "Java Version: " + org.gradle.internal.jvm.Jvm.current();
         println "Java Home: " + org.gradle.internal.jvm.Jvm.current().getJavaHome();
         println "Gradle Version: ${gradle.gradleVersion}";
