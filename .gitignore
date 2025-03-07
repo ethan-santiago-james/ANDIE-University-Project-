@@ -2,9 +2,17 @@
 bin/
 build/
 doc/
+dist/
 
-# ignore VSCode settings
+# ignore NetBeans specific settings
+.nb-gradle/
+nbproject/
+
+# ignore VSCode/Eclipse specific settings
 .vscode/settings.json
+.settings/
+.classpath
+.project
 
 # ignore gradle caches
 .gradle/
@@ -16,6 +24,7 @@ doc/
 *.class
 *.jar
 .DS_Store
+tmp/
 
 # Don't ignore gradle wrapper JAR
 !gradle-wrapper.jar
