@@ -24,6 +24,7 @@ nbproject/
 *.class
 *.jar
 .DS_Store
+*.orig
 tmp/
 
 # Don't ignore gradle wrapper JAR
