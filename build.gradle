@@ -118,6 +118,7 @@ tasks.register("createGitIgnore") {
 		*.tar.gz
 		*.class
 		*.jar
+		*.orig
 		.DS_Store
 		!gradle-wrapper.jar
 		""";
