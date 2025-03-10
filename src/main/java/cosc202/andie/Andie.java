@@ -9,6 +9,7 @@ import javax.imageio.*;
 //BRADYN SALMON
 //SAM HOSTAD
 //Adam merge attempt
+//ethans merge attempt
 /**
  * <p>
  * Main class for A Non-Destructive Image Editor (ANDIE).
