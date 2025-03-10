@@ -1,5 +1,6 @@
 package cosc202.andie;
 
+//ETHAN JAMES
 import java.awt.image.*;
 
 /**
