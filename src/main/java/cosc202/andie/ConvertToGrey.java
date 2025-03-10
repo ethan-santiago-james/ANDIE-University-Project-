@@ -1,10 +1,10 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-
+//bradyn's commit
 /**
  * <p>
- * ImageOperation to convert an image from colour to greyscale.
+ * ImageOperation to convert an image from colour to greyscale. 
  * </p>
  *
  * <p>
