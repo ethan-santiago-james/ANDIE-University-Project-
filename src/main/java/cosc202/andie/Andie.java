@@ -6,6 +6,7 @@ import javax.imageio.*;
 
 //ETHAN JAMES
 //ADAM LINDBOM
+//BRADYN SALMON
 /**
  * <p>
  * Main class for A Non-Destructive Image Editor (ANDIE).
