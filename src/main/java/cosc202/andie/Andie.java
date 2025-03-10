@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.imageio.*;
 
+//ETHAN JAMES
 /**
  * <p>
  * Main class for A Non-Destructive Image Editor (ANDIE).
