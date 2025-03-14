@@ -39,6 +39,7 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", KeyEvent.VK_G));
+        actions.add(new InvertColorsAction("Invert", null, "Invert colors", KeyEvent.VK_I));
     }
 
     /**
@@ -102,5 +103,50 @@ public class ColourActions {
         }
 
     }
+    /**
+     * <p>
+     * Action to invert image colors.
+     * </p>
+     *
+     * @see InvertColors
+     */
+    public class InvertColorsAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new invert-colors action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        InvertColorsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the invert-colors action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the InvertColorsAction is triggered.
+         * It changes the image to inverted colors.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new InvertColors());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
 
 }
