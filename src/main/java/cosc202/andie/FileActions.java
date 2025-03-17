@@ -2,7 +2,11 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * <p>
@@ -41,6 +45,8 @@ public class FileActions {
         actions.add(new FileSaveAction("Save", null, "Save the file", KeyEvent.VK_S));
         actions.add(new FileSaveAsAction("Save As", null, "Save a copy", KeyEvent.VK_A));
         actions.add(new FileExitAction("Exit", null, "Exit the program", 0));
+        actions.add(new FileExportAction("Export", null, "Export the image", KeyEvent.VK_E));
+              
     }
 
     /**
@@ -257,6 +263,89 @@ public class FileActions {
             System.exit(0);
         }
 
+    }
+    
+    /**
+     * <p>
+     * Action to export the file which represents the image that has been edited
+     * </p>
+     */
+    public class FileExportAction extends ImageAction {
+        
+        /**
+         * <p>
+         * Create a new file-export action
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            
+            super(name,icon,desc,mnemonic);
+            
+        }
+        
+        /**
+         * <p>
+         * Callback for when the export action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the FileExportAction is triggered. It
+         * exports the image file representing the image that has been edited to a given destination.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Export Image");
+
+            // Add filters BEFORE showing the dialog
+            FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Image (*.png)", "png");
+            FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF Image (*.gif)", "gif");
+            
+            fileChooser.addChoosableFileFilter(pngFilter);
+            fileChooser.addChoosableFileFilter(gifFilter);
+            
+            fileChooser.setFileFilter(pngFilter); // Set default filter to PNG
+
+            int result = fileChooser.showSaveDialog(target);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    String imageFilepath = selectedFile.getCanonicalPath();
+
+                    // Determine the correct file format
+                    String format = "png";
+                    if(fileChooser.getFileFilter() != pngFilter) {
+                        
+                        format = "gif";
+                    }
+
+                    // Ensure correct file extension
+                    if (!imageFilepath.toLowerCase().endsWith("." + format)) {
+                        imageFilepath += "." + format;
+                    }
+
+                    // Save the image in the selected format
+                    BufferedImage image = target.getImage().getCurrentImage();
+                    ImageIO.write(image, format, new File(imageFilepath));
+                    
+                    System.out.println("Image saved as " + imageFilepath);
+                } catch (Exception ex) {
+                    System.out.println("Error exporting image: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }    
+            
+        }
     }
 
 }
