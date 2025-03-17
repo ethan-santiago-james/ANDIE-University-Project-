@@ -70,36 +70,77 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
     public BufferedImage apply(BufferedImage input) {
         
         int size = (2 * radius + 1);
-        float[][] array = new float[size][size];
+        ArrayList<Integer> neighborsA = new ArrayList<Integer>();
+        ArrayList<Integer> neighborsR = new ArrayList<Integer>();
+        ArrayList<Integer> neighborsG = new ArrayList<Integer>();
+        ArrayList<Integer> neighborsB = new ArrayList<Integer>();
         
-        for(int y = 1; y < input.getHeight() - 1; y += size) {
-            
-            for (int x = 1; x < input.getWidth() - 1; x += size) {
+        BufferedImage output = new BufferedImage(input.getColorModel(),input.copyData(null),input.isAlphaPremultiplied(),null);
+        
+            for (int y = radius; y < input.getHeight() - radius; y++) { // LOOPS THROUGH ALL IMAGE Y PIXELS
 
-                int argb = input.getRGB(x, y);
-                
-                for (int a = y - 1; a < y + 2; a++) {
-                    
-                    for (int b = x - 1; b < x + 2; b++) {
-                        
-                        array[a - (y - 1)][b - (x - 1)] = input.getRGB(a,b);
-                        
+                for (int x = radius; x < input.getWidth() - radius; x++) { // LOOPS THROUGH ALL IMAGE X PIXELS
+
+                    /* LOOPS THROUGH THE NEIGHBORS */
+                    for (int a = y - radius; a < (y + radius + 1); a++) {
+
+                        for (int b = x - radius; b < (x + radius + 1); b++) {
+
+                            int rgbA = input.getRGB(b,a);
+   
+                            int A = (rgbA & 0xFF000000) >>> 24;
+                            int R = (rgbA & 0x00FF0000) >> 16;
+                            int G = (rgbA & 0x0000FF00) >> 8;
+                            int B = (rgbA & 0x000000FF);
+
+                            neighborsA.add(A);
+                            neighborsR.add(R);
+                            neighborsG.add(G);
+                            neighborsB.add(B);
+                        }
+
                     }
-                    
+
+                    int medianA = getMedian(neighborsA);
+                    int medianR = getMedian(neighborsR);
+                    int medianG = getMedian(neighborsG);
+                    int medianB = getMedian(neighborsB);
+
+                    int medianARGB = (medianA << 24) | (medianR << 16) | (medianG << 8) | medianB;
+                    System.out.print(" Old ARGB Value: " + output.getRGB(x,y));
+                    output.setRGB(x,y,medianARGB);
+                    System.out.print(", New ARGB Value: " + output.getRGB(x,y) + "\n");
+                    neighborsA.clear();
+                    neighborsB.clear();
+                    neighborsR.clear();
+                    neighborsG.clear();
+
                 }
-                
-                
+
             }
-            
-        }
         
-        return input;
+        return output;
         
     }
     
-    public float getMedian(float[][] arr) {
+    /**
+     * <p>
+     * Return the median value of a given ArrayList of integers
+     * </p>
+     *
+     * <p>
+     * This method sorts the list, and then returns the middle index
+     * </p>
+     *
+     * @param neighbors The list to retrieve the median value of.
+     * @return The value that corresponds to the median index of the list.
+     */
+    public int getMedian(ArrayList<Integer> neighbors) {
         
+        Collections.sort(neighbors);
         
+        int medianIndex = (int)(Math.floor(neighbors.size()/2));
+        return neighbors.get(medianIndex);
         
     }
 } 
