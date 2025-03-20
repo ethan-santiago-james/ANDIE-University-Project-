@@ -114,9 +114,17 @@ public class FilterActions {
             }
 
             // Create and apply the filter
-            target.getImage().apply(new MeanFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+            
+            try {
+                
+                target.getImage().apply(new MeanFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+                
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null,"Please select an image.");
+            }
         }
 
     }
@@ -170,9 +178,17 @@ public class FilterActions {
             }
 
             // Create and apply the filter
-            target.getImage().apply(new MedianFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+            try {
+
+                target.getImage().apply(new MedianFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+                
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null,"Please select an image.");      
+                
+            }
             
         }
         

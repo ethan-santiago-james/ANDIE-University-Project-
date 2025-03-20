@@ -107,9 +107,9 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                     int medianB = getMedian(neighborsB);
 
                     int medianARGB = (medianA << 24) | (medianR << 16) | (medianG << 8) | medianB;
-                    System.out.print(" Old ARGB Value: " + output.getRGB(x,y));
+                    //System.out.print(" Old ARGB Value: " + output.getRGB(x,y));
                     output.setRGB(x,y,medianARGB);
-                    System.out.print(", New ARGB Value: " + output.getRGB(x,y) + "\n");
+                    //System.out.print(", New ARGB Value: " + output.getRGB(x,y) + "\n");
                     neighborsA.clear();
                     neighborsB.clear();
                     neighborsR.clear();
@@ -118,7 +118,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 }
 
             }
-        
+
         return output;
         
     }

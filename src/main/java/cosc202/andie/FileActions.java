@@ -112,7 +112,9 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
-                    System.exit(1);
+                    
+                    JOptionPane.showMessageDialog(null, "Please select an image.");
+                    
                 }
             }
 
@@ -163,7 +165,7 @@ public class FileActions {
             try {
                 target.getImage().save();
             } catch (Exception ex) {
-                System.exit(1);
+                JOptionPane.showMessageDialog(null, "Please select an image.");
             }
         }
 
@@ -215,7 +217,9 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().saveAs(imageFilepath);
                 } catch (Exception ex) {
-                    System.exit(1);
+                    
+                    JOptionPane.showMessageDialog(null, "Please select an image.");
+                    //System.exit(1);
                 }
             }
         }
@@ -338,10 +342,9 @@ public class FileActions {
                     BufferedImage image = target.getImage().getCurrentImage();
                     ImageIO.write(image, format, new File(imageFilepath));
                     
-                    System.out.println("Image saved as " + imageFilepath);
+                    JOptionPane.showMessageDialog(null, "Image successfully exported.");
                 } catch (Exception ex) {
-                    System.out.println("Error exporting image: " + ex.getMessage());
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Image failed to export.");
                 }
             }    
             
