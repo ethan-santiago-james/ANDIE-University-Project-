@@ -4,7 +4,6 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-//ADAM LINDBOM
 /**
  * <p>
  * Actions provided by the Colour menu.
@@ -39,6 +38,12 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", KeyEvent.VK_G));
+        actions.add(new CycleColorChannelsAction("RGB > RBG", null, "Cycle color channels", KeyEvent.VK_1, 1));
+        actions.add(new CycleColorChannelsAction("RGB > GRB", null, "Cycle color channels", KeyEvent.VK_2, 2));
+        actions.add(new CycleColorChannelsAction("RGB > GBR", null, "Cycle color channels", KeyEvent.VK_3, 3));
+        actions.add(new CycleColorChannelsAction("RGB > BRG", null, "Cycle color channels", KeyEvent.VK_4, 4));
+        actions.add(new CycleColorChannelsAction("RGB > BGR", null, "Cycle color channels", KeyEvent.VK_5, 5));
+        actions.add(new InvertColorsAction("Invert", null, "Invert colors", KeyEvent.VK_I));
     }
 
     /**
@@ -102,5 +107,92 @@ public class ColourActions {
         }
 
     }
+    
+    public class CycleColorChannelsAction extends ImageAction {
+        
+        private int cycleType;
+        /**
+         * <p>
+         * Create a new cycle color channels action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         * @param cycleType The type of cycle selected (1 to 5)
+         */
+        CycleColorChannelsAction(String name, ImageIcon icon, String desc, Integer mnemonic, int cycleType) {
+            super(name, icon, desc, mnemonic);
+            this.cycleType = cycleType;
+        }
+
+        /**
+         * <p>
+         * Callback for when the cycle-color-channels action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the CycleColorChannelsAction is triggered.
+         * It changes the image by cycling color channels.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new CycleColorChannels(cycleType));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+    
+    /**
+     * <p>
+     * Action to invert image colors.
+     * </p>
+     *
+     * @see InvertColors
+     */
+    public class InvertColorsAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new invert-colors action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        InvertColorsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the invert-colors action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the InvertColorsAction is triggered.
+         * It changes the image to inverted colors.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new InvertColors());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
 
 }
