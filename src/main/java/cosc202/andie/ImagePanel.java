@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
 /**
@@ -26,7 +27,7 @@ public class ImagePanel extends JPanel {
     /**
      * The image to display in the ImagePanel.
      */
-    private EditableImage image;
+    private final EditableImage image;
 
     /**
      * <p>
@@ -41,7 +42,7 @@ public class ImagePanel extends JPanel {
      * </p>
      */
     private double scale;
-
+    private AffineTransform transform;
     /**
      * <p>
      * Create a new ImagePanel.
@@ -54,6 +55,7 @@ public class ImagePanel extends JPanel {
     public ImagePanel() {
         image = new EditableImage();
         scale = 1.0;
+        transform = new AffineTransform();
     }
 
     /**
@@ -106,6 +108,16 @@ public class ImagePanel extends JPanel {
         }
         scale = zoomPercent / 100;
     }
+    
+    /**
+     * Set a new transformation to be applied to the image.
+     * 
+     *
+     * @param transform The AffineTransform to apply.
+     */
+    public void setTransform(AffineTransform transform) {
+        this.transform = transform;
+    }
 
     /**
      * <p>
@@ -141,9 +153,13 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         if (image.hasImage()) {
             Graphics2D g2 = (Graphics2D) g.create();
+            
             g2.scale(scale, scale);
+            g2.transform(transform);
+                                        
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
         }
     }
+
 }
