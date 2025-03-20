@@ -97,9 +97,18 @@ public class EditActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().undo();
-            target.repaint();
-            target.getParent().revalidate();
+            
+            try {
+                
+                target.getImage().undo();
+                target.repaint();
+                target.getParent().revalidate();
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null, "Either you have no image selected or there is nothing to undo.");
+                    
+            }
+            
         }
     }
 
@@ -141,9 +150,18 @@ public class EditActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().redo();
-            target.repaint();
-            target.getParent().revalidate();
+            
+            
+            try {
+                
+                target.getImage().redo();
+                target.repaint();
+                target.getParent().revalidate();
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null, "Either you have not selected an image or there is nothing to redo.");
+            }
+            
         }
     }
 
