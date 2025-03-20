@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
 /**
@@ -39,7 +40,10 @@ public class ViewActions {
         actions = new ArrayList<>();
         actions.add(new ZoomInAction("Zoom In", null, "Zoom In", KeyEvent.VK_PLUS));
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", KeyEvent.VK_MINUS));
+        actions.add(new ZoomTo150("Resize 150%", null, "Resize 150%", KeyEvent.VK_2));
+        actions.add(new ZoomTo50("Resize 50%", null, "Resize 50%", KeyEvent.VK_3));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", KeyEvent.VK_1));
+        actions.add(new RotateClockwise("Rotate 90° Clockwise", null, "Rotate 90° Clockwise", KeyEvent.VK_4));
     }
 
     /**
@@ -201,6 +205,118 @@ public class ViewActions {
             target.getParent().revalidate();
         }
 
+    }
+
+    public class ZoomTo150 extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new zoom to 150% action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        ZoomTo150(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the zoom to 150 action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the ZoomTo150 is triggered. It sets
+         * the Zoom level to 150%.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.setZoom(150);
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
+    public class ZoomTo50 extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new zoom to 50% action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        ZoomTo50(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the zoom to 50 action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the ZoomFullAction is triggered. It
+         * sets the Zoom level to 50%.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            target.setZoom(50);
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
+    public class RotateClockwise extends ImageAction {
+
+        private double currentAngle = 0.0;
+
+        RotateClockwise(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            currentAngle += Math.PI / 2;
+
+            int width = target.getImage().getCurrentImage().getWidth();
+            int height = target.getImage().getCurrentImage().getHeight();
+
+            double centerX = width / 2.0;
+            double centerY = height / 2.0;
+
+            AffineTransform at = new AffineTransform();
+
+            at.rotate(currentAngle, centerX, centerY);
+
+            if (currentAngle % (Math.PI * 2) == 0) {
+                at.translate(centerX - width / 2.0, centerY - height / 2.0);
+            } else {
+                at.translate(centerY - centerX, centerX - centerY);
+            }
+
+            target.setTransform(at);
+
+            target.repaint();
+            target.getParent().revalidate();
+        }
     }
 
 }
