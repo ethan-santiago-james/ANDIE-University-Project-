@@ -26,6 +26,8 @@ import javax.swing.*;
  */
 public class EditActions {
 
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+
     /**
      * A list of actions for the Edit menu.
      */
@@ -38,8 +40,8 @@ public class EditActions {
      */
     public EditActions() {
         actions = new ArrayList<>();
-        actions.add(new UndoAction("Undo", null, "Undo", KeyEvent.VK_Z));
-        actions.add(new RedoAction("Redo", null, "Redo", KeyEvent.VK_Y));
+        actions.add(new UndoAction(bundle.getString("UNDO"), null, bundle.getString("UNDO"), KeyEvent.VK_Z));
+        actions.add(new RedoAction(bundle.getString("REDO"), null, bundle.getString("REDO"), KeyEvent.VK_Y));
     }
 
     /**
@@ -50,7 +52,7 @@ public class EditActions {
      * @return The edit menu UI element.
      */
     public JMenu createMenu() {
-        JMenu editMenu = new JMenu("Edit");
+        JMenu editMenu = new JMenu(bundle.getString("EDIT"));
 
         for (Action action : actions) {
             editMenu.add(new JMenuItem(action));
@@ -105,7 +107,7 @@ public class EditActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, "Either you have no image selected or there is nothing to undo.");
+                JOptionPane.showMessageDialog(null, bundle.getString("EITHER YOU HAVE NO IMAGE SELECTED OR THERE IS NOTHING TO UNDO."));
                     
             }
             
@@ -159,7 +161,7 @@ public class EditActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, "Either you have not selected an image or there is nothing to redo.");
+                JOptionPane.showMessageDialog(null, bundle.getString("EITHER YOU HAVE NOT SELECTED AN IMAGE OR THERE IS NOTHING TO REDO."));
             }
             
         }

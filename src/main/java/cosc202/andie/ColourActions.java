@@ -25,6 +25,8 @@ import javax.swing.*;
  */
 public class ColourActions {
 
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+
     /**
      * A list of actions for the Colour menu.
      */
@@ -37,13 +39,13 @@ public class ColourActions {
      */
     public ColourActions() {
         actions = new ArrayList<>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", KeyEvent.VK_G));
-        actions.add(new CycleColorChannelsAction("RGB > RBG", null, "Cycle color channels", KeyEvent.VK_1, 1));
-        actions.add(new CycleColorChannelsAction("RGB > GRB", null, "Cycle color channels", KeyEvent.VK_2, 2));
-        actions.add(new CycleColorChannelsAction("RGB > GBR", null, "Cycle color channels", KeyEvent.VK_3, 3));
-        actions.add(new CycleColorChannelsAction("RGB > BRG", null, "Cycle color channels", KeyEvent.VK_4, 4));
-        actions.add(new CycleColorChannelsAction("RGB > BGR", null, "Cycle color channels", KeyEvent.VK_5, 5));
-        actions.add(new InvertColorsAction("Invert", null, "Invert colors", KeyEvent.VK_I));
+        actions.add(new ConvertToGreyAction(bundle.getString("GREYSCALE"), null, bundle.getString("CONVERT TO GREYSCALE"), KeyEvent.VK_G));
+        actions.add(new CycleColorChannelsAction("RGB > RBG", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_1, 1));
+        actions.add(new CycleColorChannelsAction("RGB > GRB", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_2, 2));
+        actions.add(new CycleColorChannelsAction("RGB > GBR", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_3, 3));
+        actions.add(new CycleColorChannelsAction("RGB > BRG", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_4, 4));
+        actions.add(new CycleColorChannelsAction("RGB > BGR", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_5, 5));
+        actions.add(new InvertColorsAction(bundle.getString("INVERT"), null, bundle.getString("INVERT COLORS"), KeyEvent.VK_I));
     }
 
     /**
@@ -54,7 +56,7 @@ public class ColourActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Colour");
+        JMenu fileMenu = new JMenu(bundle.getString("COLOUR"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));
@@ -108,7 +110,7 @@ public class ColourActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, "Please select an image.");
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
                 
             }
         }
