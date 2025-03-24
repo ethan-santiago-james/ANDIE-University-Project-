@@ -25,7 +25,7 @@ import javax.swing.*;
  */
 public class FilterActions {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the Filter menu.
@@ -36,8 +36,10 @@ public class FilterActions {
      * <p>
      * Create a set of Filter menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public FilterActions() {
+    public FilterActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
         actions.add(new MeanFilterAction(bundle.getString("MEAN FILTER"), null, bundle.getString("APPLY A MEAN FILTER"), KeyEvent.VK_M));
         actions.add(new MedianFilterAction(bundle.getString("MEDIAN FILTER"), null, bundle.getString("APPLY A MEDIAN FILTER"), 0));

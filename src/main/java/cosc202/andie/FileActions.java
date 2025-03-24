@@ -29,7 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class FileActions {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the File menu.
@@ -40,8 +40,10 @@ public class FileActions {
      * <p>
      * Create a set of File menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public FileActions() {
+    public FileActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
         actions.add(new FileOpenAction(bundle.getString("OPEN"), null, bundle.getString("OPEN A FILE"), KeyEvent.VK_O));
         actions.add(new FileSaveAction(bundle.getString("SAVE"), null, bundle.getString("SAVE THE FILE"), KeyEvent.VK_S));

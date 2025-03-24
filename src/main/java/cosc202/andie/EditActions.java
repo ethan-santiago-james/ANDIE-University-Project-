@@ -26,7 +26,7 @@ import javax.swing.*;
  */
 public class EditActions {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the Edit menu.
@@ -37,8 +37,10 @@ public class EditActions {
      * <p>
      * Create a set of Edit menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public EditActions() {
+    public EditActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
         actions.add(new UndoAction(bundle.getString("UNDO"), null, bundle.getString("UNDO"), KeyEvent.VK_Z));
         actions.add(new RedoAction(bundle.getString("REDO"), null, bundle.getString("REDO"), KeyEvent.VK_Y));

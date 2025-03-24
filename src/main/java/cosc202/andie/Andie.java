@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.awt.*;
 import javax.swing.*;
 import javax.imageio.*;
+import java.util.ResourceBundle;
 
 //ETHAN JAMES
 //ADAM LINDBOM
@@ -31,6 +32,17 @@ import javax.imageio.*;
  */
 public class Andie {
 
+    private static JFrame frame;
+    private static ImagePanel imagePanel;
+    private static JMenuBar menuBar;
+    private static FileActions fileActions;
+    private static EditActions editActions;
+    private static ViewActions viewActions;
+    private static FilterActions filterActions;
+    private static ColourActions colourActions;
+    private static LanguageActions languageActions;
+    private static ResourceBundle bundle = LanguageUtil.getBundle();
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -52,13 +64,13 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see LanguageActions
      *
      * @throws Exception if something goes wrong.
      */
     private static void createAndShowGUI() throws Exception {
         // Set up the main GUI frame
-        JFrame frame = new JFrame("ANDIE");
-        
+        frame = new JFrame("ANDIE");
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -66,37 +78,65 @@ public class Andie {
         frame.setLocationRelativeTo(null);
 
         // The main content area is an ImagePanel
-        ImagePanel imagePanel = new ImagePanel();
+        imagePanel = new ImagePanel();
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
         // Add in menus for various types of action the user may perform.
-        JMenuBar menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
 
-        // File menus are pretty standard, so things that usually go in File menus go here.
-        FileActions fileActions = new FileActions();
+        // Initialize action classes with the bundle
+        fileActions = new FileActions(bundle);
         menuBar.add(fileActions.createMenu());
 
-        // Likewise Edit menus are very common, so should be clear what might go here.
-        EditActions editActions = new EditActions();
+        editActions = new EditActions(bundle);
         menuBar.add(editActions.createMenu());
 
-        // View actions control how the image is displayed, but do not alter its actual content
-        ViewActions viewActions = new ViewActions();
+        viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
 
-        // Filters apply a per-pixel operation to the image, generally based on a local window
-        FilterActions filterActions = new FilterActions();
+        filterActions = new FilterActions(bundle);
         menuBar.add(filterActions.createMenu());
 
-        // Actions that affect the representation of colour in the image
-        ColourActions colourActions = new ColourActions();
+        colourActions = new ColourActions(bundle);
         menuBar.add(colourActions.createMenu());
+
+        languageActions = new LanguageActions(bundle);
+        menuBar.add(languageActions.createMenu());
 
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static void refreshGUI() {
+        bundle = LanguageUtil.getBundle();
+
+        // Re-initialize action classes with the new bundle
+        fileActions = new FileActions(bundle);
+        menuBar.removeAll();
+        menuBar.add(fileActions.createMenu());
+
+        editActions = new EditActions(bundle);
+        menuBar.add(editActions.createMenu());
+
+        viewActions = new ViewActions(bundle);
+        menuBar.add(viewActions.createMenu());
+
+        filterActions = new FilterActions(bundle);
+        menuBar.add(filterActions.createMenu());
+
+        colourActions = new ColourActions(bundle);
+        menuBar.add(colourActions.createMenu());
+
+        languageActions = new LanguageActions(bundle);
+        menuBar.add(languageActions.createMenu());
+
+        frame.setJMenuBar(menuBar);
+        frame.setTitle("ANDIE");
+        frame.revalidate();
+        frame.repaint();
     }
 
     /**

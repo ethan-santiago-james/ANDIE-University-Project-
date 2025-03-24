@@ -25,7 +25,7 @@ import javax.swing.*;
  */
 public class ColourActions {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the Colour menu.
@@ -36,8 +36,10 @@ public class ColourActions {
      * <p>
      * Create a set of Colour menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public ColourActions() {
+    public ColourActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
         actions.add(new ConvertToGreyAction(bundle.getString("GREYSCALE"), null, bundle.getString("CONVERT TO GREYSCALE"), KeyEvent.VK_G));
         actions.add(new CycleColorChannelsAction("RGB > RBG", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_1, 1));

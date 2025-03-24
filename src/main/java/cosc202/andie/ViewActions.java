@@ -26,7 +26,7 @@ import javax.swing.*;
  */
 public class ViewActions {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the View menu.
@@ -37,8 +37,10 @@ public class ViewActions {
      * <p>
      * Create a set of View menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public ViewActions() {
+    public ViewActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
         actions.add(new ZoomInAction(bundle.getString("ZOOM IN"), null, bundle.getString("ZOOM IN"), KeyEvent.VK_PLUS));
         actions.add(new ZoomOutAction(bundle.getString("ZOOM OUT"), null, bundle.getString("ZOOM OUT"), KeyEvent.VK_MINUS));
