@@ -104,6 +104,29 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            boolean saveFirst = false;
+            
+            if(target.getImage().hasImage()) {
+                
+                int response = JOptionPane.showConfirmDialog(null, "Do you want to save before switching image?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                
+                if(response == JOptionPane.YES_OPTION) {
+                    
+                    saveFirst = true;
+                    
+                }
+            }
+            
+            if(saveFirst == true) {
+                
+                try {
+                    target.getImage().save();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Please select an image.");
+                }
+                
+            }
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
 
@@ -209,19 +232,27 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(target);
+            
+            if(!target.getImage().hasImage()) {
+                
+                JOptionPane.showMessageDialog(null, "Please select an image.");
+            } else {
+                
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showSaveDialog(target);
 
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().saveAs(imageFilepath);
-                } catch (Exception ex) {
-                    
-                    JOptionPane.showMessageDialog(null, "Please select an image.");
-                    //System.exit(1);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().saveAs(imageFilepath);
+                    } catch (Exception ex) {
+
+
+                        //System.exit(1);
+                    }
                 }
             }
+            
         }
 
     }
@@ -307,46 +338,55 @@ public class FileActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Export Image");
+            if(!target.getImage().hasImage()) {
+                
+                JOptionPane.showMessageDialog(null, "Please select an image.");
+            } else {
+                
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Export Image");
 
-            // Add filters BEFORE showing the dialog
-            FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Image (*.png)", "png");
-            FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF Image (*.gif)", "gif");
-            
-            fileChooser.addChoosableFileFilter(pngFilter);
-            fileChooser.addChoosableFileFilter(gifFilter);
-            
-            fileChooser.setFileFilter(pngFilter); // Set default filter to PNG
+                // Add filters BEFORE showing the dialog
+                FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Image (*.png)", "png");
+                FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF Image (*.gif)", "gif");
 
-            int result = fileChooser.showSaveDialog(target);
+                fileChooser.addChoosableFileFilter(pngFilter);
+                fileChooser.addChoosableFileFilter(gifFilter);
 
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    String imageFilepath = selectedFile.getCanonicalPath();
+                fileChooser.setFileFilter(pngFilter); // Set default filter to PNG
 
-                    // Determine the correct file format
-                    String format = "png";
-                    if(fileChooser.getFileFilter() != pngFilter) {
-                        
-                        format = "gif";
+                int result = fileChooser.showSaveDialog(target);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        String imageFilepath = selectedFile.getCanonicalPath();
+
+                        // Determine the correct file format
+                        String format = "png";
+                        if(fileChooser.getFileFilter() != pngFilter) {
+
+                            format = "gif";
+                        }
+
+                        // Ensure correct file extension
+                        if (!imageFilepath.toLowerCase().endsWith("." + format)) {
+                            imageFilepath += "." + format;
+                        }
+
+                        // Save the image in the selected format
+                        BufferedImage image = target.getImage().getCurrentImage();
+                        ImageIO.write(image, format, new File(imageFilepath));
+
+                        JOptionPane.showMessageDialog(null, "Image successfully exported.");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Image failed to export.");
                     }
-
-                    // Ensure correct file extension
-                    if (!imageFilepath.toLowerCase().endsWith("." + format)) {
-                        imageFilepath += "." + format;
-                    }
-
-                    // Save the image in the selected format
-                    BufferedImage image = target.getImage().getCurrentImage();
-                    ImageIO.write(image, format, new File(imageFilepath));
-                    
-                    JOptionPane.showMessageDialog(null, "Image successfully exported.");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Image failed to export.");
-                }
-            }    
+                }    
+                
+            }
+            
+            
             
         }
     }

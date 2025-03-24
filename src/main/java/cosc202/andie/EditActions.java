@@ -105,7 +105,7 @@ public class EditActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, "Either you have no image selected or there is nothing to undo.");
+                
                     
             }
             
@@ -159,7 +159,7 @@ public class EditActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, "Either you have not selected an image or there is nothing to redo.");
+                
             }
             
         }
