@@ -27,7 +27,7 @@ public class TransformActions {
     // Tracks whether image is flipped vertically
     private static boolean isFlippedVertically = false;
 
-    // Tracks the images current rotation state (0=0°, 1=90, 2=180, 3=270)
+    // Tracks the images current rotation state (0=0, 1=90, 2=180, 3=270)
     private static int rotationState = 0;
 
     /**
@@ -57,8 +57,7 @@ public class TransformActions {
     }
 
     /**
-     * A class that handles the actual image transformation based on current
-     * state.
+     * A class that handles the actual image transformation based on state of variables.
      */
     public class TransformImage extends ImageAction {
 
@@ -87,6 +86,7 @@ public class TransformActions {
             // Create a new transformation
             AffineTransform at = new AffineTransform();
 
+            //check the current number of rotates and transform accordingly
             if (rotationState == 0) {
             } else if (rotationState == 1) {
                 at.translate(height, 0);
