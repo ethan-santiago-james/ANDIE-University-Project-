@@ -85,6 +85,10 @@ public class Andie {
         // View actions control how the image is displayed, but do not alter its actual content
         ViewActions viewActions = new ViewActions();
         menuBar.add(viewActions.createMenu());
+        
+        // Transform actions control the image can be transformed, being either rotated or flipped
+        TransformActions transformActions = new TransformActions();
+        menuBar.add(transformActions.createMenu());
 
         // Filters apply a per-pixel operation to the image, generally based on a local window
         FilterActions filterActions = new FilterActions();
