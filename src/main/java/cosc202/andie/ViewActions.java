@@ -2,7 +2,6 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
 /**
@@ -43,7 +42,7 @@ public class ViewActions {
         actions.add(new ZoomTo150("Resize 150%", null, "Resize 150%", KeyEvent.VK_2));
         actions.add(new ZoomTo50("Resize 50%", null, "Resize 50%", KeyEvent.VK_3));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", KeyEvent.VK_1));
-        actions.add(new RotateClockwise("Rotate 90° Clockwise", null, "Rotate 90° Clockwise", KeyEvent.VK_4));
+
     }
 
     /**
@@ -281,42 +280,6 @@ public class ViewActions {
             target.getParent().revalidate();
         }
 
-    }
-
-    public class RotateClockwise extends ImageAction {
-
-        private double currentAngle = 0.0;
-
-        RotateClockwise(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            currentAngle += Math.PI / 2;
-
-            int width = target.getImage().getCurrentImage().getWidth();
-            int height = target.getImage().getCurrentImage().getHeight();
-
-            double centerX = width / 2.0;
-            double centerY = height / 2.0;
-
-            AffineTransform at = new AffineTransform();
-
-            at.rotate(currentAngle, centerX, centerY);
-
-            if (currentAngle % (Math.PI * 2) == 0) {
-                at.translate(centerX - width / 2.0, centerY - height / 2.0);
-            } else {
-                at.translate(centerY - centerX, centerX - centerY);
-            }
-
-            target.setTransform(at);
-
-            target.repaint();
-            target.getParent().revalidate();
-        }
     }
 
 }
