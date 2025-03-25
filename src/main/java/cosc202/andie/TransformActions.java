@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
  */
 public class TransformActions {
 
-    // Tracks the images current rotation state (0=0, 1=90, 2=180, 3=270)
+    // Tracks wether to rotate image clockwise (1) or anticlockwise (2)
     private int rotationState = 0;
 
     /**
@@ -75,7 +75,7 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Apply the transformation
-            target.getImage().apply(new RotateImage(true, false));
+            target.getImage().apply(new TransformImage(true, false));
             target.repaint();
             target.getParent().revalidate();
         }
@@ -108,7 +108,7 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             // Apply transform - second paramater is to use the other constructor
-            target.getImage().apply(new RotateImage(true, true));
+            target.getImage().apply(new TransformImage(true, true));
             target.repaint();
             target.getParent().revalidate();
         }
@@ -139,13 +139,10 @@ public class TransformActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            rotationState += 1;
+            rotationState = 1;
 
-            if (rotationState == 4) {
-                rotationState = 0;
-            }
 
-            target.getImage().apply(new RotateImage(rotationState));
+            target.getImage().apply(new TransformImage(rotationState));
             target.repaint();
             target.getParent().revalidate();
         }
@@ -177,13 +174,9 @@ public class TransformActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            rotationState -= 1;
+            rotationState = 2;
 
-            if (rotationState == -1) {
-                rotationState = 3;
-            }
-
-            target.getImage().apply(new RotateImage(rotationState));
+            target.getImage().apply(new TransformImage(rotationState));
             target.repaint();
             target.getParent().revalidate();
         }
