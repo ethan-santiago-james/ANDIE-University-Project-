@@ -113,7 +113,7 @@ public class FileActions {
             
             if(target.getImage().hasImage()) {
                 
-                int response = JOptionPane.showConfirmDialog(null, "Do you want to save before switching image?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                int response = JOptionPane.showConfirmDialog(null, bundle.getString("SAVE_WARNING"), "Confirmation", JOptionPane.YES_NO_OPTION);
                 
                 if(response == JOptionPane.YES_OPTION) {
                     
@@ -127,7 +127,7 @@ public class FileActions {
                 try {
                     target.getImage().save();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Please select an image.");
+                    JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
                 }
                 
             }
@@ -239,7 +239,7 @@ public class FileActions {
             
             if(!target.getImage().hasImage()) {
                 
-                JOptionPane.showMessageDialog(null, "Please select an image.");
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             } else {
                 
                 JFileChooser fileChooser = new JFileChooser();
@@ -344,15 +344,15 @@ public class FileActions {
             
             if(!target.getImage().hasImage()) {
                 
-                JOptionPane.showMessageDialog(null, "Please select an image.");
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             } else {
                 
                 JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Export Image");
+                fileChooser.setDialogTitle(bundle.getString("EXPORT THE IMAGE"));
 
                 // Add filters BEFORE showing the dialog
-                FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Image (*.png)", "png");
-                FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF Image (*.gif)", "gif");
+                FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG " + bundle.getString("IMAGE") + " (*.png)", "png");
+                FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF " + bundle.getString("IMAGE") + " (*.gif)", "gif");
 
                 fileChooser.addChoosableFileFilter(pngFilter);
                 fileChooser.addChoosableFileFilter(gifFilter);
@@ -382,9 +382,9 @@ public class FileActions {
                         BufferedImage image = target.getImage().getCurrentImage();
                         ImageIO.write(image, format, new File(imageFilepath));
 
-                        JOptionPane.showMessageDialog(null, "Image successfully exported.");
+                        JOptionPane.showMessageDialog(null, bundle.getString("EXPORT_SUCCESS"));
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Image failed to export.");
+                        JOptionPane.showMessageDialog(null, bundle.getString("EXPORT FAILURE"));
                     }
                 }    
                 

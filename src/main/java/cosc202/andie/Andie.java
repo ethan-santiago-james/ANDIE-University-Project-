@@ -91,7 +91,7 @@ public class Andie {
         menuBar.add(viewActions.createMenu());
         
         // Transform actions control the image can be transformed, being either rotated or flipped
-        TransformActions transformActions = new TransformActions();
+        TransformActions transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
 
         filterActions = new FilterActions(bundle);
@@ -134,6 +134,9 @@ public class Andie {
 
         viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
+        
+        TransformActions transformActions = new TransformActions(bundle);
+        menuBar.add(transformActions.createMenu());
 
         filterActions = new FilterActions(bundle);
         menuBar.add(filterActions.createMenu());

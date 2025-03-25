@@ -46,7 +46,6 @@ public class ViewActions {
         actions.add(new ZoomTo150(bundle.getString("RESIZE 150%"), null, bundle.getString("RESIZE 150%"), KeyEvent.VK_2));
         actions.add(new ZoomTo50(bundle.getString("RESIZE 50%"), null, bundle.getString("RESIZE 50%"), KeyEvent.VK_3));
         actions.add(new ZoomFullAction(bundle.getString("ZOOM FULL"), null, bundle.getString("ZOOM FULL"), KeyEvent.VK_1));
-        actions.add(new RotateClockwise(bundle.getString("ROTATE 90° CLOCKWISE"), null, bundle.getString("ROTATE 90° CLOCKWISE"), KeyEvent.VK_4));
     }
 
     /**
