@@ -41,10 +41,10 @@ public class FilterActions {
     public FilterActions(ResourceBundle bundle) {
         this.bundle = bundle;
         actions = new ArrayList<>();
-        actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", KeyEvent.VK_M));
-        actions.add(new GaussianBlurFilterAction("Gaussian Blur filter", null, "Apply a Gaussian Blur filter", KeyEvent.VK_M));
-        actions.add(new SharpenFilterAction("Sharpen filter", null, "Apply a Sharpen filter", KeyEvent.VK_M));
-        actions.add(new MedianFilterAction("Median filter", null, "Apply a median filter", 0));
+        actions.add(new MeanFilterAction(bundle.getString("MEAN FILTER"), null, bundle.getString("APPLY A MEAN FILTER"), KeyEvent.VK_M));
+        actions.add(new GaussianBlurFilterAction(bundle.getString("GAUSSIAN FILTER"), null, bundle.getString("APPLY A GAUSSIAN FILTER"), KeyEvent.VK_M));
+        actions.add(new SharpenFilterAction(bundle.getString("SHARPEN FILTER"), null, bundle.getString("APPLY A SHARPEN FILTER"), KeyEvent.VK_M));
+        actions.add(new MedianFilterAction(bundle.getString("MEDIAN FILTER"), null, bundle.getString("APPLY A MEDIAN FILTER"), 0));
     }
 
     /**
@@ -255,7 +255,7 @@ public class FilterActions {
             // Pop-up dialog box to ask for the radius value.
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, bundle.getString("ENTER FILTER RADIUS"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             // Check the return value from the dialog box.
             if (option == JOptionPane.CANCEL_OPTION) {
@@ -272,7 +272,7 @@ public class FilterActions {
 
             } catch (Exception ex) {
 
-                JOptionPane.showMessageDialog(null, "Please select an image.");
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE"));
 
             }
 
@@ -327,7 +327,7 @@ public class FilterActions {
 
             } catch (Exception ex) {
 
-                JOptionPane.showMessageDialog(null, "Please select an image.");
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE"));
 
             }
 
