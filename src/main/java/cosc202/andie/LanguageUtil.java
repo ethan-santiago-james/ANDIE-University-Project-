@@ -33,7 +33,7 @@ public class LanguageUtil {
 	private static final Properties languageProperties = new Properties();
 	private static ResourceBundle bundle;
         static{
-            loadBundle();
+            loadBundle(); //Makes sure bundle is loaded correctly.
         }
 	/**
 	 * <p>

@@ -5,12 +5,6 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
 
-//ETHAN JAMES
-//ADAM LINDBOM
-//BRADYN SALMON
-//SAM HOSTAD
-//Adam merge attempt
-//ethans merge attempt
 /**
  * <p>
  * Main class for A Non-Destructive Image Editor (ANDIE).
@@ -109,11 +103,24 @@ public class Andie {
         frame.pack();
         frame.setVisible(true);
     }
-
+    
+    /***
+     * <p>
+     * Refreshes GUI upon user switching languages
+     * </p>
+     * 
+     * <p>
+     * This method uses {@see LanguageUtil} to initialize
+     * new instances of the "Actions" classes, then rebuilds
+     * the JFrame with the new translated Strings
+     * </p>
+     * 
+     * @see LanguageActions
+     */
     public static void refreshGUI() {
         bundle = LanguageUtil.getBundle();
 
-        // Re-initialize action classes with the new bundle
+        // Re-initialize action classes with the new language bundle
         fileActions = new FileActions(bundle);
         menuBar.removeAll();
         menuBar.add(fileActions.createMenu());
