@@ -1,18 +1,46 @@
-## Getting Started
+# ANDIE README File
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
-## Folder Structure
+## Team Name: Team P
 
-The workspace contains two folders by default, where:
+### Team Members
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+* Sam Hostad
+* Ethan James
+* Adam Lindbom
+* Bradyn Salmon
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+### How to operate the application
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+- Load the image you want to edit with the use of the open button
+- Use the rest of the UI features to apply filters, flip, rotate, invert, or colour cycle
+- Save an operations file by clicking Save or Save As
+- Exit the application by clicking Exit
+- Save a copy of your edited image by clicking Export
 
-## Dependency Management
+#### Newly added features
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+- Internationalisation (Spanish, English, and French)
+- Gaussian Blur Filter
+- Sharpen Filter
+- Median Filter
+- Image Rotation/Inversion
+- Colour Channel Cycling 
+- Image Resizing
+- Image Flips
+- Image Export (PNG, and GIF)
+- Some patches were made to prevent some system crashes
+
+
+### How was the system tested?
+
+The application was run with each new feature added to ensure everything that worked prior still worked
+
+### Known Bugs
+
+* The undo, and redo buttons do not work for image rotations
+* Image operations involving rotations do not get saved when the image is exported
+
+### Refactoring
+
+No refactoring was done in this current version of Andie.
