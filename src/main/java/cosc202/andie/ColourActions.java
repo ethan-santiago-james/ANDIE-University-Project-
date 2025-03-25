@@ -153,9 +153,17 @@ public class ColourActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new CycleColorChannels(cycleType));
-            target.repaint();
-            target.getParent().revalidate();
+            
+            try {
+               
+                target.getImage().apply(new CycleColorChannels(cycleType));
+                target.repaint();
+                target.getParent().revalidate();
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null, "Please select an image");
+            }
+            
         }
 
     }
@@ -198,9 +206,18 @@ public class ColourActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new InvertColors());
-            target.repaint();
-            target.getParent().revalidate();
+            
+            try {
+                
+               target.getImage().apply(new InvertColors());
+               target.repaint();
+               target.getParent().revalidate();    
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null, "Please select an image.");
+                
+            }
+            
         }
 
     }

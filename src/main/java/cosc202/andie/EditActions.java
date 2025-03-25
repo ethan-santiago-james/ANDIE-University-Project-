@@ -109,7 +109,7 @@ public class EditActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, bundle.getString("EITHER YOU HAVE NO IMAGE SELECTED OR THERE IS NOTHING TO UNDO."));
+                
                     
             }
             
@@ -163,7 +163,7 @@ public class EditActions {
                 target.getParent().revalidate();
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null, bundle.getString("EITHER YOU HAVE NOT SELECTED AN IMAGE OR THERE IS NOTHING TO REDO."));
+                
             }
             
         }

@@ -2,7 +2,6 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
 /**
@@ -285,42 +284,6 @@ public class ViewActions {
             target.getParent().revalidate();
         }
 
-    }
-
-    public class RotateClockwise extends ImageAction {
-
-        private double currentAngle = 0.0;
-
-        RotateClockwise(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            currentAngle += Math.PI / 2;
-
-            int width = target.getImage().getCurrentImage().getWidth();
-            int height = target.getImage().getCurrentImage().getHeight();
-
-            double centerX = width / 2.0;
-            double centerY = height / 2.0;
-
-            AffineTransform at = new AffineTransform();
-
-            at.rotate(currentAngle, centerX, centerY);
-
-            if (currentAngle % (Math.PI * 2) == 0) {
-                at.translate(centerX - width / 2.0, centerY - height / 2.0);
-            } else {
-                at.translate(centerY - centerX, centerX - centerY);
-            }
-
-            target.setTransform(at);
-
-            target.repaint();
-            target.getParent().revalidate();
-        }
     }
 
 }
