@@ -7,6 +7,7 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.util.ResourceBundle;
 
 /**
  * A class for handling image transformation operations in ANDIE.
@@ -19,16 +20,18 @@ public class TransformActions {
      * A list of actions for the Transform menu.
      */
     protected ArrayList<Action> actions;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
 
     /**
      * Create a set of Transform menu actions.
      */
-    public TransformActions() {
+    public TransformActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
-        actions.add(new FlipVertical("Flip Vertical", null, "Flip Vertical", KeyEvent.VK_1));
-        actions.add(new FlipHorizontal("Flip Horizontal", null, "Flip Horizontal", KeyEvent.VK_2));
-        actions.add(new RotateClockwise("Rotate 90° Clockwise", null, "Rotate 90° Clockwise", KeyEvent.VK_3));
-        actions.add(new RotateAntiClockwise("Rotate 90° AntiClockwise", null, "Rotate 90° AntiClockwise", KeyEvent.VK_4));
+        actions.add(new FlipVertical(bundle.getString("FLIP_VERTICAL"), null, bundle.getString("FLIP_VERTICAL"), KeyEvent.VK_5));
+        actions.add(new FlipHorizontal(bundle.getString("FLIP_HORIZONTAL"), null, bundle.getString("FLIP_HORIZONTAL"), KeyEvent.VK_5));
+        actions.add(new RotateClockwise(bundle.getString("ROTATE_90_CLOCKWISE"), null, bundle.getString("ROTATE_90_CLOCKWISE"), KeyEvent.VK_4));
+        actions.add(new RotateAntiClockwise(bundle.getString("ROTATE_90_ANTICLOCKWISE"), null, bundle.getString("ROTATE_90_ANTICLOCKWISE"), KeyEvent.VK_4));
     }
 
     /**
@@ -37,7 +40,7 @@ public class TransformActions {
      * @return Transform menu button
      */
     public JMenu createMenu() {
-        JMenu transformMenu = new JMenu("Transform");
+        JMenu transformMenu = new JMenu(bundle.getString("TRANSFORM"));
 
         for (Action action : actions) {
             transformMenu.add(new JMenuItem(action));

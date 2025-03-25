@@ -29,3 +29,5 @@ tmp/
 
 # Don't ignore gradle wrapper JAR
 !gradle-wrapper.jar
+
+src/main/resources/Thumbs.db

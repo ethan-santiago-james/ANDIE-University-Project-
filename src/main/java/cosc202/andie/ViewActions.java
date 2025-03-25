@@ -25,6 +25,8 @@ import javax.swing.*;
  */
 public class ViewActions {
 
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+
     /**
      * A list of actions for the View menu.
      */
@@ -34,15 +36,16 @@ public class ViewActions {
      * <p>
      * Create a set of View menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public ViewActions() {
+    public ViewActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", KeyEvent.VK_PLUS));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", KeyEvent.VK_MINUS));
-        actions.add(new ZoomTo150("Resize 150%", null, "Resize 150%", KeyEvent.VK_2));
-        actions.add(new ZoomTo50("Resize 50%", null, "Resize 50%", KeyEvent.VK_3));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", KeyEvent.VK_1));
-
+        actions.add(new ZoomInAction(bundle.getString("ZOOM IN"), null, bundle.getString("ZOOM IN"), KeyEvent.VK_PLUS));
+        actions.add(new ZoomOutAction(bundle.getString("ZOOM OUT"), null, bundle.getString("ZOOM OUT"), KeyEvent.VK_MINUS));
+        actions.add(new ZoomTo150(bundle.getString("RESIZE 150%"), null, bundle.getString("RESIZE 150%"), KeyEvent.VK_2));
+        actions.add(new ZoomTo50(bundle.getString("RESIZE 50%"), null, bundle.getString("RESIZE 50%"), KeyEvent.VK_3));
+        actions.add(new ZoomFullAction(bundle.getString("ZOOM FULL"), null, bundle.getString("ZOOM FULL"), KeyEvent.VK_1));
     }
 
     /**
@@ -53,7 +56,7 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        JMenu viewMenu = new JMenu("View");
+        JMenu viewMenu = new JMenu(bundle.getString("VIEW"));
 
         for (Action action : actions) {
             viewMenu.add(new JMenuItem(action));

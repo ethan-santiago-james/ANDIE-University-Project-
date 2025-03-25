@@ -29,6 +29,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class FileActions {
 
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+
     /**
      * A list of actions for the File menu.
      */
@@ -38,14 +40,16 @@ public class FileActions {
      * <p>
      * Create a set of File menu actions.
      * </p>
+     * @param bundle language bundle for switching languages
      */
-    public FileActions() {
+    public FileActions(ResourceBundle bundle) {
+        this.bundle = bundle;
         actions = new ArrayList<>();
-        actions.add(new FileOpenAction("Open", null, "Open a file", KeyEvent.VK_O));
-        actions.add(new FileSaveAction("Save", null, "Save the file", KeyEvent.VK_S));
-        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", KeyEvent.VK_A));
-        actions.add(new FileExitAction("Exit", null, "Exit the program", 0));
-        actions.add(new FileExportAction("Export", null, "Export the image", KeyEvent.VK_E));
+        actions.add(new FileOpenAction(bundle.getString("OPEN"), null, bundle.getString("OPEN A FILE"), KeyEvent.VK_O));
+        actions.add(new FileSaveAction(bundle.getString("SAVE"), null, bundle.getString("SAVE THE FILE"), KeyEvent.VK_S));
+        actions.add(new FileSaveAsAction(bundle.getString("SAVE AS"), null, bundle.getString("SAVE A COPY"), KeyEvent.VK_A));
+        actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), 0));
+        actions.add(new FileExportAction(bundle.getString("EXPORT"), null, bundle.getString("EXPORT THE IMAGE"), KeyEvent.VK_E));
               
     }
 
@@ -57,7 +61,7 @@ public class FileActions {
      * @return The File menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu(bundle.getString("FILE"));
 
         for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));
@@ -104,6 +108,29 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            boolean saveFirst = false;
+            
+            if(target.getImage().hasImage()) {
+                
+                int response = JOptionPane.showConfirmDialog(null, bundle.getString("SAVE_WARNING"), "Confirmation", JOptionPane.YES_NO_OPTION);
+                
+                if(response == JOptionPane.YES_OPTION) {
+                    
+                    saveFirst = true;
+                    
+                }
+            }
+            
+            if(saveFirst == true) {
+                
+                try {
+                    target.getImage().save();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                }
+                
+            }
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
 
@@ -113,7 +140,7 @@ public class FileActions {
                     target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
                     
-                    JOptionPane.showMessageDialog(null, "Please select an image.");
+                    JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
                     
                 }
             }
@@ -165,7 +192,7 @@ public class FileActions {
             try {
                 target.getImage().save();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Please select an image.");
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
         }
 
@@ -209,19 +236,27 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(target);
+            
+            if(!target.getImage().hasImage()) {
+                
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+            } else {
+                
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showSaveDialog(target);
 
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().saveAs(imageFilepath);
-                } catch (Exception ex) {
-                    
-                    JOptionPane.showMessageDialog(null, "Please select an image.");
-                    //System.exit(1);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().saveAs(imageFilepath);
+                    } catch (Exception ex) {
+
+
+                        //System.exit(1);
+                    }
                 }
             }
+            
         }
 
     }
@@ -307,46 +342,55 @@ public class FileActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Export Image");
+            if(!target.getImage().hasImage()) {
+                
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+            } else {
+                
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle(bundle.getString("EXPORT THE IMAGE"));
 
-            // Add filters BEFORE showing the dialog
-            FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG Image (*.png)", "png");
-            FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF Image (*.gif)", "gif");
-            
-            fileChooser.addChoosableFileFilter(pngFilter);
-            fileChooser.addChoosableFileFilter(gifFilter);
-            
-            fileChooser.setFileFilter(pngFilter); // Set default filter to PNG
+                // Add filters BEFORE showing the dialog
+                FileNameExtensionFilter pngFilter = new FileNameExtensionFilter("PNG " + bundle.getString("IMAGE") + " (*.png)", "png");
+                FileNameExtensionFilter gifFilter = new FileNameExtensionFilter("GIF " + bundle.getString("IMAGE") + " (*.gif)", "gif");
 
-            int result = fileChooser.showSaveDialog(target);
+                fileChooser.addChoosableFileFilter(pngFilter);
+                fileChooser.addChoosableFileFilter(gifFilter);
 
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    String imageFilepath = selectedFile.getCanonicalPath();
+                fileChooser.setFileFilter(pngFilter); // Set default filter to PNG
 
-                    // Determine the correct file format
-                    String format = "png";
-                    if(fileChooser.getFileFilter() != pngFilter) {
-                        
-                        format = "gif";
+                int result = fileChooser.showSaveDialog(target);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        String imageFilepath = selectedFile.getCanonicalPath();
+
+                        // Determine the correct file format
+                        String format = "png";
+                        if(fileChooser.getFileFilter() != pngFilter) {
+
+                            format = "gif";
+                        }
+
+                        // Ensure correct file extension
+                        if (!imageFilepath.toLowerCase().endsWith("." + format)) {
+                            imageFilepath += "." + format;
+                        }
+
+                        // Save the image in the selected format
+                        BufferedImage image = target.getImage().getCurrentImage();
+                        ImageIO.write(image, format, new File(imageFilepath));
+
+                        JOptionPane.showMessageDialog(null, bundle.getString("EXPORT_SUCCESS"));
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, bundle.getString("EXPORT FAILURE"));
                     }
-
-                    // Ensure correct file extension
-                    if (!imageFilepath.toLowerCase().endsWith("." + format)) {
-                        imageFilepath += "." + format;
-                    }
-
-                    // Save the image in the selected format
-                    BufferedImage image = target.getImage().getCurrentImage();
-                    ImageIO.write(image, format, new File(imageFilepath));
-                    
-                    JOptionPane.showMessageDialog(null, "Image successfully exported.");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Image failed to export.");
-                }
-            }    
+                }    
+                
+            }
+            
+            
             
         }
     }
