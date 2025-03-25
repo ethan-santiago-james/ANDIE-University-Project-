@@ -266,7 +266,7 @@ public class FilterActions {
             try {
 
                 // Create and apply the filter
-                target.getImage().apply(new GaussianBlur());
+                target.getImage().apply(new GaussianBlur(radius));
                 target.repaint();
                 target.getParent().revalidate();
 
