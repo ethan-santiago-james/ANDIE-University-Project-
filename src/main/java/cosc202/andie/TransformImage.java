@@ -11,15 +11,14 @@ import java.awt.image.BufferedImage;
  */
 public class TransformImage implements ImageOperation, java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
     private boolean isFlippedHorizontally;
     private boolean isFlippedVertically;
     private int rotationState; // 1 = rotate clockwise, 2 = rotate anti
 
     /**
-     * Create a new RotateImage for horizontal or vertical flip.
+     * Create a new TransformImage for horizontal or vertical flip.
      *
-     * @param isFlipping will always be true, tells BufferedImage to do a rotate
+     * @param isFlipping will always be true, tells BufferedImage to do a flip
      * @param isVertical true for vertical flip, false for horizontal flip
      */
     public TransformImage(boolean isFlipping, boolean isVertical) {
@@ -33,7 +32,7 @@ public class TransformImage implements ImageOperation, java.io.Serializable {
     /**
      * Create a new RotateImage for rotation.
      *
-     * @param rotationState The rotation state (0-3)
+     * @param rotationState The rotation value, being 1 for clockwise or 2 for antiCW, or 0 for no rotate
      */
     public TransformImage(int rotationState) {
         this.rotationState = rotationState;
@@ -49,15 +48,17 @@ public class TransformImage implements ImageOperation, java.io.Serializable {
     public BufferedImage apply(BufferedImage input) {
         int width = input.getWidth();
         int height = input.getHeight();
-        BufferedImage result;
+        
+        BufferedImage result; //create new buffereedImage 
 
-        // Handle rotation
+        // For rotation
         if (rotationState == 1) { // 90 degrees clockwise
             result = new BufferedImage(height, width, input.getType());
             AffineTransform at = new AffineTransform();
             at.translate(height, 0);  // Move to the right position
             at.rotate(Math.PI / 2);   // Rotate 90 degrees
 
+            //apply
             AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
             op.filter(input, result);
         } else if (rotationState == 2) { // 90 degrees counter-clockwise
@@ -66,6 +67,7 @@ public class TransformImage implements ImageOperation, java.io.Serializable {
             at.translate(0, width);   // Move to the right position
             at.rotate(-Math.PI / 2);  // Rotate -90 degrees
 
+            //apply
             AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
             op.filter(input, result);
         } else {
@@ -74,14 +76,15 @@ public class TransformImage implements ImageOperation, java.io.Serializable {
             AffineTransform at = new AffineTransform();
 
             if (isFlippedHorizontally) {
-                at.scale(-1, 1);
-                at.translate(-width, 0);
+                at.scale(-1, 1); //scales it horizontally by -1, performing flip
+                at.translate(-width, 0); //relocates it to where the image should be
             }
             if (isFlippedVertically) {
-                at.scale(1, -1);
-                at.translate(0, -height);
+                at.scale(1, -1); //scales it vertically by -1, performing flip
+                at.translate(0, -height); //relocates it to where the image should be
             }
 
+            //apply
             AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
             op.filter(input, result);
         }

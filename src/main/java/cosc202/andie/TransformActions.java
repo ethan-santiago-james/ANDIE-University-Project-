@@ -15,9 +15,6 @@ import javax.swing.JMenuItem;
  */
 public class TransformActions {
 
-    // Tracks wether to rotate image clockwise (1) or anticlockwise (2)
-    private int rotationState = 0;
-
     /**
      * A list of actions for the Transform menu.
      */
@@ -68,7 +65,7 @@ public class TransformActions {
         }
 
         /**
-         * Toggle the horizontal flip state and apply transformation.
+         * transforms image calling FALSE, signifying to flip the image horizontally
          *
          * @param e The event triggering this callback.
          */
@@ -100,7 +97,7 @@ public class TransformActions {
         }
 
         /**
-         * Toggle the vertical flip state and apply transformation.
+         * transforms image calling TRUE, signifying to flip the image vertically
          *
          * @param e The event triggering this callback.
          */
@@ -133,16 +130,14 @@ public class TransformActions {
         }
 
         /**
-         * Increment the rotation state (clockwise) and apply transformation.
+         * calls the transform method with int of  1, signifying a clockwise rotate
          *
          * @param e The event triggering this callback.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            rotationState = 1;
 
-
-            target.getImage().apply(new TransformImage(rotationState));
+            target.getImage().apply(new TransformImage(1));
             target.repaint();
             target.getParent().revalidate();
         }
@@ -167,16 +162,14 @@ public class TransformActions {
         }
 
         /**
-         * Decrement the rotation state (counter-clockwise) and apply
-         * transformation.
+         * calls the transform method with int of 2, signifying a anticlockwise rotate
          *
          * @param e The event triggering this callback.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            rotationState = 2;
 
-            target.getImage().apply(new TransformImage(rotationState));
+            target.getImage().apply(new TransformImage(2));
             target.repaint();
             target.getParent().revalidate();
         }
