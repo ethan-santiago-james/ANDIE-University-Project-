@@ -272,7 +272,7 @@ public class FilterActions {
 
             } catch (Exception ex) {
 
-                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE"));
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
 
             }
 
@@ -327,7 +327,7 @@ public class FilterActions {
 
             } catch (Exception ex) {
 
-                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE"));
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
 
             }
 

@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
 
 /**
  * A class for handling image transformation operations in ANDIE.
@@ -75,9 +76,17 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Apply the transformation
-            target.getImage().apply(new TransformImage(true, false));
-            target.repaint();
-            target.getParent().revalidate();
+            
+            try {
+                
+                target.getImage().apply(new TransformImage(true, false));
+                target.repaint();
+                target.getParent().revalidate(); 
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
+            }
+            
         }
     }
 
@@ -108,9 +117,17 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             // Apply transform - second paramater is to use the other constructor
-            target.getImage().apply(new TransformImage(true, true));
-            target.repaint();
-            target.getParent().revalidate();
+            
+            try {
+                
+                target.getImage().apply(new TransformImage(true, true));
+                target.repaint();
+                target.getParent().revalidate();
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
+            }
+            
         }
     }
 
@@ -140,9 +157,16 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            target.getImage().apply(new TransformImage(1));
-            target.repaint();
-            target.getParent().revalidate();
+            try {
+                
+                target.getImage().apply(new TransformImage(1));
+                target.repaint();
+                target.getParent().revalidate();
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+            }
+            
         }
     }
 
@@ -172,9 +196,16 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            target.getImage().apply(new TransformImage(2));
-            target.repaint();
-            target.getParent().revalidate();
+            try {
+                
+                target.getImage().apply(new TransformImage(2));
+                target.repaint();
+                target.getParent().revalidate();
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+            }
+            
         }
     }
 }
