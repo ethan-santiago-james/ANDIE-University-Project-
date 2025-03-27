@@ -12,8 +12,8 @@
 
 ### How to operate the application
 
-- Load the image you want to edit with the use of the open button
-- Use the rest of the UI features to apply filters, flip, rotate, invert, or colour cycle
+- Load the image you want to edit from your filesystem with the use of the open button
+- Use the rest of the UI features to apply filters, flip the image, rotate the image, invert the image, or apply colour filters
 - Save an operations file by clicking Save or Save As
 - Exit the application by clicking Exit
 - Save a copy of your edited image by clicking Export
@@ -34,12 +34,14 @@
 
 ### How was the system tested?
 
-The application was run with each new feature added to ensure everything that worked prior still worked
+The features added were tested against the requirements specified in the lab book. Gaussian filter
+was tested with all available inputs with the use of print statements, and performed as expected.
+Also, when new features were added, it was tested if the new features affected the functionality of
+earlier added features.
 
 ### Known Bugs
 
-* The undo, and redo buttons do not work for image rotations
-* Image operations involving rotations do not get saved when the image is exported
+* The redo button does not work for the "Transform" operations
 
 ### Refactoring
 
