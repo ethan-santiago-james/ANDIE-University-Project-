@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * <p>
- * ImageOperation to apply a Mean (simple blur) filter.
+ * ImageOperation to apply a Median (simple blur) filter.
  * </p>
  *
  * <p>
@@ -22,8 +22,7 @@ import java.util.*;
  * 4.0</a>
  * </p>
  *
- * @see java.awt.image.ConvolveOp
- * @author Steven Mills
+ * @author Ethan James
  * @version 1.0
  */
 public class MedianFilter implements ImageOperation, java.io.Serializable {
@@ -36,7 +35,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
     
     /**
      * <p>
-     * Construct a Mean filter with the given size.
+     * Construct a Median filter with the given size.
      * </p>
      *
      * <p>
@@ -44,7 +43,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * to search for the median pixel value
      * </p>
      *
-     * @param radius The radius of the newly constructed MeanFilter
+     * @param radius The radius of the newly constructed MedianFilter
      */
     MedianFilter(int radius) {
         
@@ -63,7 +62,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * radii lead to stronger blurring.
      * </p>
      *
-     * @param input The image to apply the Mean filter to.
+     * @param input The image to apply the Median filter to.
      * @return The resulting (blurred)) image.
      */
     @Override

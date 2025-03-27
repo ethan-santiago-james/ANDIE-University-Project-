@@ -139,6 +139,13 @@ public class FilterActions {
 
     }
 
+    /**
+     * <p>
+     * Action to blur an image with a median filter.
+     * </p>
+     *
+     * @see MedianFilter
+     */
     public class MedianFilterAction extends ImageAction {
 
         /**
