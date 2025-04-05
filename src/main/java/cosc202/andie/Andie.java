@@ -32,6 +32,7 @@ public class Andie {
     private static FileActions fileActions;
     private static EditActions editActions;
     private static ViewActions viewActions;
+    private static TransformActions transformActions;
     private static FilterActions filterActions;
     private static ColourActions colourActions;
     private static LanguageActions languageActions;
@@ -91,7 +92,7 @@ public class Andie {
         menuBar.add(viewActions.createMenu());
         
         // Transform actions control the image can be transformed, being either rotated or flipped
-        TransformActions transformActions = new TransformActions(bundle);
+        transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
 
         filterActions = new FilterActions(bundle);
@@ -135,7 +136,7 @@ public class Andie {
         viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
         
-        TransformActions transformActions = new TransformActions(bundle);
+        transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
 
         filterActions = new FilterActions(bundle);
