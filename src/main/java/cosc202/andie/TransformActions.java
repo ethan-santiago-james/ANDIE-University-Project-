@@ -49,6 +49,21 @@ public class TransformActions {
 
         return transformMenu;
     }
+    public Action getFlipHorizontal(){
+        return new FlipHorizontal("FH", null, bundle.getString("FLIP_HORIZONTAL"), null);
+    }
+    
+    public Action getFlipVertical(){
+        return new FlipVertical("FV", null, bundle.getString("FLIP_VERTICAL"), null);
+    }
+    
+    public Action getRotateClockwise(){
+        return new RotateClockwise("RC", null, bundle.getString("ROTATE_90_CLOCKWISE"), null);
+    }
+    
+    public Action getRotateAntiClockwise(){
+        return new RotateAntiClockwise("RA", null, bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
+    }
 
     /**
      * Action to flip the image horizontally.

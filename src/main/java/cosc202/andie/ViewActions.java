@@ -64,6 +64,14 @@ public class ViewActions {
 
         return viewMenu;
     }
+    
+    public Action getZoomInAction(){
+        return new ZoomInAction("ZI", null, bundle.getString("ZOOM IN"), null);
+    }
+    
+    public Action getZoomOutAction(){
+        return new ZoomOutAction("ZO", null, bundle.getString("ZOOM OUT"), null);
+    }
 
     /**
      * <p>

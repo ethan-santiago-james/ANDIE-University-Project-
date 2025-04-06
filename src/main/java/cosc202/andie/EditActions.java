@@ -4,7 +4,6 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-//Sam's Commit
 /**
  * <p>
  * Actions provided by the Edit menu.
@@ -61,6 +60,14 @@ public class EditActions {
         }
 
         return editMenu;
+    }
+    
+    public Action getUndoAction(){
+        return new UndoAction("U", null, bundle.getString("UNDO"), null);
+    }
+    
+    public Action getRedoAction(){
+        return new RedoAction("R", null, bundle.getString("REDO"), null);
     }
 
     /**
