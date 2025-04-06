@@ -69,6 +69,18 @@ public class FileActions {
 
         return fileMenu;
     }
+    
+    public Action getFileOpenAction(){
+        return new FileOpenAction("O", null, bundle.getString("OPEN A FILE"), null);
+    }
+    
+    public Action getFileSaveAction(){
+        return new FileSaveAction("S", null, bundle.getString("SAVE THE FILE"), null);
+    }
+    
+    public Action getFileSaveAsAction(){
+        return new FileSaveAsAction("SA", null, bundle.getString("SAVE A COPY"), null);
+    }
 
     /**
      * <p>

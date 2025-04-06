@@ -29,6 +29,8 @@ public class Andie {
     private static JFrame frame;
     private static ImagePanel imagePanel;
     private static JMenuBar menuBar;
+    private static JToolBar toolBar;
+    
     private static FileActions fileActions;
     private static EditActions editActions;
     private static ViewActions viewActions;
@@ -105,6 +107,29 @@ public class Andie {
         menuBar.add(languageActions.createMenu());
 
         frame.setJMenuBar(menuBar);
+        
+        toolBar = new JToolBar();
+        
+        //file actions to toolbar
+        toolBar.add(fileActions.getFileOpenAction());
+        toolBar.add(fileActions.getFileSaveAction());
+        toolBar.add(fileActions.getFileSaveAsAction());
+        
+        //edit actions to toolbar
+        toolBar.add(editActions.getUndoAction());
+        toolBar.add(editActions.getRedoAction());
+        
+        //view actions to toolbar
+        toolBar.add(viewActions.getZoomInAction());
+        toolBar.add(viewActions.getZoomOutAction());
+        
+        //transform actions to toolbar
+        toolBar.add(transformActions.getFlipHorizontal());
+        toolBar.add(transformActions.getFlipVertical());
+        toolBar.add(transformActions.getRotateAntiClockwise());
+        toolBar.add(transformActions.getRotateClockwise());
+        
+        frame.add(toolBar, BorderLayout.NORTH);
         frame.pack();
         frame.setVisible(true);
     }
