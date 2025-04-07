@@ -102,6 +102,12 @@ public class EditActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             
+            undo();
+            
+        }
+        
+        public static void undo() {
+            
             try {
                 
                 target.getImage().undo();
@@ -155,6 +161,12 @@ public class EditActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             
+            
+            redo();
+            
+        }
+        
+        public static void redo() {
             
             try {
                 

@@ -29,7 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class FileActions {
 
-    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the File menu.
@@ -48,7 +48,7 @@ public class FileActions {
         actions.add(new FileOpenAction(bundle.getString("OPEN"), null, bundle.getString("OPEN A FILE"), KeyEvent.VK_O));
         actions.add(new FileSaveAction(bundle.getString("SAVE"), null, bundle.getString("SAVE THE FILE"), KeyEvent.VK_S));
         actions.add(new FileSaveAsAction(bundle.getString("SAVE AS"), null, bundle.getString("SAVE A COPY"), KeyEvent.VK_A));
-        actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), 0));
+        actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), KeyEvent.VK_X));
         actions.add(new FileExportAction(bundle.getString("EXPORT"), null, bundle.getString("EXPORT THE IMAGE"), KeyEvent.VK_E));
               
     }
@@ -109,6 +109,11 @@ public class FileActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             
+            open();
+        }
+        
+        public static void open() {
+            
             boolean saveFirst = false;
             
             if(target.getImage().hasImage()) {
@@ -147,6 +152,7 @@ public class FileActions {
 
             target.repaint();
             target.getParent().revalidate();
+            
         }
 
     }
@@ -189,11 +195,17 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            save();
+        }
+        
+        public static void save() {
+            
             try {
                 target.getImage().save();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
+            
         }
 
     }
@@ -236,6 +248,12 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            saveAs();
+            
+        }
+        
+        public static void saveAs() {
             
             if(!target.getImage().hasImage()) {
                 
@@ -341,6 +359,12 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+ 
+            export(); 
+        }
+        
+        
+        public static void export() {
             
             if(!target.getImage().hasImage()) {
                 
@@ -389,7 +413,6 @@ public class FileActions {
                 }    
                 
             }
-            
             
             
         }

@@ -4,6 +4,11 @@
  */
 package cosc202.andie;
 
+import cosc202.andie.EditActions.*;
+import cosc202.andie.FileActions.*;
+import cosc202.andie.TransformActions.RotateAntiClockwise;
+import cosc202.andie.TransformActions.RotateClockwise;
+import cosc202.andie.ViewActions.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,6 +20,14 @@ public class KeyboardShortcuts implements KeyListener {
     
     public static boolean isCtrlPressed = false;
     public static boolean isShiftPressed = true;
+    
+    ImagePanel image;
+    
+    public KeyboardShortcuts(ImagePanel img) {
+    
+        this.image = img;
+    
+    }
     
     @Override
     public void keyPressed(KeyEvent e) {
@@ -51,24 +64,16 @@ public class KeyboardShortcuts implements KeyListener {
                 
                 isShiftPressed = false;
                 break;
-            
-        }
-        
-    }
-    
-    @Override
-    public void keyTyped(KeyEvent e) {
-        
-        switch(e.getKeyCode()) {
-            
-            case 83: // S
                 
+            case 83: // S
+
                 if(isCtrlPressed && isShiftPressed) {
                     
+                    FileSaveAsAction.saveAs();
                     
                 } else if(isCtrlPressed) {
                     
-                    
+                    FileSaveAction.save();
                     
                 }
                 break;
@@ -77,15 +82,24 @@ public class KeyboardShortcuts implements KeyListener {
                 
                 if(isCtrlPressed) {
                     
+                    FileExportAction.export();
+                }
+                break;
+                
+            case 79:
+                
+                if(isCtrlPressed) {
+                    
+                    FileOpenAction.open();
                     
                 }
                 break;
                 
-            case 521: // PLUS SIGN
+            case 61: // PLUS SIGN
                 
                 if(isCtrlPressed) {
-                    
-                    
+
+                    ZoomInAction.zoomIn();
                     
                 }
                 break;
@@ -95,6 +109,15 @@ public class KeyboardShortcuts implements KeyListener {
                 if(isCtrlPressed) {
                     
                     
+                    ZoomOutAction.zoomOut();
+                }
+                break;
+                
+            case 81: // Q
+                
+                if(isCtrlPressed) {
+                    
+                    System.exit(0);
                 }
                 break;
                 
@@ -102,7 +125,7 @@ public class KeyboardShortcuts implements KeyListener {
                 
                 if(isCtrlPressed) {
                     
-                    
+                    RedoAction.redo();
                 }
                 break;
                 
@@ -110,18 +133,27 @@ public class KeyboardShortcuts implements KeyListener {
                 
                 if(isCtrlPressed) {
                     
-                    
+                    UndoAction.undo();
                 }
                 break;
             
-            case 227: // RIGHT ARROW
-                
+            case KeyEvent.VK_RIGHT: // RIGHT ARROW
+
+                RotateClockwise.rotateClockwise();
                 break;
                 
-            case 226: // LEFT ARROW
+            case KeyEvent.VK_LEFT: // LEFT ARROW
                 
+                RotateAntiClockwise.rotateAntiClockwise();
                 break;
+            
         }
+        
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
         
     }
     

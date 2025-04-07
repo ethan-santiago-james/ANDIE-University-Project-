@@ -1,6 +1,8 @@
 package cosc202.andie;
 
+import cosc202.andie.EditActions.UndoAction;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
@@ -102,10 +104,14 @@ public class Andie {
 
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
+        
+        KeyboardShortcuts k = new KeyboardShortcuts(imagePanel);
+        frame.addKeyListener(k);
 
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
+
     }
     
     /***
