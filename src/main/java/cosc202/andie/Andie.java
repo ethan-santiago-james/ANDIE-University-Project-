@@ -1,6 +1,5 @@
 package cosc202.andie;
 
-import cosc202.andie.EditActions.UndoAction;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
@@ -135,6 +134,7 @@ public class Andie {
         toolBar.add(transformActions.getRotateClockwise());
         
         frame.add(toolBar, BorderLayout.NORTH);
+        
         frame.pack();
         frame.setVisible(true);
 

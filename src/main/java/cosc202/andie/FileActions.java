@@ -156,9 +156,9 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
-                    
+
                     JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
-                    
+                  
                 }
             }
 
