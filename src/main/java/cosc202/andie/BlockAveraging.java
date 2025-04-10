@@ -4,6 +4,6 @@ import java.awt.image.*;
  *
  * @author Bradyn Salmon
  */
-public class BlockAveraging {
+public class BlockAveraging implements ImageOperation, java.io.Serializable {
     
 }
