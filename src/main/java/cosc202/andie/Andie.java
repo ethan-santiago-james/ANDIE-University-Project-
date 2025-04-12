@@ -186,6 +186,30 @@ public class Andie {
 
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
+        menuBar.add(recordButton);
+        
+        toolBar = new JToolBar();
+        
+        //file actions to toolbar
+        toolBar.add(fileActions.getFileOpenAction());
+        toolBar.add(fileActions.getFileSaveAction());
+        toolBar.add(fileActions.getFileSaveAsAction());
+        
+        //edit actions to toolbar
+        toolBar.add(editActions.getUndoAction());
+        toolBar.add(editActions.getRedoAction());
+        
+        //view actions to toolbar
+        toolBar.add(viewActions.getZoomInAction());
+        toolBar.add(viewActions.getZoomOutAction());
+        
+        //transform actions to toolbar
+        toolBar.add(transformActions.getFlipHorizontal());
+        toolBar.add(transformActions.getFlipVertical());
+        toolBar.add(transformActions.getRotateAntiClockwise());
+        toolBar.add(transformActions.getRotateClockwise());
+        
+        frame.add(toolBar, BorderLayout.NORTH);
 
         frame.setJMenuBar(menuBar);
         frame.setTitle("ANDIE");
