@@ -50,6 +50,7 @@ public class FileActions {
         actions.add(new FileSaveAsAction(bundle.getString("SAVE AS"), null, bundle.getString("SAVE A COPY"), KeyEvent.VK_A));
         actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), KeyEvent.VK_X));
         actions.add(new FileExportAction(bundle.getString("EXPORT"), null, bundle.getString("EXPORT THE IMAGE"), KeyEvent.VK_E));
+        actions.add(new ApplyMacroOption("Apply Macro", null, "Apply Macro", null));
               
     }
 
@@ -428,6 +429,56 @@ public class FileActions {
             
             
         }
+    }
+    
+    
+    public class ApplyMacroOption extends ImageAction {
+        
+        /**
+         * <p>
+         * Create a new apply-macro action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        ApplyMacroOption(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+        
+        public void actionPerformed(ActionEvent ae) {
+            
+            if(!target.getImage().hasImage()) {
+                
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+            } else {
+                
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(target);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().readOpsFile(imageFilepath);
+                    } catch (Exception ex) {
+
+                        JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
+                    }
+                }
+
+                target.repaint();
+                target.getParent().revalidate();
+                
+            }
+            
+            
+            
+        }
+        
     }
 
 }
