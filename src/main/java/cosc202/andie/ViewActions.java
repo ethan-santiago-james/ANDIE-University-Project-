@@ -25,7 +25,7 @@ import javax.swing.*;
  */
 public class ViewActions {
 
-    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * A list of actions for the View menu.
@@ -114,9 +114,16 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            zoomIn();
+        }
+        
+        public static void zoomIn() {
+            
             target.setZoom(target.getZoom() + 10);
             target.repaint();
             target.getParent().revalidate();
+            
         }
 
     }
@@ -162,9 +169,16 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            zoomOut();
+        }
+        
+        public static void zoomOut() {
+            
             target.setZoom(target.getZoom() - 10);
             target.repaint();
             target.getParent().revalidate();
+            
         }
 
     }
