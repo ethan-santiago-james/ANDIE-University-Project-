@@ -115,7 +115,7 @@ public class Andie {
         
         MacroRecording mR = new MacroRecording(recordButton,imagePanel);
         
-        KeyboardShortcuts k = new KeyboardShortcuts(imagePanel);
+        KeyboardShortcuts k = new KeyboardShortcuts();
         frame.addKeyListener(k);
 
         frame.setJMenuBar(menuBar);

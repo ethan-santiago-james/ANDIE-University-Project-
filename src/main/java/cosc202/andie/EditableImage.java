@@ -57,10 +57,14 @@ class EditableImage {
     private Stack<ImageOperation> redoOps;
     
     /**
-     * A memory of operations part of a macro recording.
+     * A memory of operations part of a macro recording. Stored
+     * as a queue so that operations can be applied in the right order
      */
     private Queue<ImageOperation> tempMacroOps;
     
+    /*
+    * boolean variable stating whether a macro is currently being recorded
+    */
     private boolean isRecording = false;
 
     /**
@@ -276,6 +280,10 @@ class EditableImage {
         }
     }
     
+    /*
+    * Method that reads a macro file from the users filesystem
+    * and applies all its operations to the image
+    */
     public void readOpsFile(String filePath) {
         
         try {
@@ -347,17 +355,27 @@ class EditableImage {
     }
     
     
+    /*
+    * Method that clears the macro operations queue
+    * when the user has finished recording
+    */
     public void stopRecording() {
 
         tempMacroOps.clear();
         
     }
     
+    /*
+    * Accessor method for whether a macro is being recorded
+    */
     public boolean isRecording() {
         
         return this.isRecording;
     }
     
+    /*
+    * Setter method for isRecording
+    */
     public void setRecording(boolean recording) {
         
         this.isRecording = recording;

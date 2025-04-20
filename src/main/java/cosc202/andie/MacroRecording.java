@@ -9,14 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
- *
- * @author GGPC
+ * Class that handles the UI elements
+ * for the macro record feature
+ * @author jamet966
  */
 public class MacroRecording {
     
-    private JButton b;
+    private JButton b; // record button
     private ImagePanel target;
     
     public MacroRecording(JButton b, ImagePanel target) {
@@ -27,6 +29,12 @@ public class MacroRecording {
         
     }
     
+    /*
+    * Method that adds an action listener to the button
+    * so that it knows when to start, and stop recording.
+    * This method also handles the UI for saving a macro
+    * file to be used later on.
+    */
     public void addActionListener() {
         
        this.b.addActionListener(
@@ -34,6 +42,11 @@ public class MacroRecording {
                    
                    public void actionPerformed(ActionEvent ae) {
                        
+                       if(!target.getImage().hasImage()) {
+                           
+                           JOptionPane.showMessageDialog(null,"Please select an image.");
+                           return;
+                       }
                        if(!target.getImage().isRecording()) {
                            
                            target.getImage().setRecording(true);
