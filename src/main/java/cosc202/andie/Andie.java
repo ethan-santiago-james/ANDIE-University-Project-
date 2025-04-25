@@ -109,7 +109,7 @@ public class Andie {
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
 
-        //mouseActions = new MouseActions(bundle);
+        mouseActions = new MouseActions(bundle);
         mouseActions.setImagePanel(imagePanel);
 
         frame.setJMenuBar(menuBar);

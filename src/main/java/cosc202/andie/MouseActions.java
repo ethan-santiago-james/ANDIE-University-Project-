@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  *
  * @author linad885
  */
-public class MouseActions extends ImageAction implements MouseListener, MouseMotionListener{
+public class MouseActions extends ImageAction implements MouseListener, MouseMotionListener {
 
     public static boolean isDragged = false;
 
@@ -30,6 +30,9 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         super(name, icon, desc, mnemonic);
     }
 
+    public MouseActions(ResourceBundle bundle) {
+        super(null, null, null, null);
+    }
 
     /**
      * Set the image panel that this mouse action will operate on
@@ -50,11 +53,6 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         return new DrawCircle("Circle Selection", null, "Create a circle selection", null);
     }
 
-//    public static Action getClearSelection() {
-//        return new clearSelectedArea("Clear Selection", null, "Clear highlighted selection area", null);
-//    }
-
-    // MouseListener implementation
     @Override
     public void mouseClicked(MouseEvent e) {
         // Not used for selection
@@ -73,13 +71,14 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     @Override
     public void mouseReleased(MouseEvent e) {
         endPoint = e.getPoint();
-        if(endPoint.x > target.getImage().getCurrentImage().getWidth()){
+        if (endPoint.x > target.getImage().getCurrentImage().getWidth()) {
             endPoint.x = target.getImage().getCurrentImage().getWidth();
         }
-        if(endPoint.y > target.getImage().getCurrentImage().getWidth()){
+        if (endPoint.y > target.getImage().getCurrentImage().getWidth()) {
             endPoint.y = target.getImage().getCurrentImage().getWidth();
         }
         System.out.println("Selected area from" + startPoint + " to " + endPoint);
+        //drawSelectionSquare();
 
     }
 
@@ -109,6 +108,22 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public void actionPerformed(ActionEvent e) {
         //not used
     }
+
+    public void drawSelectionSquare(Graphics g) {
+        //super.drawSelectionSquare(g);
+        
+        // Set the rectangle outline color to grey
+        g.setColor(Color.GRAY);
+
+        // Calculate the rectangle parameters
+        int x = Math.min(startPoint.x, endPoint.x);
+        int y = Math.min(startPoint.y, endPoint.y);
+        int width = Math.abs(endPoint.x - startPoint.x);
+        int height = Math.abs(endPoint.y - startPoint.y);
+
+        // Draw just the rectangle outline
+        g.drawRect(x, y, width, height);
+    }
 }
 
 /**
@@ -130,7 +145,7 @@ class DrawSquare extends ImageAction {
 
     /**
      * draws a square in the highlighted region
-     * 
+     *
      *
      * @param e The event triggering this callback.
      */
