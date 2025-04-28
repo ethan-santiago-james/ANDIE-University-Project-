@@ -50,7 +50,7 @@ public class FileActions {
         actions.add(new FileSaveAsAction(bundle.getString("SAVE AS"), null, bundle.getString("SAVE A COPY"), KeyEvent.VK_A));
         actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), KeyEvent.VK_X));
         actions.add(new FileExportAction(bundle.getString("EXPORT"), null, bundle.getString("EXPORT THE IMAGE"), KeyEvent.VK_E));
-        actions.add(new ApplyMacroOption("Apply Macro", null, "Apply Macro", null));
+        actions.add(new ApplyMacroOption(bundle.getString("APPLY MACRO"), null, bundle.getString("APPLY MACRO"), null));
               
     }
 
@@ -330,6 +330,18 @@ public class FileActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            if(FileSaveAction.target.getImage().hasImage()) {
+                
+               int response = JOptionPane.showConfirmDialog(null, bundle.getString("EXIT WARNING"), "Confirmation", JOptionPane.YES_NO_OPTION);
+            
+                
+                if(response == JOptionPane.YES_OPTION) {
+
+                    FileSaveAction.save();
+                }     
+            }
+            
             System.exit(0);
         }
 

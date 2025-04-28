@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import java.util.ResourceBundle;
 
 /**
  * Class that handles the UI elements
@@ -20,11 +21,13 @@ public class MacroRecording {
     
     private JButton b; // record button
     private ImagePanel target;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
     
-    public MacroRecording(JButton b, ImagePanel target) {
+    public MacroRecording(JButton b, ImagePanel target, ResourceBundle bundle) {
         
        this.target = target;
        this.b = b;
+       this.bundle = bundle;
        addActionListener();
         
     }
@@ -44,13 +47,13 @@ public class MacroRecording {
                        
                        if(!target.getImage().hasImage()) {
                            
-                           JOptionPane.showMessageDialog(null,"Please select an image.");
+                           JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
                            return;
                        }
                        if(!target.getImage().isRecording()) {
                            
                            target.getImage().setRecording(true);
-                           b.setText("Stop Recording");
+                           b.setText(bundle.getString("STOP RECORDING"));
                            b.setBackground(Color.RED);
 
                        } else {
@@ -69,7 +72,7 @@ public class MacroRecording {
                            }
                            target.getImage().stopRecording();
                            target.getImage().setRecording(false);
-                           b.setText("Record Macro");
+                           b.setText(bundle.getString("RECORD MACRO"));
                            b.setBackground(Color.GREEN);
                        }
                        

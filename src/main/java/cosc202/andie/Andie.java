@@ -84,7 +84,7 @@ public class Andie {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         // Add in menus for various types of action the user may perform.
-        recordButton = new JButton("Record Macro");
+        recordButton = new JButton(bundle.getString("RECORD MACRO"));
         recordButton.setBackground(Color.GREEN);
         
         menuBar = new JMenuBar();
@@ -113,7 +113,7 @@ public class Andie {
         menuBar.add(languageActions.createMenu());
         menuBar.add(recordButton);
         
-        MacroRecording mR = new MacroRecording(recordButton,imagePanel);
+        MacroRecording mR = new MacroRecording(recordButton,imagePanel,bundle);
         
         KeyboardShortcuts k = new KeyboardShortcuts();
         frame.addKeyListener(k);
@@ -166,6 +166,19 @@ public class Andie {
 
         // Re-initialize action classes with the new language bundle
         fileActions = new FileActions(bundle);
+        
+        if(ImageAction.getTarget().getImage().isRecording()) {
+            
+            recordButton = new JButton(bundle.getString("STOP RECORDING"));
+            recordButton.setBackground(Color.RED);
+            
+        } else {
+            
+            recordButton = new JButton(bundle.getString("RECORD MACRO"));
+            recordButton.setBackground(Color.GREEN);
+        }
+        
+        
         menuBar.removeAll();
         menuBar.add(fileActions.createMenu());
 
@@ -187,6 +200,8 @@ public class Andie {
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
         menuBar.add(recordButton);
+        
+        MacroRecording mR = new MacroRecording(recordButton,imagePanel,bundle);
         
         toolBar = new JToolBar();
         
