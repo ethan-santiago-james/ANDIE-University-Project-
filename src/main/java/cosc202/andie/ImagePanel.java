@@ -43,6 +43,7 @@ public class ImagePanel extends JPanel {
      */
     private double scale;
     private AffineTransform transform;
+
     /**
      * <p>
      * Create a new ImagePanel.
@@ -108,10 +109,10 @@ public class ImagePanel extends JPanel {
         }
         scale = zoomPercent / 100;
     }
-    
+
     /**
      * Set a new transformation to be applied to the image.
-     * 
+     *
      *
      * @param transform The AffineTransform to apply.
      */
@@ -153,13 +154,27 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         if (image.hasImage()) {
             Graphics2D g2 = (Graphics2D) g.create();
-            
+
             g2.scale(scale, scale);
             g2.transform(transform);
-                                        
+
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
+            if (MouseActions.startPoint != null && MouseActions.endPoint != null) {
+                drawSelectionSquare(g);
+            }
         }
+    }
+
+    public void drawSelectionSquare(Graphics g) {
+        g.setColor(Color.GRAY);
+
+        int x = Math.min(MouseActions.startPoint.x, MouseActions.endPoint.x);
+        int y = Math.min(MouseActions.startPoint.y, MouseActions.endPoint.y);
+        int width = Math.max(MouseActions.startPoint.x, MouseActions.endPoint.x) - x;
+        int height = Math.max(MouseActions.startPoint.y, MouseActions.endPoint.y) - y;
+
+        g.drawRect(x, y, width, height);
     }
 
 }
