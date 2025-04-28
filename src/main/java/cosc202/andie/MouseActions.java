@@ -104,7 +104,6 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
             endPoint.y = imageHeight;
         }
 
-        System.out.println("Selected area from " + startPoint + " to " + endPoint);
         target.repaint();
     }
 
