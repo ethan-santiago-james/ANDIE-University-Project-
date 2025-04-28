@@ -1,6 +1,8 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
@@ -31,7 +33,8 @@ public class Andie {
     private static ImagePanel imagePanel;
     private static JMenuBar menuBar;
     private static JToolBar toolBar;
-
+    private static JButton recordButton;
+    
     private static FileActions fileActions;
     private static EditActions editActions;
     private static ViewActions viewActions;
@@ -84,8 +87,11 @@ public class Andie {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         // Add in menus for various types of action the user may perform.
+        recordButton = new JButton("Record Macro");
+        recordButton.setBackground(Color.GREEN);
+        
         menuBar = new JMenuBar();
-
+        
         // Initialize action classes with the bundle
         fileActions = new FileActions(bundle);
         menuBar.add(fileActions.createMenu());
@@ -108,6 +114,12 @@ public class Andie {
 
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
+        menuBar.add(recordButton);
+        
+        MacroRecording mR = new MacroRecording(recordButton,imagePanel);
+        
+        KeyboardShortcuts k = new KeyboardShortcuts();
+        frame.addKeyListener(k);
 
         mouseActions = new MouseActions(bundle);
         mouseActions.setImagePanel(imagePanel);
@@ -139,8 +151,10 @@ public class Andie {
         toolBar.add(MouseActions.getDrawCircle());
 
         frame.add(toolBar, BorderLayout.NORTH);
+        
         frame.pack();
         frame.setVisible(true);
+
     }
 
     /**
@@ -183,6 +197,30 @@ public class Andie {
 
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
+        menuBar.add(recordButton);
+        
+        toolBar = new JToolBar();
+        
+        //file actions to toolbar
+        toolBar.add(fileActions.getFileOpenAction());
+        toolBar.add(fileActions.getFileSaveAction());
+        toolBar.add(fileActions.getFileSaveAsAction());
+        
+        //edit actions to toolbar
+        toolBar.add(editActions.getUndoAction());
+        toolBar.add(editActions.getRedoAction());
+        
+        //view actions to toolbar
+        toolBar.add(viewActions.getZoomInAction());
+        toolBar.add(viewActions.getZoomOutAction());
+        
+        //transform actions to toolbar
+        toolBar.add(transformActions.getFlipHorizontal());
+        toolBar.add(transformActions.getFlipVertical());
+        toolBar.add(transformActions.getRotateAntiClockwise());
+        toolBar.add(transformActions.getRotateClockwise());
+        
+        frame.add(toolBar, BorderLayout.NORTH);
 
         frame.setJMenuBar(menuBar);
         frame.setTitle("ANDIE");

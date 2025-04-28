@@ -21,7 +21,7 @@ public class TransformActions {
      * A list of actions for the Transform menu.
      */
     protected ArrayList<Action> actions;
-    private ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
 
     /**
      * Create a set of Transform menu actions.
@@ -177,6 +177,12 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            rotateClockwise();
+            
+        }
+        
+        public static void rotateClockwise() {
+
             try {
 
                 MouseActions.startPoint = null;
@@ -218,6 +224,12 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            rotateAntiClockwise();
+            
+        }
+        
+        public static void rotateAntiClockwise() {
+            
             try {
 
                 MouseActions.startPoint = null;
