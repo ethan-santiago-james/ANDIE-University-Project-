@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
 
+
 /**
  * <p>
  * Main class for A Non-Destructive Image Editor (ANDIE).
@@ -41,6 +42,7 @@ public class Andie {
     private static FilterActions filterActions;
     private static ColourActions colourActions;
     private static LanguageActions languageActions;
+    private static MouseActions mouseActions;
     private static ResourceBundle bundle = LanguageUtil.getBundle();
 
     /**
@@ -65,6 +67,7 @@ public class Andie {
      * @see FilterActions
      * @see ColourActions
      * @see LanguageActions
+     * @see MouseActions
      *
      * @throws Exception if something goes wrong.
      */
@@ -98,7 +101,7 @@ public class Andie {
 
         viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
-        
+
         // Transform actions control the image can be transformed, being either rotated or flipped
         transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
@@ -118,47 +121,55 @@ public class Andie {
         KeyboardShortcuts k = new KeyboardShortcuts();
         frame.addKeyListener(k);
 
+        mouseActions = new MouseActions(bundle);
+        mouseActions.setImagePanel(imagePanel);
+
         frame.setJMenuBar(menuBar);
-        
+
         toolBar = new JToolBar();
-        
+
         //file actions to toolbar
         toolBar.add(fileActions.getFileOpenAction());
         toolBar.add(fileActions.getFileSaveAction());
         toolBar.add(fileActions.getFileSaveAsAction());
-        
+
         //edit actions to toolbar
         toolBar.add(editActions.getUndoAction());
         toolBar.add(editActions.getRedoAction());
-        
+
         //view actions to toolbar
         toolBar.add(viewActions.getZoomInAction());
         toolBar.add(viewActions.getZoomOutAction());
-        
+
         //transform actions to toolbar
         toolBar.add(transformActions.getFlipHorizontal());
         toolBar.add(transformActions.getFlipVertical());
         toolBar.add(transformActions.getRotateAntiClockwise());
         toolBar.add(transformActions.getRotateClockwise());
         
+        toolBar.add(MouseActions.getDrawSquare());
+        toolBar.add(MouseActions.getDrawCircle());
+
         frame.add(toolBar, BorderLayout.NORTH);
         
         frame.pack();
         frame.setVisible(true);
 
     }
-    
-    /***
-     * <p>
+
+    /**
+     *
+     * <
+     * p>
      * Refreshes GUI upon user switching languages
      * </p>
-     * 
+     *
      * <p>
-     * This method uses {@see LanguageUtil} to initialize
-     * new instances of the "Actions" classes, then rebuilds
-     * the JFrame with the new translated Strings
+     * This method uses {@see LanguageUtil} to initialize new instances of the
+     * "Actions" classes, then rebuilds the JFrame with the new translated
+     * Strings
      * </p>
-     * 
+     *
      * @see LanguageActions
      */
     public static void refreshGUI() {
@@ -174,7 +185,7 @@ public class Andie {
 
         viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
-        
+
         transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
 
