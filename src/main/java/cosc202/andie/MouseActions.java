@@ -93,8 +93,8 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public void mouseDragged(MouseEvent e) {
         endPoint = e.getPoint();
         
-        int imageWidth = target.getImage().getCurrentImage().getWidth();
-        int imageHeight = target.getImage().getCurrentImage().getHeight();
+        int imageWidth = (int) (target.getImage().getCurrentImage().getWidth() * (target.getZoom()/100));
+        int imageHeight = (int) (target.getImage().getCurrentImage().getHeight() * (target.getZoom()/100));
         
         if (endPoint.x > imageWidth) {
             endPoint.x = imageWidth;
