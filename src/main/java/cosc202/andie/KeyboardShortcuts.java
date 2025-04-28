@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- *
+ * Class that manages keyboard shortcuts
  * @author jamet966
  */
 public class KeyboardShortcuts implements KeyListener {
@@ -23,126 +23,138 @@ public class KeyboardShortcuts implements KeyListener {
     public static boolean isCtrlPressed = false;
     public static boolean isShiftPressed = true;
     
-    ImagePanel image;
     
-    public KeyboardShortcuts(ImagePanel img) {
+    public KeyboardShortcuts() {
 
-        this.image = img;
         setUpKeyboardPrioritisation();
     
     }
     
+    /**
+     * Method that implements the addKeyEventDispatcher
+     * method which overrides all other keyboard listeners
+     * as the toolbar was overriding shortcuts with custom KeyEvent listeners
+     */
     public static void setUpKeyboardPrioritisation() {
         
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-                // Custom prioritization logic
-                switch (e.getKeyCode()) {
+                // Once the keys are released, shortcut effects are applied to the image
+                if(e.getID() == KeyEvent.KEY_RELEASED) {
+                    switch (e.getKeyCode()) {
 
-                    case 17:
+                        case 17:
 
-                        isCtrlPressed = true;
-                        break;
+                            isCtrlPressed = false;
+                            break;
 
-                    case 16:
+                        case 16:
 
-                        isShiftPressed = true;
-                        break;
+                            isShiftPressed = false;
+                            break;
 
-                    case 83: // S
+                        case 83: // S
 
-                        if(isCtrlPressed && isShiftPressed) {
+                            if(isCtrlPressed && isShiftPressed) {
 
-                            FileSaveAsAction.saveAs();
-                            isCtrlPressed = !isCtrlPressed;
-                        } else if(isCtrlPressed) {
+                                FileSaveAsAction.saveAs();
 
-                            FileSaveAction.save();
-                            isCtrlPressed = !isCtrlPressed;
+                            } else if(isCtrlPressed) {
 
-                        }
-                        break;
-
-                    case 69: // E
-
-                        if(isCtrlPressed) {
-
-                            FileExportAction.export();
-                            isCtrlPressed = !isCtrlPressed;
-                        }
-                        break;
-
-                    case 79:
-
-                        if(isCtrlPressed) {
-
-                            FileOpenAction.open();
-                            isCtrlPressed = !isCtrlPressed;
-
-                        }
-                        break;
-
-                    case 61: // PLUS SIGN
-
-                        if(isCtrlPressed) {
-
-                            ZoomInAction.zoomIn();
-                            isCtrlPressed = !isCtrlPressed;
-
-                        }
-                        break;
-
-                    case 45: // MINUS SIGN
-
-                        if(isCtrlPressed) {
+                                FileSaveAction.save();
 
 
-                            ZoomOutAction.zoomOut();
-                            isCtrlPressed = !isCtrlPressed;
-                        }
-                        break;
+                            }
+                            break;
 
-                    case 81: // Q
+                        case 69: // E
 
-                        if(isCtrlPressed) {
+                            if(isCtrlPressed) {
 
-                            System.exit(0);
-                        }
-                        break;
+                                FileExportAction.export();
 
-                    case 89: // Y
+                            }
+                            break;
 
-                        if(isCtrlPressed) {
+                        case 79:
 
-                            RedoAction.redo();
-                            isCtrlPressed = !isCtrlPressed;
-                        }
-                        break;
+                            if(isCtrlPressed) {
 
-                    case 90: // Z
+                                FileOpenAction.open();
 
-                        if(isCtrlPressed) {
+                            }
+                            break;
 
-                            UndoAction.undo();
-                            isCtrlPressed = !isCtrlPressed;
-                        }
-                        break;
+                        case 61: // PLUS SIGN
 
-                    case KeyEvent.VK_RIGHT: // RIGHT ARROW
+                            if(isCtrlPressed) {
 
-                        RotateClockwise.rotateClockwise();
-                        isCtrlPressed = !isCtrlPressed;
+                                ZoomInAction.zoomIn();
 
-                        break;
+                            }
+                            break;
 
-                    case KeyEvent.VK_LEFT: // LEFT ARROW
+                        case 45: // MINUS SIGN
 
-                        RotateAntiClockwise.rotateAntiClockwise();
-                        isCtrlPressed = !isCtrlPressed;
-                        break;
+                            if(isCtrlPressed) {
+                                
+                                ZoomOutAction.zoomOut();
+                            }
+                            break;
 
+                        case 81: // Q
+
+                            if(isCtrlPressed) {
+
+                                System.exit(0);
+                            }
+                            break;
+
+                        case 89: // Y
+                            System.out.println(isCtrlPressed);
+                            if(isCtrlPressed) {
+
+                                RedoAction.redo();
+                            }
+                            break;
+
+                        case 90: // Z
+                            if(isCtrlPressed) {
+
+                                UndoAction.undo();
+                            }
+                            break;
+
+                        case KeyEvent.VK_RIGHT: // RIGHT ARROW
+
+                            RotateClockwise.rotateClockwise();
+
+                            break;
+
+                        case KeyEvent.VK_LEFT: // LEFT ARROW
+
+                            RotateAntiClockwise.rotateAntiClockwise();
+                            break;
+
+                    }
+                } else if(e.getID() == KeyEvent.KEY_PRESSED) { 
+                    
+                    switch(e.getKeyCode()) {
+                        
+                        case 17:
+                            
+                            isCtrlPressed = true;
+                            break;
+
+                        case 16:
+
+                            isShiftPressed = true;
+                            break;
+                    
+                    }
+                        
                 }
                 return false;
             }
@@ -150,136 +162,16 @@ public class KeyboardShortcuts implements KeyListener {
         
     }
     
+    /* COMPULSORY KEY LISTENER INTERFACE METHODS */
+    
     @Override
     public void keyPressed(KeyEvent e) {
-        /*
-        switch(e.getKeyCode()) {
-                
-            case 17: // CTRL
 
-                isCtrlPressed = true;
-                break;
-                
-            case 16:
-                    
-                isShiftPressed = true;
-                break;
-                    
-            
-
-        }
-        */
     }
     
     @Override
     public void keyReleased(KeyEvent e) {
-        /*
-        switch (e.getKeyCode()) {
-            
-            case 17:
-                
-                isCtrlPressed = false;
-                break;
-                
-            case 16:
-                
-                isShiftPressed = false;
-                break;
-                
-            case 83: // S
 
-                if(isCtrlPressed && isShiftPressed) {
-                    
-                    FileSaveAsAction.saveAs();
-                    isCtrlPressed = !isCtrlPressed;
-                } else if(isCtrlPressed) {
-                    
-                    FileSaveAction.save();
-                    isCtrlPressed = !isCtrlPressed;
-                    
-                }
-                break;
-                
-            case 69: // E
-                
-                if(isCtrlPressed) {
-                    
-                    FileExportAction.export();
-                    isCtrlPressed = !isCtrlPressed;
-                }
-                break;
-                
-            case 79:
-                
-                if(isCtrlPressed) {
-                    
-                    FileOpenAction.open();
-                    isCtrlPressed = !isCtrlPressed;
-                    
-                }
-                break;
-                
-            case 61: // PLUS SIGN
-                
-                if(isCtrlPressed) {
-
-                    ZoomInAction.zoomIn();
-                    isCtrlPressed = !isCtrlPressed;
-                    
-                }
-                break;
-                
-            case 45: // MINUS SIGN
-                
-                if(isCtrlPressed) {
-                    
-                    
-                    ZoomOutAction.zoomOut();
-                    isCtrlPressed = !isCtrlPressed;
-                }
-                break;
-                
-            case 81: // Q
-                
-                if(isCtrlPressed) {
-                    
-                    System.exit(0);
-                }
-                break;
-                
-            case 89: // Y
-                
-                if(isCtrlPressed) {
-                    
-                    RedoAction.redo();
-                    isCtrlPressed = !isCtrlPressed;
-                }
-                break;
-                
-            case 90: // Z
-                
-                if(isCtrlPressed) {
-                    
-                    UndoAction.undo();
-                    isCtrlPressed = !isCtrlPressed;
-                }
-                break;
-            
-            case KeyEvent.VK_RIGHT: // RIGHT ARROW
-
-                RotateClockwise.rotateClockwise();
-                isCtrlPressed = !isCtrlPressed;
-                
-                break;
-                
-            case KeyEvent.VK_LEFT: // LEFT ARROW
-                
-                RotateAntiClockwise.rotateAntiClockwise();
-                isCtrlPressed = !isCtrlPressed;
-                break;
-            
-        }
-        */
     }
     
     @Override

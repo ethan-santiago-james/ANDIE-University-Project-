@@ -55,6 +55,17 @@ class EditableImage {
      * A memory of 'undone' operations to support 'redo'.
      */
     private Stack<ImageOperation> redoOps;
+    
+    /**
+     * A memory of operations part of a macro recording. Stored
+     * as a queue so that operations can be applied in the right order
+     */
+    private Queue<ImageOperation> tempMacroOps;
+    
+    /*
+    * boolean variable stating whether a macro is currently being recorded
+    */
+    private boolean isRecording = false;
 
     /**
      * The file where the original image is stored/
@@ -81,6 +92,7 @@ class EditableImage {
         current = null;
         ops = new Stack<>();
         redoOps = new Stack<>();
+        tempMacroOps = new LinkedList<>();
         imageFilename = null;
         opsFilename = null;
     }
@@ -218,7 +230,15 @@ class EditableImage {
             FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
             ) {
-            objOut.writeObject(this.ops);
+            
+            if(!this.isRecording) {
+                
+                objOut.writeObject(this.ops);
+            } else {
+                
+                objOut.writeObject(this.tempMacroOps);
+            }
+            
         }
     }
 
@@ -253,6 +273,33 @@ class EditableImage {
     public void apply(ImageOperation op) {
         current = op.apply(current);
         ops.add(op);
+        
+        if(isRecording) {
+            
+            tempMacroOps.add(op);
+        }
+    }
+    
+    /*
+    * Method that reads a macro file from the users filesystem
+    * and applies all its operations to the image
+    */
+    public void readOpsFile(String filePath) {
+        
+        try {
+           try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+            
+               Queue<ImageOperation> macroOps = (Queue<ImageOperation>)in.readObject();
+               
+               while(!macroOps.isEmpty()) {
+                   
+                   apply(macroOps.remove());
+               }
+
+           } catch(ClassNotFoundException c) {}
+        } catch(IOException e) {}
+        
+        
     }
 
     /**
@@ -305,6 +352,33 @@ class EditableImage {
         for (ImageOperation op : ops) {
             current = op.apply(current);
         }
+    }
+    
+    
+    /*
+    * Method that clears the macro operations queue
+    * when the user has finished recording
+    */
+    public void stopRecording() {
+
+        tempMacroOps.clear();
+        
+    }
+    
+    /*
+    * Accessor method for whether a macro is being recorded
+    */
+    public boolean isRecording() {
+        
+        return this.isRecording;
+    }
+    
+    /*
+    * Setter method for isRecording
+    */
+    public void setRecording(boolean recording) {
+        
+        this.isRecording = recording;
     }
 
 }
