@@ -17,13 +17,9 @@ import javax.swing.JPanel;
  */
 public class MouseActions extends ImageAction implements MouseListener, MouseMotionListener {
 
-    public static boolean isDragged = false;
+    public static Point startPoint = null;
+    public static Point endPoint = null;
 
-    // Selection coordinates
-    private Point startPoint = null;
-    private Point endPoint = null;
-
-    // Reference to the image panel
     private JPanel imagePanel;
 
     public MouseActions(String name, ImageIcon icon, String desc, Integer mnemonic) {
@@ -53,15 +49,25 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         return new DrawCircle("Circle Selection", null, "Create a circle selection", null);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // Not used for selection
-    }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
+        endPoint = null;
+        target.repaint();
         startPoint = e.getPoint();
-        System.out.println("Selection started at: " + startPoint);
+        int imageWidth = target.getImage().getCurrentImage().getWidth();
+        int imageHeight = target.getImage().getCurrentImage().getHeight();
+        
+        if(startPoint.x > imageWidth){
+            startPoint = null;
+            return;
+        }
+        
+        if(startPoint.y > imageHeight){
+            startPoint = null;
+            return;
+        }
+        
         if (imagePanel != null) {
             imagePanel.repaint();
         }
@@ -70,15 +76,6 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        endPoint = e.getPoint();
-        if (endPoint.x > target.getImage().getCurrentImage().getWidth()) {
-            endPoint.x = target.getImage().getCurrentImage().getWidth();
-        }
-        if (endPoint.y > target.getImage().getCurrentImage().getWidth()) {
-            endPoint.y = target.getImage().getCurrentImage().getWidth();
-        }
-        System.out.println("Selected area from" + startPoint + " to " + endPoint);
-        //drawSelectionSquare();
 
     }
 
@@ -94,9 +91,21 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        isDragged = true;
-        System.out.println("Drawing...");
+        endPoint = e.getPoint();
+        
+        int imageWidth = target.getImage().getCurrentImage().getWidth();
+        int imageHeight = target.getImage().getCurrentImage().getHeight();
+        
+        if (endPoint.x > imageWidth) {
+            endPoint.x = imageWidth;
+        }
 
+        if (endPoint.y > imageHeight) {
+            endPoint.y = imageHeight;
+        }
+
+        System.out.println("Selected area from " + startPoint + " to " + endPoint);
+        target.repaint();
     }
 
     @Override
@@ -108,22 +117,12 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public void actionPerformed(ActionEvent e) {
         //not used
     }
-
-    public void drawSelectionSquare(Graphics g) {
-        //super.drawSelectionSquare(g);
-        
-        // Set the rectangle outline color to grey
-        g.setColor(Color.GRAY);
-
-        // Calculate the rectangle parameters
-        int x = Math.min(startPoint.x, endPoint.x);
-        int y = Math.min(startPoint.y, endPoint.y);
-        int width = Math.abs(endPoint.x - startPoint.x);
-        int height = Math.abs(endPoint.y - startPoint.y);
-
-        // Draw just the rectangle outline
-        g.drawRect(x, y, width, height);
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Not used
     }
+
 }
 
 /**
@@ -151,7 +150,7 @@ class DrawSquare extends ImageAction {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Sqaure: drawn");
+        System.out.println("Sqaure: drawn from " + MouseActions.startPoint + " to " + MouseActions.endPoint);
     }
 }
 
