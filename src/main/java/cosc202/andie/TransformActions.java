@@ -49,19 +49,20 @@ public class TransformActions {
 
         return transformMenu;
     }
-    public Action getFlipHorizontal(){
+
+    public Action getFlipHorizontal() {
         return new FlipHorizontal("FH", null, bundle.getString("FLIP_HORIZONTAL"), null);
     }
-    
-    public Action getFlipVertical(){
+
+    public Action getFlipVertical() {
         return new FlipVertical("FV", null, bundle.getString("FLIP_VERTICAL"), null);
     }
-    
-    public Action getRotateClockwise(){
+
+    public Action getRotateClockwise() {
         return new RotateClockwise("RC", null, bundle.getString("ROTATE_90_CLOCKWISE"), null);
     }
-    
-    public Action getRotateAntiClockwise(){
+
+    public Action getRotateAntiClockwise() {
         return new RotateAntiClockwise("RA", null, bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
     }
 
@@ -84,24 +85,26 @@ public class TransformActions {
         }
 
         /**
-         * transforms image calling FALSE, signifying to flip the image horizontally
+         * transforms image calling FALSE, signifying to flip the image
+         * horizontally
          *
          * @param e The event triggering this callback.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
             // Apply the transformation
-            
+
             try {
-                
+
+                MouseActions.startPoint = null;
                 target.getImage().apply(new TransformImage(true, false));
                 target.repaint();
-                target.getParent().revalidate(); 
-            } catch(Exception ex) {
-                
-                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
+                target.getParent().revalidate();
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
-            
+
         }
     }
 
@@ -124,7 +127,8 @@ public class TransformActions {
         }
 
         /**
-         * transforms image calling TRUE, signifying to flip the image vertically
+         * transforms image calling TRUE, signifying to flip the image
+         * vertically
          *
          * @param e The event triggering this callback.
          */
@@ -132,17 +136,17 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             // Apply transform - second paramater is to use the other constructor
-            
             try {
-                
+
+                MouseActions.startPoint = null;
                 target.getImage().apply(new TransformImage(true, true));
                 target.repaint();
                 target.getParent().revalidate();
-            } catch(Exception ex) {
-                
-                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
-            
+
         }
     }
 
@@ -165,7 +169,8 @@ public class TransformActions {
         }
 
         /**
-         * calls the transform method with int of  1, signifying a clockwise rotate
+         * calls the transform method with int of 1, signifying a clockwise
+         * rotate
          *
          * @param e The event triggering this callback.
          */
@@ -173,15 +178,16 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             try {
-                
+
+                MouseActions.startPoint = null;
                 target.getImage().apply(new TransformImage(1));
                 target.repaint();
                 target.getParent().revalidate();
-            } catch(Exception ex) {
-                
+            } catch (Exception ex) {
+
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
-            
+
         }
     }
 
@@ -204,7 +210,8 @@ public class TransformActions {
         }
 
         /**
-         * calls the transform method with int of 2, signifying a anticlockwise rotate
+         * calls the transform method with int of 2, signifying a anticlockwise
+         * rotate
          *
          * @param e The event triggering this callback.
          */
@@ -212,15 +219,16 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             try {
-                
+
+                MouseActions.startPoint = null;
                 target.getImage().apply(new TransformImage(2));
                 target.repaint();
                 target.getParent().revalidate();
-            } catch(Exception ex) {
-                
+            } catch (Exception ex) {
+
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
-            
+
         }
     }
 }
