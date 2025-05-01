@@ -392,12 +392,12 @@ public class FilterActions {
 
             //brightness input
             JLabel heightLabel = new JLabel(bundle.getString("BLOCK HEIGHT"));
-            SpinnerNumberModel heightModel = new SpinnerNumberModel(0, -100, 100, 1);
+            SpinnerNumberModel heightModel = new SpinnerNumberModel(2, 2, 100, 1);
             JSpinner heightSpinner = new JSpinner(heightModel);
 
             //contrast input
             JLabel widthLabel = new JLabel(bundle.getString("BLOCK WIDTH"));
-            SpinnerNumberModel widthModel = new SpinnerNumberModel(0, -100, 100, 1);
+            SpinnerNumberModel widthModel = new SpinnerNumberModel(2, 2, 100, 1);
             JSpinner widthSpinner = new JSpinner(widthModel);
 
             panel.add(heightLabel);
