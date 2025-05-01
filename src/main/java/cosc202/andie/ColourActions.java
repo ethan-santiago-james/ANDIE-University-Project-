@@ -115,15 +115,15 @@ public class ColourActions {
             //create a JPanel to hold both spinners
             JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5)); //2 rows, 2 columns, 5 spacing
 
-            //brightness input
-            JLabel brightnessLabel = new JLabel(bundle.getString("BRIGHTNESS"));
-            SpinnerNumberModel brightnessModel = new SpinnerNumberModel(0, -100, 100, 1);
-            JSpinner brightnessSpinner = new JSpinner(brightnessModel);
-
             //contrast input
             JLabel contrastLabel = new JLabel(bundle.getString("CONTRAST"));
             SpinnerNumberModel contrastModel = new SpinnerNumberModel(0, -100, 100, 1);
             JSpinner contrastSpinner = new JSpinner(contrastModel);
+
+            //brightness input
+            JLabel brightnessLabel = new JLabel(bundle.getString("BRIGHTNESS"));
+            SpinnerNumberModel brightnessModel = new SpinnerNumberModel(0, -100, 100, 1);
+            JSpinner brightnessSpinner = new JSpinner(brightnessModel);
 
             panel.add(brightnessLabel);
             panel.add(brightnessSpinner);
@@ -152,7 +152,7 @@ public class ColourActions {
             }
             
             try {
-                target.getImage().apply(new BrightnessContrast(contrast, brightness));
+                target.getImage().apply(new BrightnessContrast(brightness, contrast));
                 target.repaint();
                 target.getParent().revalidate();
             } catch (Exception ex) {
