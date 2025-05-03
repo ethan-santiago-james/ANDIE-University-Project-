@@ -36,6 +36,7 @@ public class ViewActions {
      * <p>
      * Create a set of View menu actions.
      * </p>
+     *
      * @param bundle language bundle for switching languages
      */
     public ViewActions(ResourceBundle bundle) {
@@ -46,6 +47,7 @@ public class ViewActions {
         actions.add(new ZoomTo150(bundle.getString("RESIZE 150%"), null, bundle.getString("RESIZE 150%"), KeyEvent.VK_2));
         actions.add(new ZoomTo50(bundle.getString("RESIZE 50%"), null, bundle.getString("RESIZE 50%"), KeyEvent.VK_3));
         actions.add(new ZoomFullAction(bundle.getString("ZOOM FULL"), null, bundle.getString("ZOOM FULL"), KeyEvent.VK_1));
+        actions.add(new CustomZoom(bundle.getString("CUSTOM ZOOM"), null, bundle.getString("CUSTOM ZOOM"), KeyEvent.VK_Z));
     }
 
     /**
@@ -64,13 +66,25 @@ public class ViewActions {
 
         return viewMenu;
     }
-    
-    public Action getZoomInAction(){
+
+    public Action getZoomInAction() {
         return new ZoomInAction("ZI", null, bundle.getString("ZOOM IN"), null);
     }
-    
-    public Action getZoomOutAction(){
+
+    public Action getZoomOutAction() {
         return new ZoomOutAction("ZO", null, bundle.getString("ZOOM OUT"), null);
+    }
+    
+    public Action getZoomTo50() {
+        return new ZoomTo50("Z50", null, bundle.getString("RESIZE 50%"), null);
+    }
+    
+    public Action getZoomTo150() {
+        return new ZoomTo150("Z150", null, bundle.getString("RESIZE 150"), null);
+    }
+    
+    public Action getCustomZoom() {
+        return new CustomZoom("CZ", null, bundle.getString("CUSTOM ZOOM"), null);
     }
 
     /**
@@ -114,16 +128,16 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             zoomIn();
         }
-        
+
         public static void zoomIn() {
-            
+
             target.setZoom(target.getZoom() + 10);
             target.repaint();
             target.getParent().revalidate();
-            
+
         }
 
     }
@@ -169,23 +183,23 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             zoomOut();
         }
-        
+
         public static void zoomOut() {
-            
+
             target.setZoom(target.getZoom() - 10);
             target.repaint();
             target.getParent().revalidate();
-            
+
         }
 
     }
 
     /**
      * <p>
-     * Action to reset the zoom level to actual size.
+     * Action to reset the zoom level to the original image size.
      * </p>
      *
      * <p>
@@ -217,25 +231,34 @@ public class ViewActions {
          *
          * <p>
          * This method is called whenever the ZoomFullAction is triggered. It
-         * resets the Zoom level to 100%.
+         * resets the zoom level to match the original image size.
          * </p>
          *
          * @param e The event triggering this callback.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Reset to the original image's zoom value (100% is the default)
             target.setZoom(100);
             target.repaint();
             target.getParent().revalidate();
         }
-
     }
 
+    /**
+     * <p>
+     * Action to resize the image to 150% of its original size.
+     * </p>
+     *
+     * <p>
+     * This action actually changes the image content, not just the display.
+     * </p>
+     */
     public class ZoomTo150 extends ImageAction {
 
         /**
          * <p>
-         * Create a new zoom to 150% action.
+         * Create a new resize to 150% action.
          * </p>
          *
          * @param name The name of the action (ignored if null).
@@ -250,30 +273,39 @@ public class ViewActions {
 
         /**
          * <p>
-         * Callback for when the zoom to 150 action is triggered.
+         * Callback for when the resize to 150% action is triggered.
          * </p>
          *
          * <p>
-         * This method is called whenever the ZoomTo150 is triggered. It sets
-         * the Zoom level to 150%.
+         * This method is called whenever the ZoomTo150 is triggered. It resizes
+         * the image to 150% of its original size.
          * </p>
          *
          * @param e The event triggering this callback.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(150);
+            // Apply a resize operation to the image
+            target.getImage().apply(new ResizeTransform(1.5));
             target.repaint();
             target.getParent().revalidate();
         }
-
     }
 
+    /**
+     * <p>
+     * Action to resize the image to 50% of its original size.
+     * </p>
+     *
+     * <p>
+     * This action actually changes the image content, not just the display.
+     * </p>
+     */
     public class ZoomTo50 extends ImageAction {
 
         /**
          * <p>
-         * Create a new zoom to 50% action.
+         * Create a new resize to 50% action.
          * </p>
          *
          * @param name The name of the action (ignored if null).
@@ -288,23 +320,105 @@ public class ViewActions {
 
         /**
          * <p>
-         * Callback for when the zoom to 50 action is triggered.
+         * Callback for when the resize to 50% action is triggered.
          * </p>
          *
          * <p>
-         * This method is called whenever the ZoomFullAction is triggered. It
-         * sets the Zoom level to 50%.
+         * This method is called whenever the ZoomTo50 is triggered. It resizes
+         * the image to 50% of its original size.
          * </p>
          *
          * @param e The event triggering this callback.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(50);
+            // Apply a resize operation to the image
+            target.getImage().apply(new ResizeTransform(0.5));
             target.repaint();
             target.getParent().revalidate();
         }
-
     }
 
+    /**
+     * <p>
+     * Action to resize the image by a custom percentage specified by the user.
+     * </p>
+     *
+     * <p>
+     * This action opens a dialog box to get the resize percentage from the
+     * user.
+     * </p>
+     */
+    public class CustomZoom extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new custom resize action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        CustomZoom(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the custom resize action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the CustomZoomAction is triggered. It
+         * displays a dialog box to get the resize percentage and then applies
+         * that resize to the image.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Create a dialog to get the resize percentage
+            String input = JOptionPane.showInputDialog(null,
+                    bundle.getString("ENTER ZOOM PERCENTAGE"),
+                    bundle.getString("CUSTOM ZOOM"),
+                    JOptionPane.QUESTION_MESSAGE);
+
+            // Check if the user cancelled the dialog
+            if (input == null) {
+                return;
+            }
+
+            try {
+                // Parse the input as a double
+                double percentage = Double.parseDouble(input);
+
+                // Validate the input
+                if (percentage <= 0) {
+                    JOptionPane.showMessageDialog(null,
+                            bundle.getString("INVALID ZOOM VALUE"),
+                            bundle.getString(""),
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Convert the percentage to a scale factor
+                double scaleFactor = percentage / 100.0;
+
+                // Apply the resize transformation
+                target.getImage().apply(new ResizeTransform(scaleFactor));
+                target.repaint();
+                target.getParent().revalidate();
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null,
+                        bundle.getString("INVALID ZOOM VALUE"),
+                        bundle.getString(""),
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }
