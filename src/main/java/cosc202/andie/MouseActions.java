@@ -48,30 +48,32 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public static Action getDrawCircle() {
         return new DrawCircle("Circle Selection", null, "Create a circle selection", null);
     }
-    
+
     public static Action getCropImage() {
         return new CropImage("Crop Image", null, "Crop Image From Selection", null);
     }
 
-    
     @Override
     public void mousePressed(MouseEvent e) {
+        if (!target.getImage().hasImage()) {
+            return;
+        }
         endPoint = null;
         target.repaint();
         startPoint = e.getPoint();
         int imageWidth = target.getImage().getCurrentImage().getWidth();
         int imageHeight = target.getImage().getCurrentImage().getHeight();
-        
-        if(startPoint.x > imageWidth){
+
+        if (startPoint.x > imageWidth) {
             startPoint = null;
             return;
         }
-        
-        if(startPoint.y > imageHeight){
+
+        if (startPoint.y > imageHeight) {
             startPoint = null;
             return;
         }
-        
+
         if (imagePanel != null) {
             imagePanel.repaint();
         }
@@ -95,11 +97,14 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (!target.getImage().hasImage()) {
+            return;
+        }
         endPoint = e.getPoint();
-        
-        int imageWidth = (int) (target.getImage().getCurrentImage().getWidth() * (target.getZoom()/100));
-        int imageHeight = (int) (target.getImage().getCurrentImage().getHeight() * (target.getZoom()/100));
-        
+
+        int imageWidth = (int) (target.getImage().getCurrentImage().getWidth() * (target.getZoom() / 100));
+        int imageHeight = (int) (target.getImage().getCurrentImage().getHeight() * (target.getZoom() / 100));
+
         if (endPoint.x > imageWidth) {
             endPoint.x = imageWidth;
         }
@@ -120,7 +125,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public void actionPerformed(ActionEvent e) {
         //not used
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         // Not used

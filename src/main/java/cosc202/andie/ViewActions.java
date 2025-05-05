@@ -74,15 +74,15 @@ public class ViewActions {
     public Action getZoomOutAction() {
         return new ZoomOutAction("ZO", null, bundle.getString("ZOOM OUT"), null);
     }
-    
+
     public Action getZoomTo50() {
         return new ZoomTo50("Z50", null, bundle.getString("RESIZE 50%"), null);
     }
-    
+
     public Action getZoomTo150() {
         return new ZoomTo150("Z150", null, bundle.getString("RESIZE 150"), null);
     }
-    
+
     public Action getCustomZoom() {
         return new CustomZoom("CZ", null, bundle.getString("CUSTOM ZOOM"), null);
     }
@@ -128,12 +128,16 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-
             zoomIn();
         }
 
         public static void zoomIn() {
+            
+            if (!target.getImage().hasImage()) {
 
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
             target.setZoom(target.getZoom() + 10);
             target.repaint();
             target.getParent().revalidate();
@@ -183,11 +187,15 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-
             zoomOut();
         }
 
         public static void zoomOut() {
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
 
             target.setZoom(target.getZoom() - 10);
             target.repaint();
@@ -238,6 +246,11 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
             // Reset to the original image's zoom value (100% is the default)
             target.setZoom(100);
             target.repaint();
@@ -285,6 +298,11 @@ public class ViewActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
             // Apply a resize operation to the image
             target.getImage().apply(new ResizeTransform(1.5));
             target.repaint();
@@ -333,6 +351,11 @@ public class ViewActions {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Apply a resize operation to the image
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
             target.getImage().apply(new ResizeTransform(0.5));
             target.repaint();
             target.getParent().revalidate();
@@ -389,6 +412,12 @@ public class ViewActions {
 
             // Check if the user cancelled the dialog
             if (input == null) {
+                return;
+            }
+
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
                 return;
             }
 
