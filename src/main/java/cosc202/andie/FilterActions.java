@@ -463,12 +463,12 @@ public class FilterActions {
         
         /**
          * <p>
-         * Callback for when the block-averaging action is triggered.
+         * Callback for when the random-scatter action is triggered.
          * </p>
          *
          * <p>
-         * This method is called whenever the BlockAveragingAction is triggered.
-         * It changes creates blocks to pixelate the image.
+         * This method is called whenever the RandomScatterAction is triggered.
+         * It changes pixels to a random neighbor's value to add noise to the image.
          * </p>
          *
          * @param e The event triggering this callback.
