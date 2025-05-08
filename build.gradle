@@ -17,6 +17,17 @@ dependencies {
     testRuntimeOnly "org.junit.platform:junit-platform-launcher";
 }
 
+tasks.named("jar") {
+    archiveBaseName.set("andie");
+    archiveVersion.set("1.0.0");
+
+    manifest {
+        attributes (
+            "Main-Class": defaultMainClassName
+        );
+    }
+}
+
 run {
     standardInput = System.in;
 }
