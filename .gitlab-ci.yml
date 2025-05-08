@@ -47,3 +47,22 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
+
+pages: # publish Javadoc website
+  tags:
+    - docker
+  image: gradle:8-jdk17-alpine
+  stage: build
+  script:
+    - set +o pipefail
+    - javadoc -d docs $(find src/main -name '*.java')
+    - mkdir public
+    - echo 'test' >public/test.txt
+    - mv docs public/
+    - ls -R public | head
+    - echo 'first ten public/ files listed'
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
