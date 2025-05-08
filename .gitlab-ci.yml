@@ -16,62 +16,41 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-stages:          # List of stages for jobs, and their order of execution
+
+# Docker image to use on the CI / pipeline worker machines
+image: gradle:8-jdk17-alpine
+# List of stages for jobs, and their order of execution
+stages:
   - build
   - test
+  - package
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+compile-code:
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
-
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
-
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
-
-pages: # publish Javadoc website
-  tags:
-    - docker
-  image: gradle:8-jdk17-alpine
-  stage: build
-  script:
-    - set +o pipefail
-    - javadoc -d docs $(find src/main -name '*.java')
-    - mkdir public
-    - echo 'test' >public/test.txt
-    - mv docs public/
-    - ls -R public | head
-    - echo 'first ten public/ files listed'
+    - echo 'Attempting to compile the code...'
+    - gradle -Dorg.gradle.welcome=never --no-daemon compileJava
+    - echo 'Done.'
   artifacts:
     paths:
-      - public
-  only:
-    - main
+    - build
 
-unit-test-job:
-  tags:
-    - docker
-  image: gradle:8-jdk17-alpine
+test:
   stage: test
   script:
-    - echo "Attempting to run unit tests..."
-    - gradle --no-daemon test
+    - echo 'Running unit tests...'
+    - gradle -Dorg.gradle.welcome=never --no-daemon test
+    - echo 'Done.'
+
+create-jar:
+    stage: package
+    script:
+    - echo 'Attempting to create JAR file...'
+    - gradle -Dorg.gradle.welcome=never --no-daemon jar
+    - echo 'Done.'
+    artifacts:
+    paths:
+    - build/libs/andie-1.0.0.jar
+
+
