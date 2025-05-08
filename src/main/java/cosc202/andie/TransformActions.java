@@ -21,7 +21,7 @@ public class TransformActions {
      * A list of actions for the Transform menu.
      */
     protected ArrayList<Action> actions;
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * Create a set of Transform menu actions.
