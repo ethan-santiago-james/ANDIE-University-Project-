@@ -66,3 +66,12 @@ pages: # publish Javadoc website
       - public
   only:
     - main
+
+unit-test-job:
+  tags:
+    - docker
+  image: gradle:8-jdk17-alpine
+  stage: test
+  script:
+    - echo "Attempting to run unit tests..."
+    - gradle --no-daemon test
