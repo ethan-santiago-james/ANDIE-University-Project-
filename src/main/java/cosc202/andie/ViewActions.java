@@ -196,7 +196,6 @@ public class ViewActions {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
                 return;
             }
-
             target.setZoom(target.getZoom() - 10);
             target.repaint();
             target.getParent().revalidate();
@@ -304,7 +303,7 @@ public class ViewActions {
                 return;
             }
             // Apply a resize operation to the image
-            target.getImage().apply(new ResizeTransform(1.5));
+            target.setZoom(150);
             target.repaint();
             target.getParent().revalidate();
         }
@@ -356,7 +355,7 @@ public class ViewActions {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
                 return;
             }
-            target.getImage().apply(new ResizeTransform(0.5));
+            target.setZoom(50);
             target.repaint();
             target.getParent().revalidate();
         }
