@@ -42,7 +42,6 @@ build-job:       # This job runs in the build stage, which runs first.
 pages: # publish Javadoc website
   tags:
     - docker
-  image: gradle:8-jdk17-alpine
   stage: build
   script:
     - set +o pipefail
