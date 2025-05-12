@@ -102,7 +102,6 @@ public class Andie {
         viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
 
-        // Transform actions control the image can be transformed, being either rotated or flipped
         transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
 
@@ -140,6 +139,7 @@ public class Andie {
         //view actions to toolbar
         toolBar.add(viewActions.getZoomInAction());
         toolBar.add(viewActions.getZoomOutAction());
+        toolBar.add(viewActions.getCustomZoom());
 
         //transform actions to toolbar
         toolBar.add(transformActions.getFlipHorizontal());
@@ -149,6 +149,7 @@ public class Andie {
         
         toolBar.add(MouseActions.getDrawSquare());
         toolBar.add(MouseActions.getDrawCircle());
+        toolBar.add(MouseActions.getCropImage());
 
         frame.add(toolBar, BorderLayout.NORTH);
         
