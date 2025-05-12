@@ -35,25 +35,30 @@ build-job:       # This job runs in the build stage, which runs first.
     paths:
       - build
 
-
-
-
-
-pages: # publish Javadoc website
-  tags:
-    - docker
+javadoc:
   stage: build
   script:
-    - set +o pipefail
-    - javadoc -d docs $(find src/main -name '*.java')
+       - echo 'Attempting to generate JavaDoc documentation...'
+       - gradle -Dorg.gradle.welcome=never --no-daemon javadoc
+       - echo 'Done.'
+  artifacts:
+    paths:
+      - build/docs
+
+pages:
+
+  stage: deploy
+  script:
+    - set +o pipefall
     - mkdir public
-    - echo 'test' >public/test.txt
-    - mv docs public/
-    - ls -R public | head
-    - echo 'first ten public/ files listed'
+    - cp -r builddocs/javadoc/ public/docs/
+    - cp build/libs/andie-1.0.0.jar public/
+    - find public | head
+    - echo 'Diagnostic output - first ten public/ files listed'
   artifacts:
     paths:
       - public
+
 
 unit-test-job:
   tags:
