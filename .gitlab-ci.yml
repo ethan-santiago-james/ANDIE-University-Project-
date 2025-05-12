@@ -54,8 +54,6 @@ pages: # publish Javadoc website
   artifacts:
     paths:
       - public
-  only:
-    - main
 
 unit-test-job:
   tags:
