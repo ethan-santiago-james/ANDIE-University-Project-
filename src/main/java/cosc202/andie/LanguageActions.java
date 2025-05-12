@@ -1,9 +1,12 @@
 package cosc202.andie;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenu;
@@ -87,8 +90,12 @@ public class LanguageActions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            LanguageUtil.setLanguage(locale.getCountry(), locale.getLanguage());
-            Andie.refreshGUI();
+            try {
+                LanguageUtil.setLanguage(locale.getCountry(), locale.getLanguage());
+                Andie.refreshGUI();
+            } catch (IOException ex) {
+                Logger.getLogger(LanguageActions.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
@@ -172,7 +173,7 @@ public class Andie {
      *
      * @see LanguageActions
      */
-    public static void refreshGUI() {
+    public static void refreshGUI() throws IOException {
         bundle = LanguageUtil.getBundle();
 
         // Re-initialize action classes with the new language bundle
@@ -242,7 +243,23 @@ public class Andie {
         frame.revalidate();
         frame.repaint();
     }
-
+    
+    /**
+     * <p>
+     * Getter method for toolbar icons.
+     * </p>
+     * @param filename Name of image file to be opened
+     * @throws java.io.IOException
+     * @return ImageIcon scaled to 17x17px for a nice fit
+     */
+    public static ImageIcon getIcon(String filename) throws IOException{
+    
+        Image image = ImageIO.read(Andie.class.getClassLoader().getResource(filename));
+        image = image.getScaledInstance(17, 17, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+        
+    }
+    
     /**
      * <p>
      * Main entry point to the ANDIE program.

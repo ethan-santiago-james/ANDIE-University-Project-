@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -43,16 +44,16 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         panel.addMouseMotionListener(this);
     }
 
-    public static Action getDrawSquare() {
-        return new DrawSquare("Square Selection", null, "Create a square selection", null);
+    public static Action getDrawSquare() throws IOException {
+        return new DrawSquare(null, Andie.getIcon("icons/square.png"), "Create a square selection", null);
     }
 
-    public static Action getDrawCircle() {
-        return new DrawCircle("Circle Selection", null, "Create a circle selection", null);
+    public static Action getDrawCircle() throws IOException {
+        return new DrawCircle(null, Andie.getIcon("icons/circle.png"), "Create a circle selection", null);
     }
 
-    public static Action getCropImage() {
-        return new CropImageAction("Crop Image", null, "Crop Image From Selection", null);
+    public static Action getCropImage() throws IOException {
+        return new CropImageAction(null, Andie.getIcon("icons/crop.png"), "Crop Image From Selection", null);
     }
 
     @Override

@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
 
 /**
@@ -62,12 +63,12 @@ public class EditActions {
         return editMenu;
     }
     
-    public Action getUndoAction(){
-        return new UndoAction("U", null, bundle.getString("UNDO"), null);
+    public Action getUndoAction() throws IOException{
+        return new UndoAction(null, Andie.getIcon("icons/undo.png"), bundle.getString("UNDO"), null);
     }
     
-    public Action getRedoAction(){
-        return new RedoAction("R", null, bundle.getString("REDO"), null);
+    public Action getRedoAction() throws IOException{
+        return new RedoAction(null, Andie.getIcon("icons/redo.png"), bundle.getString("REDO"), null);
     }
 
     /**
