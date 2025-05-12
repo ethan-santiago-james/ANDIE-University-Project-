@@ -53,6 +53,7 @@ pages:
     - mkdir public
     - cp -r build/docs/javadoc/ public/docs/
     - cp build/libs/andie-1.0.0.jar public/
+    - cp index.html public/index.html
     - find public | head
     - echo 'Diagnostic output - first ten public/ files listed'
   artifacts:
