@@ -23,9 +23,9 @@ tasks.named("jar") {
     archiveVersion.set("1.0.0");
 
     manifest {
-	attributes(
-	     "Main-Class": defaultMainClassName
-	);
+        attributes (
+            "Main-Class": defaultMainClassName
+        );
     }
 }
 
