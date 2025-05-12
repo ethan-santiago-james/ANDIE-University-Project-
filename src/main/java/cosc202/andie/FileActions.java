@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -71,16 +72,16 @@ public class FileActions {
         return fileMenu;
     }
     
-    public Action getFileOpenAction(){
-        return new FileOpenAction("O", null, bundle.getString("OPEN A FILE"), null);
+    public Action getFileOpenAction() throws IOException{
+        return new FileOpenAction(null, Andie.getIcon("icons/open.png"), bundle.getString("OPEN A FILE"), null);
     }
     
-    public Action getFileSaveAction(){
-        return new FileSaveAction("S", null, bundle.getString("SAVE THE FILE"), null);
+    public Action getFileSaveAction() throws IOException{
+        return new FileSaveAction(null, Andie.getIcon("icons/save.png"), bundle.getString("SAVE THE FILE"), null);
     }
     
-    public Action getFileSaveAsAction(){
-        return new FileSaveAsAction("SA", null, bundle.getString("SAVE A COPY"), null);
+    public Action getFileSaveAsAction() throws IOException{
+        return new FileSaveAsAction(null, Andie.getIcon("icons/save-as.png"), bundle.getString("SAVE A COPY"), null);
     }
 
     /**

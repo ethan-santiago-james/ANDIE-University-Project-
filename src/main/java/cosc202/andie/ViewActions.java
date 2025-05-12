@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
 
 /**
@@ -67,12 +68,12 @@ public class ViewActions {
         return viewMenu;
     }
 
-    public Action getZoomInAction() {
-        return new ZoomInAction("ZI", null, bundle.getString("ZOOM IN"), null);
+    public Action getZoomInAction() throws IOException {
+        return new ZoomInAction(null, Andie.getIcon("icons/zoom-in.png"), bundle.getString("ZOOM IN"), null);
     }
 
-    public Action getZoomOutAction() {
-        return new ZoomOutAction("ZO", null, bundle.getString("ZOOM OUT"), null);
+    public Action getZoomOutAction() throws IOException {
+        return new ZoomOutAction(null, Andie.getIcon("icons/zoom-out.png"), bundle.getString("ZOOM OUT"), null);
     }
 
     public Action getZoomTo50() {
@@ -83,8 +84,8 @@ public class ViewActions {
         return new ZoomTo150("Z150", null, bundle.getString("RESIZE 150"), null);
     }
 
-    public Action getCustomZoom() {
-        return new CustomZoom("CZ", null, bundle.getString("CUSTOM ZOOM"), null);
+    public Action getCustomZoom() throws IOException {
+        return new CustomZoom(null, Andie.getIcon("icons/resize.png"), bundle.getString("CUSTOM ZOOM"), null);
     }
 
     /**

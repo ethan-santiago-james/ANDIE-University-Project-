@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -51,20 +52,20 @@ public class TransformActions {
         return transformMenu;
     }
 
-    public Action getFlipHorizontal() {
-        return new FlipHorizontal("FH", null, bundle.getString("FLIP_HORIZONTAL"), null);
+    public Action getFlipHorizontal() throws IOException {
+        return new FlipHorizontal(null, Andie.getIcon("icons/flip-horizontal.png"), bundle.getString("FLIP_HORIZONTAL"), null);
     }
 
-    public Action getFlipVertical() {
-        return new FlipVertical("FV", null, bundle.getString("FLIP_VERTICAL"), null);
+    public Action getFlipVertical() throws IOException {
+        return new FlipVertical(null, Andie.getIcon("icons/flip-vertical.png"), bundle.getString("FLIP_VERTICAL"), null);
     }
 
-    public Action getRotateClockwise() {
-        return new RotateClockwise("RC", null, bundle.getString("ROTATE_90_CLOCKWISE"), null);
+    public Action getRotateClockwise() throws IOException {
+        return new RotateClockwise(null, Andie.getIcon("icons/clockwise.png"), bundle.getString("ROTATE_90_CLOCKWISE"), null);
     }
 
-    public Action getRotateAntiClockwise() {
-        return new RotateAntiClockwise("RA", null, bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
+    public Action getRotateAntiClockwise() throws IOException {
+        return new RotateAntiClockwise(null, Andie.getIcon("icons/anticlockwise.png"), bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
     }
 
     /**
