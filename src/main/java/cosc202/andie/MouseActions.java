@@ -148,7 +148,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
  */
 class DrawSquare extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * draw a circle
@@ -183,7 +183,7 @@ class DrawSquare extends ImageAction {
  */
 class DrawCircle extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * draw a square
@@ -217,7 +217,7 @@ class DrawCircle extends ImageAction {
  */
 class CropImageAction extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * crops image to the highlighted area
