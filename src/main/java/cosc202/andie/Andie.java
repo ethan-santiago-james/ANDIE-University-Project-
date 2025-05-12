@@ -159,8 +159,7 @@ public class Andie {
 
     /**
      *
-     * <
-     * p>
+     * <p>
      * Refreshes GUI upon user switching languages
      * </p>
      *
