@@ -14,10 +14,10 @@ import java.util.logging.Logger;
  * A class for managing persistent language settings. The settings are stored in
  * a Java properties file in a file named <code>location.properties</code> in
  * the root directory of the application/project.
- * <p>
+ * </p>
  *
  * <p>
- * Feel free to use this class in your ANDIE project.</p>
+ * Feel free to use this class in your ANDIE project.
  * </p>
  *
  * <p>
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * 4.0</a>
  * </p>
  *
- * @author Mark George <mark.george@otago.ac.nz>
+ * @author Mark George
  * @version 1.0
  */
 public class LanguageUtil {
