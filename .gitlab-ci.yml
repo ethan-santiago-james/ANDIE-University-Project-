@@ -54,10 +54,11 @@ pages:
     - cp -r build/docs/javadoc/ public/docs/
     - cp build/libs/andie-1.0.0.jar public/
     - cp index.html public/index.html
+    - cp location.properties public/location.properties
     - find public | head
     - echo 'Diagnostic output - first ten public/ files listed'
     - cd public
-    - zip -r9 ANDIE.zip andie-1.0.0.jar docs/
+    - zip -r9 ANDIE.zip andie-1.0.0.jar docs/ location.properties
     - cd -
   artifacts:
     paths:
