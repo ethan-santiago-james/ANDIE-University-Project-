@@ -49,7 +49,7 @@ pages:
 
   stage: deploy
   script:
-    - set +o pipefall
+    - set +o pipefail
     - mkdir public
     - cp -r builddocs/javadoc/ public/docs/
     - cp build/libs/andie-1.0.0.jar public/
