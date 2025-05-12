@@ -22,7 +22,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public static Point endPoint = null;
 
     private JPanel imagePanel;
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     public MouseActions(String name, ImageIcon icon, String desc, Integer mnemonic) {
         super(name, icon, desc, mnemonic);
