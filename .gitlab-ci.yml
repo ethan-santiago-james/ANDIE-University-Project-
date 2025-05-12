@@ -51,7 +51,7 @@ pages:
   script:
     - set +o pipefail
     - mkdir public
-    - cp -r builddocs/javadoc/ public/docs/
+    - cp -r build/docs/javadoc/ public/docs/
     - cp build/libs/andie-1.0.0.jar public/
     - find public | head
     - echo 'Diagnostic output - first ten public/ files listed'
