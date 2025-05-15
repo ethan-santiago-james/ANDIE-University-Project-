@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  *
  * @author linad885
  */
-public class TransformImage implements ImageOperation{
+public class TransformImage implements ImageOperation, java.io.Serializable {
     private boolean isFlippedHorizontally;
     private boolean isFlippedVertically;
     private int rotationState; // 1 = rotate clockwise, 2 = rotate anti

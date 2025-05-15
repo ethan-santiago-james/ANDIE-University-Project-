@@ -1,9 +1,8 @@
 package cosc202.andie;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
@@ -45,6 +44,10 @@ public class Andie {
     private static LanguageActions languageActions;
     private static MouseActions mouseActions;
     private static ResourceBundle bundle = LanguageUtil.getBundle();
+    
+    public static Class<?>[] possibleOperations = {MedianFilter.class, MeanFilter.class, SharpenFilter.class, ResizeTransform.class, 
+    TransformImage.class, RandomScatter.class, InvertColors.class, GaussianBlur.class, CycleColorChannels.class,
+    CropImage.class, ConvertToGrey.class, BrightnessContrast.class,BlockAveraging.class};
 
     /**
      * <p>
@@ -284,4 +287,5 @@ public class Andie {
             }
         });
     }
+
 }

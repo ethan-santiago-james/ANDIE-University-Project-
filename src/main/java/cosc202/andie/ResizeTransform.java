@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 * resises image custom amount
  * @author linad885
  */
-public class ResizeTransform implements ImageOperation {
+public class ResizeTransform implements ImageOperation, java.io.Serializable {
     
     private double scaleFactor;
     
