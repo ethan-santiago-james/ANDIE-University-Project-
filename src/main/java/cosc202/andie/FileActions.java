@@ -53,7 +53,7 @@ public class FileActions {
         actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), KeyEvent.VK_X));
         actions.add(new FileExportAction(bundle.getString("EXPORT"), null, bundle.getString("EXPORT THE IMAGE"), KeyEvent.VK_E));
         actions.add(new ApplyMacroOption(bundle.getString("APPLY MACRO"), null, bundle.getString("APPLY MACRO"), null));
-        actions.add(new RandomMacroOption("Generate Random Macro", null, "Generate Random Macro",null));
+        actions.add(new RandomMacroOption(bundle.getString("GENERATE RANDOM MACRO"), null, bundle.getString("GENERATE RANDOM MACRO"),null));
     }
 
     /**
@@ -148,6 +148,7 @@ public class FileActions {
                     target.getImage().save();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
                 }
                 
             }
@@ -161,6 +162,7 @@ public class FileActions {
                 } catch (Exception ex) {
 
                     JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
                   
                 }
             }
@@ -219,6 +221,7 @@ public class FileActions {
                 target.getImage().save();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             }
             
         }
@@ -396,6 +399,7 @@ public class FileActions {
             if(!target.getImage().hasImage()) {
                 
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             } else {
                 
                 JFileChooser fileChooser = new JFileChooser();
@@ -468,6 +472,7 @@ public class FileActions {
             if(!target.getImage().hasImage()) {
                 
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             } else {
                 
                 JFileChooser fileChooser = new JFileChooser();
@@ -480,7 +485,6 @@ public class FileActions {
                     } catch (Exception ex) {
 
                         JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
-
                     }
                 }
 
@@ -517,12 +521,13 @@ public class FileActions {
             if(!target.getImage().hasImage()) {
                 
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             } else {
                 
                 JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5)); //2 rows, 2 columns, 5 spacing
 
                 //contrast input
-                JLabel macroSizeLabel = new JLabel("Macro Size");
+                JLabel macroSizeLabel = new JLabel(bundle.getString("MACRO SIZE"));
                 SpinnerNumberModel macroSizeModel = new SpinnerNumberModel(0, 0, 100, 1);
                 JSpinner macroSizeSpinner = new JSpinner(macroSizeModel);
 
@@ -532,7 +537,7 @@ public class FileActions {
                 int option = JOptionPane.showOptionDialog(
                         null,
                         panel,
-                        "Select A Macro Size",
+                        bundle.getString("SELECT A MACRO SIZE"),
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,

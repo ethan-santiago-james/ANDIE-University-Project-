@@ -4,8 +4,7 @@
  */
 package cosc202.andie;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Queue;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,5 +56,20 @@ public class AndieTest {
         assertFalse(e.isRecording());
         
     }
+    
+    @Test
+    public void randomMacrosGenerated() {
+        
+        EditableImage e = new EditableImage();
+        
+        int size = 10;
+        e.generateRandomMacro(size);
+        
+        Queue<ImageOperation> randomMacros = e.getRandomMacroOps();
+                
+        assertEquals(randomMacros.size(),size);
+    }
+    
+    
     
 }
