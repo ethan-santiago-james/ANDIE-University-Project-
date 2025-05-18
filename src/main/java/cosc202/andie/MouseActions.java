@@ -20,6 +20,9 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     public static Point startPoint = null;
     public static Point endPoint = null;
+    public static Color shapeColor = new Color(255, 0, 0);
+    public static boolean fillShape = false;
+    public static int strokeWidth = 2;
 
     private JPanel imagePanel;
     private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
@@ -110,7 +113,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         if (endPoint.x > imageWidth) {
             endPoint.x = imageWidth;
         }
-        
+
         if (endPoint.x < 0) {
             endPoint.x = 0;
         }
@@ -121,7 +124,6 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         if (endPoint.y < 0) {
             endPoint.y = 0;
         }
-        
 
         target.repaint();
     }
@@ -153,10 +155,10 @@ class DrawSquare extends ImageAction {
     /**
      * draw a circle
      *
-     * @param name The name of the action (ignored if null).
-     * @param icon An icon to use to represent the action (ignored if null).
-     * @param desc A brief description of the action (ignored if null).
-     * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+     * @param name
+     * @param icon
+     * @param desc
+     * @param mnemonic
      */
     DrawSquare(String name, ImageIcon icon, String desc, Integer mnemonic) {
         super(name, icon, desc, mnemonic);
@@ -174,7 +176,27 @@ class DrawSquare extends ImageAction {
             JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             return;
         }
-        System.out.println("Sqaure: drawn from " + MouseActions.startPoint + " to " + MouseActions.endPoint);
+
+        // Check if area selected
+        if (MouseActions.startPoint == null || MouseActions.endPoint == null) {
+            JOptionPane.showMessageDialog(null, "Please make a selection first.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Apply the draw rectangle method
+        target.getImage().apply(new DrawRectangle(
+                MouseActions.startPoint,
+                MouseActions.endPoint,
+                MouseActions.shapeColor,
+                MouseActions.fillShape,
+                MouseActions.strokeWidth
+        ));
+
+        MouseActions.startPoint = null;
+
+        target.repaint();
+        target.getParent().revalidate();
+
     }
 }
 
@@ -186,12 +208,12 @@ class DrawCircle extends ImageAction {
     private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
 
     /**
-     * draw a square
+     * draw a circle
      *
-     * @param name The name of the action (ignored if null).
-     * @param icon An icon to use to represent the action (ignored if null).
-     * @param desc A brief description of the action (ignored if null).
-     * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+     * @param name
+     * @param icon
+     * @param desc
+     * @param mnemonic
      */
     DrawCircle(String name, ImageIcon icon, String desc, Integer mnemonic) {
         super(name, icon, desc, mnemonic);
@@ -199,6 +221,7 @@ class DrawCircle extends ImageAction {
 
     /**
      * draws a circle in the highlighted region
+     *
      *
      * @param e The event triggering this callback.
      */
@@ -208,7 +231,27 @@ class DrawCircle extends ImageAction {
             JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             return;
         }
-        System.out.println("Curcle: drawn");
+
+        // Check if area selected
+        if (MouseActions.startPoint == null || MouseActions.endPoint == null) {
+            JOptionPane.showMessageDialog(null, "Please make a selection first.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Apply the draw circle method
+        target.getImage().apply(new DrawOval(
+                MouseActions.startPoint,
+                MouseActions.endPoint,
+                MouseActions.shapeColor,
+                MouseActions.fillShape,
+                MouseActions.strokeWidth
+        ));
+
+        MouseActions.startPoint = null;
+
+        target.repaint();
+        target.getParent().revalidate();
+
     }
 }
 
@@ -260,6 +303,5 @@ class CropImageAction extends ImageAction {
         target.repaint();
         target.getParent().revalidate();
 
-        System.out.println("Image: cropped");
     }
 }
