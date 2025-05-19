@@ -1,5 +1,6 @@
 package cosc202.andie;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.*;
 import java.awt.event.*;
@@ -49,7 +50,7 @@ public class ColourActions {
         actions.add(new CycleColorChannelsAction("RGB > BRG", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_4, 4));
         actions.add(new CycleColorChannelsAction("RGB > BGR", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_5, 5));
         actions.add(new InvertColorsAction(bundle.getString("INVERT"), null, bundle.getString("INVERT COLORS"), KeyEvent.VK_I));
-        actions.add(new BrightnessContrastAction(bundle.getString("ADJUST"), null, bundle.getString("ADJUST BRIGHTNESS AND CONTRAST"), KeyEvent.VK_A));
+        actions.add(new ChangeColourAction(bundle.getString("CHANGE COLOUR"), null, bundle.getString("CHANGE COLOUR"), KeyEvent.VK_6));
     }
 
     /**
@@ -317,4 +318,84 @@ public class ColourActions {
     }
 
 
+}
+
+
+class ChangeColourAction extends ImageAction {
+
+    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+
+    /**
+     * Creates a dialog to change the colour of drawn shapes
+     *
+     * @param name The name of the action (ignored if null).
+     * @param icon An icon to use to represent the action (ignored if null).
+     * @param desc A brief description of the action (ignored if null).
+     * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+     */
+    ChangeColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        super(name, icon, desc, mnemonic);
+    }
+
+    /**
+     * Shows a dialog to change the R, G, B values of the shape colour
+     *
+     * @param e The event triggering this callback.
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Create a panel for the input fields
+        JPanel colorPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        
+        // Create text fields for R, G, B values
+        JTextField redField = new JTextField(5);
+        JTextField greenField = new JTextField(5);
+        JTextField blueField = new JTextField(5);
+        
+        // Set the text fields to the current colour values
+        redField.setText(String.valueOf(MouseActions.shapeColour.getRed()));
+        greenField.setText(String.valueOf(MouseActions.shapeColour.getGreen()));
+        blueField.setText(String.valueOf(MouseActions.shapeColour.getBlue()));
+        
+        // Add labels and text fields to the panel
+        colorPanel.add(new JLabel(bundle.getString("RED") + ":"));
+        colorPanel.add(redField);
+        colorPanel.add(new JLabel(bundle.getString("GREEN") + ":"));
+        colorPanel.add(greenField);
+        colorPanel.add(new JLabel(bundle.getString("BLUE") + ":"));
+        colorPanel.add(blueField);
+        
+        // Show the dialog
+        int result = JOptionPane.showConfirmDialog(
+                null, 
+                colorPanel, 
+                bundle.getString("CHANGE COLOUR"), 
+                JOptionPane.OK_CANCEL_OPTION, 
+                JOptionPane.PLAIN_MESSAGE);
+        
+        // Process the result
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                // Parse the input as integers
+                int red = Integer.parseInt(redField.getText().trim());
+                int green = Integer.parseInt(greenField.getText().trim());
+                int blue = Integer.parseInt(blueField.getText().trim());
+                
+                // Validate the input values (0-255)
+                red = Math.max(0, Math.min(255, red));
+                green = Math.max(0, Math.min(255, green));
+                blue = Math.max(0, Math.min(255, blue));
+                
+                // Set the new colour
+                MouseActions.shapeColour = new Color(red, green, blue);
+                
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        bundle.getString("INVALID COLOUR"),
+                        bundle.getString("ERROR"),
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }

@@ -133,7 +133,7 @@ public class ViewActions {
         }
 
         public static void zoomIn() {
-            
+
             if (!target.getImage().hasImage()) {
 
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
