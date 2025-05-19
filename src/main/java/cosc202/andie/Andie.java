@@ -149,7 +149,9 @@ public class Andie {
         
         toolBar.add(MouseActions.getDrawSquare());
         toolBar.add(MouseActions.getDrawCircle());
+        toolBar.add(MouseActions.getDrawLine());
         toolBar.add(MouseActions.getCropImage());
+        toolBar.add(MouseActions.getFillShape());
 
         frame.add(toolBar, BorderLayout.NORTH);
         

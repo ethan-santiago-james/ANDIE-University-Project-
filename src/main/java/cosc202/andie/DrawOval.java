@@ -1,68 +1,73 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cosc202.andie;
-
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 /**
+ * <p>
+ * Draws an Oval between two points
+ * </p>
+ *
+ * <p>
+ * Draws a coloured Oval between two selected points highlighted with the mouse
+ * </p>
  *
  *
- * @author linad885
+ * @author Adam Lindbom
  */
 public class DrawOval implements ImageOperation {
     private Point startPoint;
     private Point endPoint;
-    private Color color;
+    private Color colour;
     private boolean fill;
-    private int strokeWidth;
     
     /**
-     * draw a rectangle drawing from the selected points
+     * Create a new oval drawing operation from the selected points
      *
-     * @param startPoint
-     * @param endPoint
-     * @param color
-     * @param fill
-     * @param strokeWidth
+     * @param startPoint Initial point of the selection
+     * @param endPoint Final point of the selection
+     * @param colour Colour to draw the oval with
+     * @param fill Whether to fill the oval or just draw the outline
      */
-    public DrawOval(Point startPoint, Point endPoint, Color color, boolean fill, int strokeWidth) {
+    public DrawOval(Point startPoint, Point endPoint, Color colour, boolean fill) {
         this.startPoint = new Point(startPoint);
         this.endPoint = new Point(endPoint);
-        this.color = color;
+        this.colour = colour;
         this.fill = fill;
-        this.strokeWidth = strokeWidth;
     }
     
     /**
-     * Apply the rectangle drawing operation to an image
+     * Apply the oval drawing operation to an image
      *
-     * @param input The image to draw the rectangle on
-     * @return The resulting image with the rectangle drawn
+     * @param input The image to draw the oval on
+     * @return The resulting image with the oval drawn
      */
     @Override
     public BufferedImage apply(BufferedImage input) {
-        // Create a copy of the input image
+        // Create a copy of the image
         BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), input.getType());
         Graphics2D g2d = output.createGraphics();
         
         // Draw the original image first
         g2d.drawImage(input, 0, 0, null);
         
-        // Set the color and stroke
-        g2d.setColor(color);
-        g2d.setStroke(new BasicStroke(strokeWidth));
+        // Set the colour
+        g2d.setColor(colour);
         
-        // Calculate rectangle dimensions
-        int x = Math.min(startPoint.x, endPoint.x);
-        int y = Math.min(startPoint.y, endPoint.y);
-        int width = Math.abs(endPoint.x - startPoint.x);
-        int height = Math.abs(endPoint.y - startPoint.y);
+        // Get current zoom level from the target
+        double zoomFactor = ImageAction.target.getZoom() / 100.0;
         
-        // Draw the rectangle
+        // Adjust points for zoom
+        int x1 = (int)(startPoint.x / zoomFactor);
+        int y1 = (int)(startPoint.y / zoomFactor);
+        int x2 = (int)(endPoint.x / zoomFactor);
+        int y2 = (int)(endPoint.y / zoomFactor);
+        
+        // Calculate oval dimensions
+        int x = Math.min(x1, x2);
+        int y = Math.min(y1, y2);
+        int width = Math.abs(x2 - x1);
+        int height = Math.abs(y2 - y1);
+        
+        // Draw the oval
         if (fill) {
             g2d.fillOval(x, y, width, height);
         } else {
@@ -71,7 +76,6 @@ public class DrawOval implements ImageOperation {
         
         // Clean up
         g2d.dispose();
-        
         
         return output;
     }
