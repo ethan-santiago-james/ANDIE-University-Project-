@@ -259,6 +259,12 @@ class EditableImage {
             
         }
     }
+    
+    /* getter method used for testing */
+    public Queue<ImageOperation> getRandomMacroOps() {
+        
+        return this.randomMacroOps;
+    }
 
     /**
      * <p>
@@ -289,6 +295,7 @@ class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
+
         current = op.apply(current);
         ops.add(op);
         
@@ -306,7 +313,7 @@ class EditableImage {
        
        for (int i = 0; i < size; i++) {
            
-              int classType = rand.nextInt(1,Andie.possibleOperations.length);
+              int classType = rand.nextInt(1,10);
               
               switch(classType) {
                      
@@ -322,7 +329,7 @@ class EditableImage {
                      
                   case 3:
                      
-                     randomMacroOps.add(new ResizeTransform(2 * rand.nextDouble()));
+                     randomMacroOps.add(new ConvertToGrey());
                      break;
                      
                   case 4:
@@ -342,7 +349,7 @@ class EditableImage {
                      
                   case 7:
                      
-                     randomMacroOps.add(new GaussianBlur(rand.nextInt(0,11)));
+                     randomMacroOps.add(new BlockAveraging(rand.nextInt(1,20),rand.nextInt(1,20)));
                      break;
                      
                   case 8:
@@ -350,29 +357,18 @@ class EditableImage {
                      randomMacroOps.add(new CycleColorChannels(rand.nextInt(1,6)));
                      break;
                      
+                     
                   case 9:
-                     
-                    int imageWidth = (int) (this.getCurrentImage().getWidth());
-                     int imageHeight = (int) (this.getCurrentImage().getHeight());
-                     randomMacroOps.add(new CropImage(new Point(rand.nextInt(0,imageWidth),rand.nextInt(0,imageHeight)),new Point(rand.nextInt(0,imageWidth),rand.nextInt(0,imageHeight))));
-                     break;
-                     
-                  case 10:
                      
                      randomMacroOps.add(new BrightnessContrast(rand.nextInt(-100,101),rand.nextInt(-100,101)));
                      break;
+
                      
-                  case 11:
-                     
-                     randomMacroOps.add(new BlockAveraging(rand.nextInt(1,20),rand.nextInt(1,20)));
-                     break;
-                     
-                  case 12:
-                      
-                     randomMacroOps.add(new ConvertToGrey());
               }
            
        }
+       
+
         
     }
     
@@ -386,9 +382,10 @@ class EditableImage {
            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
             
                Queue<ImageOperation> macroOps = (Queue<ImageOperation>)in.readObject();
-               System.out.println(macroOps.toString());
+
                while(!macroOps.isEmpty()) {
                    
+
                    apply(macroOps.remove());
                    
                }

@@ -113,7 +113,7 @@ public class KeyboardShortcuts implements KeyListener {
                             break;
 
                         case 89: // Y
-                            System.out.println(isCtrlPressed);
+
                             if(isCtrlPressed) {
 
                                 RedoAction.redo();

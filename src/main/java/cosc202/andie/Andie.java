@@ -44,10 +44,6 @@ public class Andie {
     private static LanguageActions languageActions;
     private static MouseActions mouseActions;
     private static ResourceBundle bundle = LanguageUtil.getBundle();
-    
-    public static Class<?>[] possibleOperations = {MedianFilter.class, MeanFilter.class, SharpenFilter.class, ResizeTransform.class, 
-    TransformImage.class, RandomScatter.class, InvertColors.class, GaussianBlur.class, CycleColorChannels.class,
-    CropImage.class, ConvertToGrey.class, BrightnessContrast.class,BlockAveraging.class};
 
     /**
      * <p>
