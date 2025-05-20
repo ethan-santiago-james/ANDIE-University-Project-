@@ -51,6 +51,7 @@ public class ColourActions {
         actions.add(new CycleColorChannelsAction("RGB > BGR", null, bundle.getString("CYCLE COLOR CHANNELS"), KeyEvent.VK_5, 5));
         actions.add(new InvertColorsAction(bundle.getString("INVERT"), null, bundle.getString("INVERT COLORS"), KeyEvent.VK_I));
         actions.add(new ChangeColourAction(bundle.getString("CHANGE COLOUR"), null, bundle.getString("CHANGE COLOUR"), KeyEvent.VK_6));
+        actions.add(new BrightnessContrastAction(bundle.getString("ADJUST"), null, bundle.getString("ADJUST BRIGHTNESS AND CONTRAST"), KeyEvent.VK_6));
     }
 
     /**
