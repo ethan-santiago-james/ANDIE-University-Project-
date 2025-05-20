@@ -166,6 +166,9 @@ public class ImagePanel extends JPanel {
         }
     }
 
+    /**
+     * Method that draws a selected square onto the ImagePanel
+    */
     public void drawSelectionSquare(Graphics g) {
         g.setColor(Color.GRAY);
 

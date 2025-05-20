@@ -44,14 +44,35 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         panel.addMouseMotionListener(this);
     }
 
+    /**
+     * <p>
+     * Returns a new action object that draws a square.
+     * </p>
+     *
+     * @return The newly instantiated draw square action object.
+     */
     public static Action getDrawSquare() throws IOException {
         return new DrawSquare(null, Andie.getIcon("icons/square.png"), "Create a square selection", null);
     }
 
+    /**
+     * <p>
+     * Returns a new action object that draws a circle.
+     * </p>
+     *
+     * @return The newly instantiated draw circle action object.
+     */
     public static Action getDrawCircle() throws IOException {
         return new DrawCircle(null, Andie.getIcon("icons/circle.png"), "Create a circle selection", null);
     }
-
+    
+    /**
+     * <p>
+     * Returns a new action object that allows the user to crop an image.
+     * </p>
+     *
+     * @return The newly instantiated crop image action object.
+     */
     public static Action getCropImage() throws IOException {
         return new CropImageAction(null, Andie.getIcon("icons/crop.png"), "Crop Image From Selection", null);
     }
@@ -83,21 +104,25 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseEntered(MouseEvent e) {
         // Not used
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseExited(MouseEvent e) {
         // Not used
     }
 
+    /** Mouse listener interface method that listens to when the mouse is dragged */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (!target.getImage().hasImage()) {
@@ -127,16 +152,19 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         target.repaint();
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseMoved(MouseEvent e) {
         // Not used
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void actionPerformed(ActionEvent e) {
         //not used
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseClicked(MouseEvent e) {
         // Not used

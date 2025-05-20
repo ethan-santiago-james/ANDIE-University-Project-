@@ -213,6 +213,13 @@ public class ColourActions {
 
     }
     
+    /**
+     * <p>
+     * Action to allow the user to switch between colour channles
+     * </p>
+     *
+     * @see ConvertToGrey
+     */
     public class CycleColorChannelsAction extends ImageAction {
         
         private int cycleType;

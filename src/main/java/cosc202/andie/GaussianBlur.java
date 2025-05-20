@@ -101,8 +101,8 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
 
         return output;
     }
-    
-    public float gaussian(int x, int y, float r) {
+
+    private float gaussian(int x, int y, float r) {
         double theta = r / 3.0f;
         double left = 1.0 / (2.0 * Math.PI * Math.pow(theta, 2));
         double right = Math.pow(Math.E, -(((Math.pow(x, 2) + Math.pow(y, 2))) / (2 * Math.pow(theta, 2))));

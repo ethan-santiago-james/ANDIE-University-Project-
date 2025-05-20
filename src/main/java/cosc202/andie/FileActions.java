@@ -72,15 +72,35 @@ public class FileActions {
 
         return fileMenu;
     }
-    
+    /**
+     * <p>
+     * Returns a new open action object.
+     * </p>
+     *
+     * @return The newly instantiated open action object.
+     */
     public Action getFileOpenAction() throws IOException{
         return new FileOpenAction(null, Andie.getIcon("icons/open.png"), bundle.getString("OPEN A FILE"), null);
     }
     
+    /**
+     * <p>
+     * Returns a new save action object.
+     * </p>
+     *
+     * @return The newly instantiated save action object.
+     */
     public Action getFileSaveAction() throws IOException{
         return new FileSaveAction(null, Andie.getIcon("icons/save.png"), bundle.getString("SAVE THE FILE"), null);
     }
     
+    /**
+     * <p>
+     * Returns a new save as action object.
+     * </p>
+     *
+     * @return The newly instantiated save as action object.
+     */
     public Action getFileSaveAsAction() throws IOException{
         return new FileSaveAsAction(null, Andie.getIcon("icons/save-as.png"), bundle.getString("SAVE A COPY"), null);
     }
@@ -127,6 +147,9 @@ public class FileActions {
             open();
         }
         
+        /**
+         * Open action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void open() {
             
             boolean saveFirst = false;
@@ -215,6 +238,9 @@ public class FileActions {
             save();
         }
         
+        /**
+         * Save action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void save() {
             
             try {
@@ -271,6 +297,9 @@ public class FileActions {
             
         }
         
+        /**
+         * Save as action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void saveAs() {
             
             if(!target.getImage().hasImage()) {
@@ -393,7 +422,9 @@ public class FileActions {
             export(); 
         }
         
-        
+        /**
+         * Export action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void export() {
             
             if(!target.getImage().hasImage()) {
@@ -449,7 +480,13 @@ public class FileActions {
         }
     }
     
-    
+    /**
+     * <p>
+     * Action to apply a custom macro to an image.
+     * </p>
+     *
+     * @see EditableImage#saveAs(String)
+     */
     public class ApplyMacroOption extends ImageAction {
         
         /**
@@ -499,6 +536,13 @@ public class FileActions {
         
     }
     
+    /**
+     * <p>
+     * Action to prompt the user to generate a random macro of a fixed size.
+     * </p>
+     *
+     * 
+     */
      public class RandomMacroOption extends ImageAction {
         
         /**
