@@ -34,9 +34,9 @@ public class ConvolveOperation {
             }
             int count = 0;
 
-            System.out.println(kStrength);
-            System.out.println(Arrays.toString(kernel.getKernelData(temp)));
-            System.out.println(src.getColorModel());
+            // System.out.println(kStrength);
+            // System.out.println(Arrays.toString(kernel.getKernelData(temp)));
+            // System.out.println(src.getColorModel());
 
             int currentR;
             int currentG;
@@ -57,18 +57,11 @@ public class ConvolveOperation {
                             currentG += temp[count]*((currentColour & 0x0000FF00) >> 8);
                             currentB += temp[count]*((currentColour & 0x000000FF));
                             count++;
-                            //System.out.println(x+"  "+y+"   "+squish(x + i,0,size[0]-1)+"    "+ squish(y + j,0,size[1]-1)+"    "+currentColour+"  "+currentR+"    "+currentG+"    "+currentB);
-                            //System.out.println(x);
                         }
-                        //System.out.println("iterating I");
                     }
-                    //System.out.println(x+","+y);
                     dst.setRGB(x, y, ((255 << 24) | (currentR << 16) | (currentG << 8) | currentB));
                 }
-                // x++;
-                //System.out.println("finished x");
             }
-            System.out.println("Applied filter");
 
         } catch (IllegalArgumentException d) {
             System.out.println(d+"Illegal Argument Exception ");

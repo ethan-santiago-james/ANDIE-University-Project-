@@ -47,6 +47,9 @@ public class FilterActions {
         actions.add(new SharpenFilterAction(bundle.getString("SHARPEN FILTER"), null, bundle.getString("APPLY A SHARPEN FILTER"), KeyEvent.VK_M));
         actions.add(new MedianFilterAction(bundle.getString("MEDIAN FILTER"), null, bundle.getString("APPLY A MEDIAN FILTER"), 0));
         actions.add(new BlockAveragingAction(bundle.getString("BLOCK FILTER"), null, bundle.getString("APPLY BLOCK FILTER"), KeyEvent.VK_B));
+        actions.add(new EmbossAction("EMBOSS FILTER", null, "APPLY BLOCK FILTER", KeyEvent.VK_B));
+        actions.add(new SobelAction("SOBEL FILTER", null, "APPLY BLOCK FILTER", KeyEvent.VK_B));
+        
     }
 
     /**
@@ -434,6 +437,178 @@ public class FilterActions {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
             }
         }
+    }
+
+
+    
+
+    /**
+     * <p>
+     * Action to blur an image with an edge detection filter.
+     * </p>
+     *
+     * @see MeanFilter
+     */
+    public class EmbossAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new mean-filter action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        EmbossAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the convert-to-grey action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the MeanFilterAction is triggered. It
+         * prompts the user for a filter radius, then applies an appropriately
+         * sized {@link MeanFilter}.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String flavour = "";
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
+             // Pop-up dialog box to ask for the flavour value.
+            String option = JOptionPane.showInputDialog("Enter 1 through 8 to chose an Emboss Filter.");
+            switch(option){
+                case("1"):
+                flavour = "emboss1";
+                break;
+                case("2"):
+                flavour = "emboss2";
+                break;
+                case("3"):
+                flavour = "emboss3";
+                break;
+                case("4"):
+                flavour = "emboss4";
+                break;
+                case("5"):
+                flavour = "emboss5";
+                break;
+                case("6"):
+                flavour = "emboss6";
+                break;
+                case("7"):
+                flavour = "emboss7";
+                break;
+                default:
+                flavour = "emboss8";
+                break;
+                
+            }
+            // }
+
+
+            // Create and apply the filter
+            try {
+                System.out.println(flavour);
+                target.getImage().apply(new EdgeDetection(flavour));
+                target.repaint();
+                target.getParent().revalidate();
+                
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE!"));
+            }
+        }
+
+    }
+
+
+
+
+    
+    /**
+     * <p>
+     * Action to blur an image with an edge detection filter.
+     * </p>
+     *
+     * @see MeanFilter
+     */
+    public class SobelAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new mean-filter action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        SobelAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the convert-to-grey action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the MeanFilterAction is triggered. It
+         * prompts the user for a filter flavour, then applies an appropriately
+         * sized {@link MeanFilter}.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String flavour = "";
+            if (!target.getImage().hasImage()) {
+
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
+             // Pop-up dialog box to ask for the flavour value.
+            String option = JOptionPane.showInputDialog("Enter \"h \"for Horizontal Sobel or \"v\" for Vertical Sobel, otherwise Combined Sobel will be used");
+            switch(option){
+                case("h"):
+                flavour = "hSoblel";
+                break;
+                case("v"):
+                flavour = "vSoblel";
+                break;
+            }
+            // }
+
+
+            // Create and apply the filter
+            try {
+                System.out.println(flavour);
+                target.getImage().apply(new EdgeDetection(flavour));
+                target.repaint();
+                target.getParent().revalidate();
+                
+            } catch(Exception ex) {
+                
+                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE!"));
+            }
+        }
+
     }
 
 }
