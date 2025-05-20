@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 public class Andie {
 
     private static JFrame frame;
+    
     private static ImagePanel imagePanel;
     private static JMenuBar menuBar;
     private static JToolBar toolBar;

@@ -29,6 +29,7 @@ public class LanguageActions {
 
     //data-fields initialized
     private ResourceBundle bundle;
+    /** An ArrayList of buttons that can be pressed in the language panel */
     protected ArrayList<Action> actions;
     
     /**

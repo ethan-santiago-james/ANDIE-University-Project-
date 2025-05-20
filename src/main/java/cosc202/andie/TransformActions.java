@@ -52,18 +52,47 @@ public class TransformActions {
         return transformMenu;
     }
 
+    /**
+     * <p>
+     * Returns a new flip horizontal action object.
+     * </p>
+     *
+     * @return The newly instantiated flip horizontal action object.
+     */
     public Action getFlipHorizontal() throws IOException {
         return new FlipHorizontal(null, Andie.getIcon("icons/flip-horizontal.png"), bundle.getString("FLIP_HORIZONTAL"), null);
     }
 
+    /**
+     * <p>
+     * Returns a new flip vertical action object.
+     * </p>
+     *
+     * @return The newly instantiated flip vertical action object.
+     */
     public Action getFlipVertical() throws IOException {
         return new FlipVertical(null, Andie.getIcon("icons/flip-vertical.png"), bundle.getString("FLIP_VERTICAL"), null);
     }
 
+    /**
+     * <p>
+     * Returns a new rotate clockwise action object.
+     * </p>
+     *
+     * @return The newly instantiated rotate clockwise action object.
+     */
     public Action getRotateClockwise() throws IOException {
         return new RotateClockwise(null, Andie.getIcon("icons/clockwise.png"), bundle.getString("ROTATE_90_CLOCKWISE"), null);
     }
 
+    
+    /**
+     * <p>
+     * Returns a new rotate anticlockwise action object.
+     * </p>
+     *
+     * @return The newly instantiated rotate anticlockwise action object.
+     */
     public Action getRotateAntiClockwise() throws IOException {
         return new RotateAntiClockwise(null, Andie.getIcon("icons/anticlockwise.png"), bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
     }
@@ -179,6 +208,9 @@ public class TransformActions {
 
         }
 
+        /** Rotate clockwise action method so it can be accessed by the Keyboard
+         * Shortcuts class
+         */
         public static void rotateClockwise() {
 
             if (!target.getImage().hasImage()) {
@@ -225,6 +257,9 @@ public class TransformActions {
 
         }
 
+        /** Rotate anticlockwise action method so it can be accessed by the Keyboard
+         * Shortcuts class
+         */
         public static void rotateAntiClockwise() {
 
             if (!target.getImage().hasImage()) {

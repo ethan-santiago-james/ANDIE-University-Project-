@@ -84,21 +84,25 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseEntered(MouseEvent e) {
         // Not used
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseExited(MouseEvent e) {
         // Not used
     }
 
+    /** Mouse listener interface method that listens to when the mouse is dragged */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (!target.getImage().hasImage()) {
@@ -128,16 +132,19 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         target.repaint();
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseMoved(MouseEvent e) {
         // Not used
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void actionPerformed(ActionEvent e) {
         //not used
     }
 
+    /** Compulsory mouse listener interface method not used */
     @Override
     public void mouseClicked(MouseEvent e) {
         // Not used
