@@ -52,7 +52,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
      * @return The newly instantiated draw square action object.
      */
     public static Action getDrawSquare() throws IOException {
-        return new DrawSquare(null, Andie.getIcon("icons/square.png"), "Create a square selection", null);
+        return new DrawSquare(null, Andie.getIcon("icons/square.png"), bundle.getString("DRAW_SQUARE_DESC"), null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
      * @return The newly instantiated draw circle action object.
      */
     public static Action getDrawCircle() throws IOException {
-        return new DrawCircle(null, Andie.getIcon("icons/circle.png"), "Create a circle selection", null);
+        return new DrawCircle(null, Andie.getIcon("icons/circle.png"), bundle.getString("DRAW_CIRCLE_DESC"), null);
     }
     
     /**
@@ -74,7 +74,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
      * @return The newly instantiated crop image action object.
      */
     public static Action getCropImage() throws IOException {
-        return new CropImageAction(null, Andie.getIcon("icons/crop.png"), "Crop Image From Selection", null);
+        return new CropImageAction(null, Andie.getIcon("icons/crop.png"), bundle.getString("CROP IMAGE"), null);
     }
 
     @Override
