@@ -57,20 +57,20 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         panel.addMouseMotionListener(this);
     }
 
-    public static Action getDrawSquare() {
-        return new DrawSquare(bundle.getString("DRAW SQUARE"), null, bundle.getString("DRAW SQUARE"), null);
+    public static Action getDrawSquare() throws IOException{
+        return new DrawSquare(null, Andie.getIcon("icons/square.png"), bundle.getString("DRAW SQUARE"), null);
     }
 
-    public static Action getDrawCircle() {
-        return new DrawCircle(bundle.getString("DRAW CIRCLE"), null, bundle.getString("DRAW CIRCLE"), null);
+    public static Action getDrawCircle() throws IOException{
+        return new DrawCircle(null, Andie.getIcon("icons/circle.png"), bundle.getString("DRAW CIRCLE"), null);
     }
     
     public static Action getDrawLine() {
         return new DrawLineAction(bundle.getString("DRAW LINE"), null, bundle.getString("DRAW LINE"), null);
     }
 
-    public static Action getCropImage() {
-        return new CropImageAction(bundle.getString("CROP IMAGE"), null, bundle.getString("CROP IMAGE"), null);
+    public static Action getCropImage() throws IOException{
+        return new CropImageAction(null, Andie.getIcon("icons/crop.png"), bundle.getString("CROP IMAGE"), null);
     }
 
     public static Action getFillShape() {
