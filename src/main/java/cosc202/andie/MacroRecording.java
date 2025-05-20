@@ -23,6 +23,11 @@ public class MacroRecording {
     private ImagePanel target;
     private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
     
+    /*
+    * @param b the JButton that will listen for macro record options
+    * @param target the current image in the panel being edited
+    * @param bundle the bundle object that allows for internationalisation
+    */
     public MacroRecording(JButton b, ImagePanel target, ResourceBundle bundle) {
         
        this.target = target;

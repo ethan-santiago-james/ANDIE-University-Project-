@@ -26,6 +26,7 @@ import javax.swing.*;
  */
 public class ViewActions {
 
+
     private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**

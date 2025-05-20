@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 public class Andie {
 
     private static JFrame frame;
+    
     private static ImagePanel imagePanel;
     private static JMenuBar menuBar;
     private static JToolBar toolBar;
@@ -213,10 +214,11 @@ public class Andie {
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
         menuBar.add(recordButton);
+        mouseActions = new MouseActions(bundle);
         
         MacroRecording mR = new MacroRecording(recordButton,imagePanel,bundle);
         
-        toolBar = new JToolBar();
+        toolBar.removeAll();
         
         //file actions to toolbar
         toolBar.add(fileActions.getFileOpenAction());
@@ -230,12 +232,18 @@ public class Andie {
         //view actions to toolbar
         toolBar.add(viewActions.getZoomInAction());
         toolBar.add(viewActions.getZoomOutAction());
+        toolBar.add(viewActions.getCustomZoom());
         
         //transform actions to toolbar
         toolBar.add(transformActions.getFlipHorizontal());
         toolBar.add(transformActions.getFlipVertical());
         toolBar.add(transformActions.getRotateAntiClockwise());
         toolBar.add(transformActions.getRotateClockwise());
+        
+        //mouse actions to toolbar
+        toolBar.add(mouseActions.getDrawSquare());
+        toolBar.add(mouseActions.getDrawCircle());
+        toolBar.add(mouseActions.getCropImage());
         
         frame.add(toolBar, BorderLayout.NORTH);
 
