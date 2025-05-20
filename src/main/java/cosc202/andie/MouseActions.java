@@ -178,7 +178,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
  */
 class DrawSquare extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * draw a circle
@@ -389,7 +389,7 @@ class DrawLineAction extends ImageAction {
  */
 class FillShapeAction extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * toggles if drawn shape is filled in or not
