@@ -4,9 +4,17 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-/** 
- * resizes image custom amount
- * @author linad885
+/**
+ * <p>
+ * Resizes image by custom percentage
+ * </p>
+ *
+ * <p>
+ * resizes the image by a custom percentage
+ * </p>
+ *
+ *
+ * @author Adam Lindbom
  */
 public class ResizeTransform implements ImageOperation, java.io.Serializable {
     

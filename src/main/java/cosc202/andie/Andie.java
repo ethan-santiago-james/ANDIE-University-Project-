@@ -150,7 +150,9 @@ public class Andie {
         
         toolBar.add(MouseActions.getDrawSquare());
         toolBar.add(MouseActions.getDrawCircle());
+        toolBar.add(MouseActions.getDrawLine());
         toolBar.add(MouseActions.getCropImage());
+        toolBar.add(MouseActions.getFillShape());
 
         frame.add(toolBar, BorderLayout.NORTH);
         
@@ -212,10 +214,11 @@ public class Andie {
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
         menuBar.add(recordButton);
+        mouseActions = new MouseActions(bundle);
         
         MacroRecording mR = new MacroRecording(recordButton,imagePanel,bundle);
         
-        toolBar = new JToolBar();
+        toolBar.removeAll();
         
         //file actions to toolbar
         toolBar.add(fileActions.getFileOpenAction());
@@ -229,12 +232,18 @@ public class Andie {
         //view actions to toolbar
         toolBar.add(viewActions.getZoomInAction());
         toolBar.add(viewActions.getZoomOutAction());
+        toolBar.add(viewActions.getCustomZoom());
         
         //transform actions to toolbar
         toolBar.add(transformActions.getFlipHorizontal());
         toolBar.add(transformActions.getFlipVertical());
         toolBar.add(transformActions.getRotateAntiClockwise());
         toolBar.add(transformActions.getRotateClockwise());
+        
+        //mouse actions to toolbar
+        toolBar.add(mouseActions.getDrawSquare());
+        toolBar.add(mouseActions.getDrawCircle());
+        toolBar.add(mouseActions.getCropImage());
         
         frame.add(toolBar, BorderLayout.NORTH);
 
