@@ -148,10 +148,11 @@ public class Andie {
         toolBar.add(transformActions.getRotateAntiClockwise());
         toolBar.add(transformActions.getRotateClockwise());
         
-        //mouse actions to toolbar
-        toolBar.add(mouseActions.getDrawSquare());
-        toolBar.add(mouseActions.getDrawCircle());
-        toolBar.add(mouseActions.getCropImage());
+        toolBar.add(MouseActions.getDrawSquare());
+        toolBar.add(MouseActions.getDrawCircle());
+        toolBar.add(MouseActions.getDrawLine());
+        toolBar.add(MouseActions.getCropImage());
+        toolBar.add(MouseActions.getFillShape());
 
         frame.add(toolBar, BorderLayout.NORTH);
         
