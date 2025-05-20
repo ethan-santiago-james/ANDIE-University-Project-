@@ -20,7 +20,9 @@ import java.awt.event.KeyListener;
  */
 public class KeyboardShortcuts implements KeyListener {
     
+    /** boolean variable that dictates whether CTRL is currently being pressed */
     public static boolean isCtrlPressed = false;
+    /** boolean variable that dictates whether Shift is currently being pressed */
     public static boolean isShiftPressed = true;
     
     
@@ -113,7 +115,7 @@ public class KeyboardShortcuts implements KeyListener {
                             break;
 
                         case 89: // Y
-                            System.out.println(isCtrlPressed);
+
                             if(isCtrlPressed) {
 
                                 RedoAction.redo();
@@ -162,18 +164,19 @@ public class KeyboardShortcuts implements KeyListener {
         
     }
     
-    /* COMPULSORY KEY LISTENER INTERFACE METHODS */
-    
+    /** Compulsory KeyListener interface method */   
     @Override
     public void keyPressed(KeyEvent e) {
 
     }
     
+    /** Compulsory KeyListener interface method */   
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
     
+    /** Compulsory KeyListener interface method */   
     @Override
     public void keyTyped(KeyEvent e) {
         

@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
 
 /**
@@ -62,12 +63,26 @@ public class EditActions {
         return editMenu;
     }
     
-    public Action getUndoAction(){
-        return new UndoAction("U", null, bundle.getString("UNDO"), null);
+    /**
+     * <p>
+     * Returns a new undo action object.
+     * </p>
+     *
+     * @return The newly instantiated undo action object.
+     */
+    public Action getUndoAction() throws IOException{
+        return new UndoAction(null, Andie.getIcon("icons/undo.png"), bundle.getString("UNDO"), null);
     }
     
-    public Action getRedoAction(){
-        return new RedoAction("R", null, bundle.getString("REDO"), null);
+    /**
+     * <p>
+     * Returns a new redo action object.
+     * </p>
+     *
+     * @return The newly instantiated redo action object.
+     */
+    public Action getRedoAction() throws IOException{
+        return new RedoAction(null, Andie.getIcon("icons/redo.png"), bundle.getString("REDO"), null);
     }
 
     /**
@@ -113,6 +128,9 @@ public class EditActions {
             
         }
         
+        /**
+        Undo action method so the Keyboard Shortcuts class can access it
+        */
         public static void undo() {
             
             try {
@@ -120,11 +138,7 @@ public class EditActions {
                 target.getImage().undo();
                 target.repaint();
                 target.getParent().revalidate();
-            } catch(Exception ex) {
-                
-                
-                    
-            }
+            } catch(Exception ex) {}
             
         }
     }
@@ -173,6 +187,10 @@ public class EditActions {
             
         }
         
+        
+        /**
+        Redo action method so the Keyboard Shortcuts class can access it
+        */
         public static void redo() {
             
             try {

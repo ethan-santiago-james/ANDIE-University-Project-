@@ -3,7 +3,17 @@ package cosc202.andie;
 import java.awt.image.*;
 
 /**
+ * ImageOperation that performs the block averaging operation
+ * <p>
+ * Apply the block averaging to image.
+ * </p>
  *
+ * <p>
+ * This method iterates through each block, the size of which is controlled
+ * by the user, and takes their RGB values and averages them to give a block
+ * pattern look to the image.
+ * </p>
+ * 
  * @author Bradyn Salmon
  */
 public class BlockAveraging implements ImageOperation, java.io.Serializable {
@@ -20,13 +30,7 @@ public class BlockAveraging implements ImageOperation, java.io.Serializable {
 
     /**
      * <p>
-     * Apply the block averaging to image.
-     * </p>
-     *
-     * <p>
-     * This method iterates through each block, the size of which is controlled
-     * by the user, and takes their RGB values and averages them to give a block
-     * pattern look to the image.
+     * Creates a grid of blocks to iterate through and average out the values of, creating a blocky-filter.
      * </p>
      *
      * @param input The image to be block averaged

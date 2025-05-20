@@ -3,10 +3,17 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 /**
- * A class that handles image rotations and flips using AffineTransform,
- * applying them directly to the original image.
+ * <p>
+ * Transforms currently loaded image
+ * </p>
  *
- * @author linad885
+ * <p>
+ * Transforms image by flipping it vertically or horizontally, or rotating the
+ * image clockwise or anticlockwise
+ * </p>
+ *
+ *
+ * @author Adam Lindbom
  */
 public class TransformImage implements ImageOperation, java.io.Serializable {
     private boolean isFlippedHorizontally;

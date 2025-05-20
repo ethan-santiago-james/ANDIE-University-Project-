@@ -93,9 +93,6 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
         for(int i =0; i<kernelSize; i++){
             kernelArr[i] = kernelArr[i]/sum;
         }
-        System.out.println(Arrays.toString(kernelArr));
-        
-        System.out.println(gaussian(0,0,1)/sum);
         
         Kernel kernel = new Kernel(2 * radius + 1, 2 * radius + 1, kernelArr);
         ConvolveOp convOp = new ConvolveOp(kernel);
@@ -104,8 +101,8 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
 
         return output;
     }
-    
-    public float gaussian(int x, int y, float r) {
+
+    private float gaussian(int x, int y, float r) {
         double theta = r / 3.0f;
         double left = 1.0 / (2.0 * Math.PI * Math.pow(theta, 2));
         double right = Math.pow(Math.E, -(((Math.pow(x, 2) + Math.pow(y, 2))) / (2 * Math.pow(theta, 2))));

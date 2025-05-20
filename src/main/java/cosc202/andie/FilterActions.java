@@ -43,13 +43,15 @@ public class FilterActions {
         this.bundle = bundle;
         actions = new ArrayList<>();
         actions.add(new MeanFilterAction(bundle.getString("MEAN FILTER"), null, bundle.getString("APPLY A MEAN FILTER"), KeyEvent.VK_M));
-        actions.add(new GaussianBlurFilterAction(bundle.getString("GAUSSIAN FILTER"), null, bundle.getString("APPLY A GAUSSIAN FILTER"), KeyEvent.VK_M));
-        actions.add(new SharpenFilterAction(bundle.getString("SHARPEN FILTER"), null, bundle.getString("APPLY A SHARPEN FILTER"), KeyEvent.VK_M));
+        actions.add(new GaussianBlurFilterAction(bundle.getString("GAUSSIAN FILTER"), null, bundle.getString("APPLY A GAUSSIAN FILTER"), KeyEvent.VK_G));
+        actions.add(new SharpenFilterAction(bundle.getString("SHARPEN FILTER"), null, bundle.getString("APPLY A SHARPEN FILTER"), KeyEvent.VK_S));
         actions.add(new MedianFilterAction(bundle.getString("MEDIAN FILTER"), null, bundle.getString("APPLY A MEDIAN FILTER"), 0));
         actions.add(new BlockAveragingAction(bundle.getString("BLOCK FILTER"), null, bundle.getString("APPLY BLOCK FILTER"), KeyEvent.VK_B));
+
         actions.add(new EmbossAction("EMBOSS FILTER", null, "APPLY BLOCK FILTER", KeyEvent.VK_B));
         actions.add(new SobelAction("SOBEL FILTER", null, "APPLY BLOCK FILTER", KeyEvent.VK_B));
-        
+        actions.add(new RandomScatterAction(bundle.getString("SCATTER FILTER"), null, bundle.getString("APPLY A RANDOM SCATTER FILTER"), KeyEvent.VK_R));
+
     }
 
     /**
@@ -347,7 +349,7 @@ public class FilterActions {
 
     }
     
-        /**
+     /**
      * <p>
      * Action to apply block averaging to image.
      * </p>
@@ -431,6 +433,89 @@ public class FilterActions {
             
             try {
                 target.getImage().apply(new BlockAveraging(width, height));
+                target.repaint();
+                target.getParent().revalidate();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+            }
+        }
+    }
+    
+    /**
+     * <p>
+     * Action to apply random scatter to image.
+     * </p>
+     *
+     * @see RandomScatter
+     */
+    public class RandomScatterAction extends ImageAction {
+        
+        /**
+         * <p>
+         * Create a new random-scatter action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        RandomScatterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+        
+        /**
+         * <p>
+         * Callback for when the random-scatter action is triggered.
+         * </p>
+         *
+         * <p>
+         * This method is called whenever the RandomScatterAction is triggered.
+         * It changes pixels to a random neighbor's value to add noise to the image.
+         * </p>
+         *
+         * @param e The event triggering this callback.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
+            }
+            
+            //create a JPanel to hold both spinners
+            JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5)); //1 row, 2 columns, 5 spacing
+
+            //radius input
+            JLabel radiusLabel = new JLabel(bundle.getString("FILTER RADIUS"));
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 100, 1);
+            JSpinner radiusSpinner = new JSpinner(radiusModel);
+
+            panel.add(radiusLabel);
+            panel.add(radiusSpinner);
+
+            //show the option dialog with the panel
+            int option = JOptionPane.showOptionDialog(
+                    null,
+                    panel,
+                    bundle.getString("ENTER RADIUS OF RANDOM SCATTER"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    null,
+                    null
+            );
+
+            int radius = 0;
+            if (option == JOptionPane.OK_OPTION) {
+                radius = radiusModel.getNumber().intValue();
+            } else {
+                return;
+            }
+            
+            try {
+                target.getImage().apply(new RandomScatter(radius));
                 target.repaint();
                 target.getParent().revalidate();
             } catch (Exception ex) {

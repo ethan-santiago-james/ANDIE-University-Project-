@@ -1,9 +1,11 @@
 package cosc202.andie;
 
+import java.awt.GridLayout;
 import java.util.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -51,7 +53,7 @@ public class FileActions {
         actions.add(new FileExitAction(bundle.getString("EXIT"), null, bundle.getString("EXIT THE PROGRAM"), KeyEvent.VK_X));
         actions.add(new FileExportAction(bundle.getString("EXPORT"), null, bundle.getString("EXPORT THE IMAGE"), KeyEvent.VK_E));
         actions.add(new ApplyMacroOption(bundle.getString("APPLY MACRO"), null, bundle.getString("APPLY MACRO"), null));
-              
+        actions.add(new RandomMacroOption(bundle.getString("GENERATE RANDOM MACRO"), null, bundle.getString("GENERATE RANDOM MACRO"),null));
     }
 
     /**
@@ -70,17 +72,37 @@ public class FileActions {
 
         return fileMenu;
     }
-    
-    public Action getFileOpenAction(){
-        return new FileOpenAction("O", null, bundle.getString("OPEN A FILE"), null);
+    /**
+     * <p>
+     * Returns a new open action object.
+     * </p>
+     *
+     * @return The newly instantiated open action object.
+     */
+    public Action getFileOpenAction() throws IOException{
+        return new FileOpenAction(null, Andie.getIcon("icons/open.png"), bundle.getString("OPEN A FILE"), null);
     }
     
-    public Action getFileSaveAction(){
-        return new FileSaveAction("S", null, bundle.getString("SAVE THE FILE"), null);
+    /**
+     * <p>
+     * Returns a new save action object.
+     * </p>
+     *
+     * @return The newly instantiated save action object.
+     */
+    public Action getFileSaveAction() throws IOException{
+        return new FileSaveAction(null, Andie.getIcon("icons/save.png"), bundle.getString("SAVE THE FILE"), null);
     }
     
-    public Action getFileSaveAsAction(){
-        return new FileSaveAsAction("SA", null, bundle.getString("SAVE A COPY"), null);
+    /**
+     * <p>
+     * Returns a new save as action object.
+     * </p>
+     *
+     * @return The newly instantiated save as action object.
+     */
+    public Action getFileSaveAsAction() throws IOException{
+        return new FileSaveAsAction(null, Andie.getIcon("icons/save-as.png"), bundle.getString("SAVE A COPY"), null);
     }
 
     /**
@@ -125,6 +147,9 @@ public class FileActions {
             open();
         }
         
+        /**
+         * Open action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void open() {
             
             boolean saveFirst = false;
@@ -146,6 +171,7 @@ public class FileActions {
                     target.getImage().save();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
                 }
                 
             }
@@ -159,6 +185,7 @@ public class FileActions {
                 } catch (Exception ex) {
 
                     JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
                   
                 }
             }
@@ -211,12 +238,16 @@ public class FileActions {
             save();
         }
         
+        /**
+         * Save action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void save() {
             
             try {
                 target.getImage().save();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             }
             
         }
@@ -266,6 +297,9 @@ public class FileActions {
             
         }
         
+        /**
+         * Save as action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void saveAs() {
             
             if(!target.getImage().hasImage()) {
@@ -388,12 +422,15 @@ public class FileActions {
             export(); 
         }
         
-        
+        /**
+         * Export action method so it can be accessed by the KeyboardShortcuts class
+         */
         public static void export() {
             
             if(!target.getImage().hasImage()) {
                 
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             } else {
                 
                 JFileChooser fileChooser = new JFileChooser();
@@ -443,7 +480,13 @@ public class FileActions {
         }
     }
     
-    
+    /**
+     * <p>
+     * Action to apply a custom macro to an image.
+     * </p>
+     *
+     * @see EditableImage#saveAs(String)
+     */
     public class ApplyMacroOption extends ImageAction {
         
         /**
@@ -466,6 +509,7 @@ public class FileActions {
             if(!target.getImage().hasImage()) {
                 
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+
             } else {
                 
                 JFileChooser fileChooser = new JFileChooser();
@@ -478,7 +522,6 @@ public class FileActions {
                     } catch (Exception ex) {
 
                         JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
-
                     }
                 }
 
@@ -492,5 +535,89 @@ public class FileActions {
         }
         
     }
+    
+    /**
+     * <p>
+     * Action to prompt the user to generate a random macro of a fixed size.
+     * </p>
+     *
+     * 
+     */
+     public class RandomMacroOption extends ImageAction {
+        
+        /**
+         * <p>
+         * Create a new apply-macro action.
+         * </p>
+         *
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if
+         * null).
+         */
+        RandomMacroOption(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+        
+        public void actionPerformed(ActionEvent ae) {
+            
+            if(!target.getImage().hasImage()) {
+                
+                JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
 
+            } else {
+                
+                JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5)); //2 rows, 2 columns, 5 spacing
+
+                //contrast input
+                JLabel macroSizeLabel = new JLabel(bundle.getString("MACRO SIZE"));
+                SpinnerNumberModel macroSizeModel = new SpinnerNumberModel(0, 0, 100, 1);
+                JSpinner macroSizeSpinner = new JSpinner(macroSizeModel);
+
+                panel.add(macroSizeLabel);
+                panel.add(macroSizeSpinner);
+
+                int option = JOptionPane.showOptionDialog(
+                        null,
+                        panel,
+                        bundle.getString("SELECT A MACRO SIZE"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        null,
+                        null
+                );
+                    
+                int macroSize = 0;
+                
+                if(option == JOptionPane.OK_OPTION) {
+                    
+                   macroSize = macroSizeModel.getNumber().intValue();
+                   target.getImage().generateRandomMacro(macroSize);
+                   
+                   JFileChooser fileChooser = new JFileChooser();
+                   int result = fileChooser.showSaveDialog(target);
+                           
+                   if(result == JFileChooser.APPROVE_OPTION) {
+                               
+                      try {
+                                  
+                          String imageFilePath = fileChooser.getSelectedFile().getCanonicalPath();
+                          target.getImage().saveAs(imageFilePath);
+                      } catch(Exception ex) {}
+                               
+                   }
+                    
+                }
+
+                
+            }
+            
+            
+            
+        }
+        
+    }
+    
 }

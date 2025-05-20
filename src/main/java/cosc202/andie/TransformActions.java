@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -21,10 +22,11 @@ public class TransformActions {
      * A list of actions for the Transform menu.
      */
     protected ArrayList<Action> actions;
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * Create a set of Transform menu actions.
+     * @param bundle
      */
     public TransformActions(ResourceBundle bundle) {
         this.bundle = bundle;
@@ -50,20 +52,49 @@ public class TransformActions {
         return transformMenu;
     }
 
-    public Action getFlipHorizontal() {
-        return new FlipHorizontal("FH", null, bundle.getString("FLIP_HORIZONTAL"), null);
+    /**
+     * <p>
+     * Returns a new flip horizontal action object.
+     * </p>
+     *
+     * @return The newly instantiated flip horizontal action object.
+     */
+    public Action getFlipHorizontal() throws IOException {
+        return new FlipHorizontal(null, Andie.getIcon("icons/flip-horizontal.png"), bundle.getString("FLIP_HORIZONTAL"), null);
     }
 
-    public Action getFlipVertical() {
-        return new FlipVertical("FV", null, bundle.getString("FLIP_VERTICAL"), null);
+    /**
+     * <p>
+     * Returns a new flip vertical action object.
+     * </p>
+     *
+     * @return The newly instantiated flip vertical action object.
+     */
+    public Action getFlipVertical() throws IOException {
+        return new FlipVertical(null, Andie.getIcon("icons/flip-vertical.png"), bundle.getString("FLIP_VERTICAL"), null);
     }
 
-    public Action getRotateClockwise() {
-        return new RotateClockwise("RC", null, bundle.getString("ROTATE_90_CLOCKWISE"), null);
+    /**
+     * <p>
+     * Returns a new rotate clockwise action object.
+     * </p>
+     *
+     * @return The newly instantiated rotate clockwise action object.
+     */
+    public Action getRotateClockwise() throws IOException {
+        return new RotateClockwise(null, Andie.getIcon("icons/clockwise.png"), bundle.getString("ROTATE_90_CLOCKWISE"), null);
     }
 
-    public Action getRotateAntiClockwise() {
-        return new RotateAntiClockwise("RA", null, bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
+    
+    /**
+     * <p>
+     * Returns a new rotate anticlockwise action object.
+     * </p>
+     *
+     * @return The newly instantiated rotate anticlockwise action object.
+     */
+    public Action getRotateAntiClockwise() throws IOException {
+        return new RotateAntiClockwise(null, Andie.getIcon("icons/anticlockwise.png"), bundle.getString("ROTATE_90_ANTICLOCKWISE"), null);
     }
 
     /**
@@ -92,18 +123,15 @@ public class TransformActions {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Apply the transformation
-
-            try {
-
-                MouseActions.startPoint = null;
-                target.getImage().apply(new TransformImage(true, false));
-                target.repaint();
-                target.getParent().revalidate();
-            } catch (Exception ex) {
-
+            if (!target.getImage().hasImage()) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
             }
+            // Apply the transformation
+            MouseActions.startPoint = null;
+            target.getImage().apply(new TransformImage(true, false));
+            target.repaint();
+            target.getParent().revalidate();
 
         }
     }
@@ -135,17 +163,16 @@ public class TransformActions {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            // Apply transform - second paramater is to use the other constructor
-            try {
-
-                MouseActions.startPoint = null;
-                target.getImage().apply(new TransformImage(true, true));
-                target.repaint();
-                target.getParent().revalidate();
-            } catch (Exception ex) {
-
+            if (!target.getImage().hasImage()) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
             }
+
+            // Apply transform - second paramater is to use the other constructor
+            MouseActions.startPoint = null;
+            target.getImage().apply(new TransformImage(true, true));
+            target.repaint();
+            target.getParent().revalidate();
 
         }
     }
@@ -178,21 +205,23 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             rotateClockwise();
-            
+
         }
-        
+
+        /** Rotate clockwise action method so it can be accessed by the Keyboard
+         * Shortcuts class
+         */
         public static void rotateClockwise() {
 
-            try {
-
-                MouseActions.startPoint = null;
-                target.getImage().apply(new TransformImage(1));
-                target.repaint();
-                target.getParent().revalidate();
-            } catch (Exception ex) {
-
+            if (!target.getImage().hasImage()) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
             }
+
+            MouseActions.startPoint = null;
+            target.getImage().apply(new TransformImage(1));
+            target.repaint();
+            target.getParent().revalidate();
 
         }
     }
@@ -225,21 +254,23 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
 
             rotateAntiClockwise();
-            
+
         }
-        
+
+        /** Rotate anticlockwise action method so it can be accessed by the Keyboard
+         * Shortcuts class
+         */
         public static void rotateAntiClockwise() {
-            
-            try {
 
-                MouseActions.startPoint = null;
-                target.getImage().apply(new TransformImage(2));
-                target.repaint();
-                target.getParent().revalidate();
-            } catch (Exception ex) {
-
+            if (!target.getImage().hasImage()) {
                 JOptionPane.showMessageDialog(null, bundle.getString("PLEASE SELECT AN IMAGE."));
+                return;
             }
+
+            MouseActions.startPoint = null;
+            target.getImage().apply(new TransformImage(2));
+            target.repaint();
+            target.getParent().revalidate();
 
         }
     }

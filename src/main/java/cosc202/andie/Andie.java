@@ -1,8 +1,8 @@
 package cosc202.andie;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.ResourceBundle;
@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 public class Andie {
 
     private static JFrame frame;
+    
     private static ImagePanel imagePanel;
     private static JMenuBar menuBar;
     private static JToolBar toolBar;
@@ -102,7 +103,6 @@ public class Andie {
         viewActions = new ViewActions(bundle);
         menuBar.add(viewActions.createMenu());
 
-        // Transform actions control the image can be transformed, being either rotated or flipped
         transformActions = new TransformActions(bundle);
         menuBar.add(transformActions.createMenu());
 
@@ -140,6 +140,7 @@ public class Andie {
         //view actions to toolbar
         toolBar.add(viewActions.getZoomInAction());
         toolBar.add(viewActions.getZoomOutAction());
+        toolBar.add(viewActions.getCustomZoom());
 
         //transform actions to toolbar
         toolBar.add(transformActions.getFlipHorizontal());
@@ -147,8 +148,11 @@ public class Andie {
         toolBar.add(transformActions.getRotateAntiClockwise());
         toolBar.add(transformActions.getRotateClockwise());
         
-        toolBar.add(MouseActions.getDrawSquare());
-        toolBar.add(MouseActions.getDrawCircle());
+        toolBar.add(mouseActions.getDrawSquare());
+        toolBar.add(mouseActions.getDrawCircle());
+        toolBar.add(mouseActions.getDrawLine());
+        toolBar.add(mouseActions.getCropImage());
+        toolBar.add(mouseActions.getFillShape());
 
         frame.add(toolBar, BorderLayout.NORTH);
         
@@ -159,8 +163,7 @@ public class Andie {
 
     /**
      *
-     * <
-     * p>
+     * <p>
      * Refreshes GUI upon user switching languages
      * </p>
      *
@@ -172,7 +175,7 @@ public class Andie {
      *
      * @see LanguageActions
      */
-    public static void refreshGUI() {
+    public static void refreshGUI() throws IOException {
         bundle = LanguageUtil.getBundle();
 
         // Re-initialize action classes with the new language bundle
@@ -211,10 +214,11 @@ public class Andie {
         languageActions = new LanguageActions(bundle);
         menuBar.add(languageActions.createMenu());
         menuBar.add(recordButton);
+        mouseActions = new MouseActions(bundle);
         
         MacroRecording mR = new MacroRecording(recordButton,imagePanel,bundle);
         
-        toolBar = new JToolBar();
+        toolBar.removeAll();
         
         //file actions to toolbar
         toolBar.add(fileActions.getFileOpenAction());
@@ -228,12 +232,20 @@ public class Andie {
         //view actions to toolbar
         toolBar.add(viewActions.getZoomInAction());
         toolBar.add(viewActions.getZoomOutAction());
+        toolBar.add(viewActions.getCustomZoom());
         
         //transform actions to toolbar
         toolBar.add(transformActions.getFlipHorizontal());
         toolBar.add(transformActions.getFlipVertical());
         toolBar.add(transformActions.getRotateAntiClockwise());
         toolBar.add(transformActions.getRotateClockwise());
+        
+        //mouse actions to toolbar
+        toolBar.add(mouseActions.getDrawSquare());
+        toolBar.add(mouseActions.getDrawCircle());
+        toolBar.add(mouseActions.getDrawLine());
+        toolBar.add(mouseActions.getCropImage());
+        toolBar.add(mouseActions.getFillShape());
         
         frame.add(toolBar, BorderLayout.NORTH);
 
@@ -242,7 +254,23 @@ public class Andie {
         frame.revalidate();
         frame.repaint();
     }
-
+    
+    /**
+     * <p>
+     * Getter method for toolbar icons.
+     * </p>
+     * @param filename Name of image file to be opened
+     * @throws java.io.IOException
+     * @return ImageIcon scaled to 17x17px for a nice fit
+     */
+    public static ImageIcon getIcon(String filename) throws IOException{
+    
+        Image image = ImageIO.read(Andie.class.getClassLoader().getResource(filename));
+        image = image.getScaledInstance(17, 17, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+        
+    }
+    
     /**
      * <p>
      * Main entry point to the ANDIE program.
@@ -267,4 +295,5 @@ public class Andie {
             }
         });
     }
+
 }

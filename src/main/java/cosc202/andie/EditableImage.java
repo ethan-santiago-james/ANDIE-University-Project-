@@ -1,5 +1,6 @@
 package cosc202.andie;
 
+import java.awt.Point;
 import java.util.*;
 import java.io.*;
 import java.awt.image.*;
@@ -62,10 +63,22 @@ class EditableImage {
      */
     private Queue<ImageOperation> tempMacroOps;
     
+     /**
+     * A memory of operations part of a random macro generation. Stored
+     * as a queue so that operations can be applied in the right order
+     */
+    private Queue<ImageOperation> randomMacroOps;
+    
+    
     /*
     * boolean variable stating whether a macro is currently being recorded
     */
     private boolean isRecording = false;
+    
+    /*
+    * boolean variable stating whether a random macro is currently being generated
+    */
+    private boolean isRandomlyGenerating = false;
 
     /**
      * The file where the original image is stored/
@@ -93,6 +106,7 @@ class EditableImage {
         ops = new Stack<>();
         redoOps = new Stack<>();
         tempMacroOps = new LinkedList<>();
+        randomMacroOps = new LinkedList<>();
         imageFilename = null;
         opsFilename = null;
     }
@@ -231,7 +245,11 @@ class EditableImage {
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
             ) {
             
-            if(!this.isRecording) {
+            if(this.isRandomlyGenerating) {
+                
+                objOut.writeObject(this.randomMacroOps);
+                this.isRandomlyGenerating = false;
+            } else if(!this.isRecording) {
                 
                 objOut.writeObject(this.ops);
             } else {
@@ -240,6 +258,12 @@ class EditableImage {
             }
             
         }
+    }
+    
+    /* getter method used for testing */
+    public Queue<ImageOperation> getRandomMacroOps() {
+        
+        return this.randomMacroOps;
     }
 
     /**
@@ -271,6 +295,7 @@ class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
+
         current = op.apply(current);
         ops.add(op);
         
@@ -278,6 +303,73 @@ class EditableImage {
             
             tempMacroOps.add(op);
         }
+    }
+    
+    public void generateRandomMacro(int size) {
+       
+       this.isRandomlyGenerating = true;
+       Random rand = new Random();
+       randomMacroOps.clear();
+       
+       for (int i = 0; i < size; i++) {
+           
+              int classType = rand.nextInt(1,10);
+              
+              switch(classType) {
+                     
+                  case 1:
+                     
+                     randomMacroOps.add(new MeanFilter(rand.nextInt(0,11)));
+                     break;
+                     
+                  case 2:
+                     
+                     randomMacroOps.add(new SharpenFilter());
+                     break;
+                     
+                  case 3:
+                     
+                     randomMacroOps.add(new ConvertToGrey());
+                     break;
+                     
+                  case 4:
+                     
+                     randomMacroOps.add(new TransformImage(rand.nextBoolean(),rand.nextBoolean()));
+                     break;
+                     
+                  case 5:
+                     
+                     randomMacroOps.add(new RandomScatter(rand.nextInt(0,11)));
+                     break;
+                     
+                  case 6:
+                     
+                     randomMacroOps.add(new InvertColors());
+                     break;
+                     
+                  case 7:
+                     
+                     randomMacroOps.add(new BlockAveraging(rand.nextInt(1,20),rand.nextInt(1,20)));
+                     break;
+                     
+                  case 8:
+                     
+                     randomMacroOps.add(new CycleColorChannels(rand.nextInt(1,6)));
+                     break;
+                     
+                     
+                  case 9:
+                     
+                     randomMacroOps.add(new BrightnessContrast(rand.nextInt(-100,101),rand.nextInt(-100,101)));
+                     break;
+
+                     
+              }
+           
+       }
+       
+
+        
     }
     
     /*
@@ -290,14 +382,20 @@ class EditableImage {
            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
             
                Queue<ImageOperation> macroOps = (Queue<ImageOperation>)in.readObject();
-               
+
                while(!macroOps.isEmpty()) {
                    
+
                    apply(macroOps.remove());
+                   
                }
 
-           } catch(ClassNotFoundException c) {}
-        } catch(IOException e) {}
+           } catch(ClassNotFoundException c) {
+               c.printStackTrace();
+           }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         
         
     }
