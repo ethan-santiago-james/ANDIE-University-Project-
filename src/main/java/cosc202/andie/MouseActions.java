@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,9 +22,9 @@ import javax.swing.JTextField;
  * </p>
  *
  * <p>
- * Handles the actions for mouse related calls, such as cropping to selected area or
- * drawing shapes to a selection, as well as actions related to the shapes
- * being drawn
+ * Handles the actions for mouse related calls, such as cropping to selected
+ * area or drawing shapes to a selection, as well as actions related to the
+ * shapes being drawn
  * </p>
  *
  *
@@ -58,26 +60,30 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         panel.addMouseMotionListener(this);
     }
 
-    public Action getDrawSquare() throws IOException{
+    public Action getDrawSquare() throws IOException {
         return new DrawSquare(null, Andie.getIcon("icons/square.png"), bundle.getString("DRAW SQUARE"), null);
     }
 
-    public Action getDrawCircle() throws IOException{
+    public Action getDrawCircle() throws IOException {
         return new DrawCircle(null, Andie.getIcon("icons/circle.png"), bundle.getString("DRAW CIRCLE"), null);
     }
-    
-    public Action getDrawLine() {
-        return new DrawLineAction(bundle.getString("DRAW LINE"), null, bundle.getString("DRAW LINE"), null);
+
+    public Action getDrawLine() throws IOException {
+        return new DrawLineAction(null, Andie.getIcon("icons/line.png"), bundle.getString("DRAW LINE"), null);
     }
 
-    public Action getCropImage() throws IOException{
+    public Action getCropImage() throws IOException {
         return new CropImageAction(null, Andie.getIcon("icons/crop.png"), bundle.getString("CROP IMAGE"), null);
     }
 
-    public Action getFillShape() {
-        return new FillShapeAction(bundle.getString("FILL SHAPE"), null, bundle.getString("FILL SHAPE"), null);
+    public Action getFillShape() throws IOException {
+        if (fillShape) {
+            return new FillShapeAction(null, Andie.getIcon("icons/fillIconOn.png"), bundle.getString("FILL SHAPE"), null);
+        } else {
+            return new FillShapeAction(null, Andie.getIcon("icons/fillIconOff.png"), bundle.getString("FILL SHAPE"), null);
+        }
+
     }
-    
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -106,25 +112,33 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
 
     }
 
-    /** Compulsory mouse listener interface method not used */
+    /**
+     * Compulsory mouse listener interface method not used
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
-    /** Compulsory mouse listener interface method not used */
+    /**
+     * Compulsory mouse listener interface method not used
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         // Not used
     }
 
-    /** Compulsory mouse listener interface method not used */
+    /**
+     * Compulsory mouse listener interface method not used
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         // Not used
     }
 
-    /** Mouse listener interface method that listens to when the mouse is dragged */
+    /**
+     * Mouse listener interface method that listens to when the mouse is dragged
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (!target.getImage().hasImage()) {
@@ -153,19 +167,25 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
         target.repaint();
     }
 
-    /** Compulsory mouse listener interface method not used */
+    /**
+     * Compulsory mouse listener interface method not used
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         // Not used
     }
 
-    /** Compulsory mouse listener interface method not used */
+    /**
+     * Compulsory mouse listener interface method not used
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         //not used
     }
 
-    /** Compulsory mouse listener interface method not used */
+    /**
+     * Compulsory mouse listener interface method not used
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         // Not used
@@ -414,6 +434,12 @@ class FillShapeAction extends ImageAction {
             MouseActions.fillShape = false;
         } else {
             MouseActions.fillShape = true;
+        }
+
+        try {
+            Andie.refreshGUI();
+        } catch (IOException ex) {
+            Logger.getLogger(FillShapeAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
