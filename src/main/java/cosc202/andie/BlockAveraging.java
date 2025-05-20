@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.awt.image.*;
 
 /**
+ * ImageOperation that performs the block averaging operation
  * <p>
  * Apply the block averaging to image.
  * </p>
