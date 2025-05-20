@@ -36,7 +36,7 @@ public class MouseActions extends ImageAction implements MouseListener, MouseMot
     public static boolean fillShape = false;
 
     private JPanel imagePanel;
-    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     public MouseActions(String name, ImageIcon icon, String desc, Integer mnemonic) {
         super(name, icon, desc, mnemonic);
@@ -232,7 +232,7 @@ class DrawSquare extends ImageAction {
  */
 class DrawCircle extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * draw a circle
@@ -337,7 +337,7 @@ class CropImageAction extends ImageAction {
  */
 class DrawLineAction extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * draws line between two points
