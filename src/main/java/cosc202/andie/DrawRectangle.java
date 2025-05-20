@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Adam Lindbom
  */
-public class DrawRectangle implements ImageOperation {
+public class DrawRectangle implements ImageOperation, java.io.Serializable {
     private Point startPoint;
     private Point endPoint;
     private Color colour;

@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Adam Lindbom
  */
-public class DrawLine implements ImageOperation {
+public class DrawLine implements ImageOperation, java.io.Serializable {
 
     private Point startPoint;
     private Point endPoint;

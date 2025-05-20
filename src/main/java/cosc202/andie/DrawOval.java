@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Adam Lindbom
  */
-public class DrawOval implements ImageOperation {
+public class DrawOval implements ImageOperation, java.io.Serializable {
     private Point startPoint;
     private Point endPoint;
     private Color colour;
