@@ -330,7 +330,7 @@ public class ColourActions {
 
 class ChangeColourAction extends ImageAction {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
+    private static ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * Creates a dialog to change the colour of drawn shapes
