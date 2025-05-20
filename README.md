@@ -47,7 +47,9 @@
 - Macros (added ability to save sequences of operations to an ops file for later use)
 - Random Macro Feature (extra feature that generates a macro with random image operations each 
 with random parameters with a size determined by the user through a prompt response)
-
+- A Continuous Integration pipeline that runs unit tests, and builds a release page with 
+an executable JAR file of ANDIE, a public API website for documentation, and a ZIP file 
+with all project resources
 
 ### How was the system tested in Checkpoint 1?
 
@@ -64,6 +66,12 @@ to always runs these tests during each commit to the GitLab repository as a form
 to ensure that newly added features don't cause earlier important tests to fail. It was also thoroughly 
 tested that the JAR file generated via GitLab pages executed normally after each commit to the 
 GitLab server.
+
+### How to use Crop, and Draw feature
+
+- Use your mouse to drag, and select a region (once you let go of the mouse this region will freeze)
+- Press the Crop Image, Draw Circle, Draw Line, or Draw Circle for these affects to be applied to 
+the selected region
 
 ### Known Bugs
 
