@@ -80,14 +80,47 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
      */
     @Override
     public BufferedImage apply(BufferedImage input) {
-        int size = (2 * radius + 1) * (2 * radius + 1);
-        float[] array = new float[size];
-        Arrays.fill(array, 1.0f / size);
-
-        Kernel kernel = new Kernel(2 * radius + 1, 2 * radius + 1, array);
-        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
+        ArrayList<Integer> rgbas = new ArrayList<Integer>();
+        int radius = 1; // Or whatever value you choose
+
+        for (int y = 0; y < input.getHeight(); y++) {
+            for (int x = 0; x < input.getWidth(); x++) {
+
+                int sumA = 0, sumR = 0, sumG = 0, sumB = 0;
+                int count = 0;
+
+                for (int a = y - radius; a <= y + radius; a++) {
+                    for (int b = x - radius; b <= x + radius; b++) {
+                        int actualA = Math.max(0, Math.min(a, input.getHeight() - 1));
+                        int actualB = Math.max(0, Math.min(b, input.getWidth() - 1));
+
+                        int argb = input.getRGB(actualB, actualA);
+
+                        int alpha = (argb >> 24) & 0xff;
+                        int red   = (argb >> 16) & 0xff;
+                        int green = (argb >> 8) & 0xff;
+                        int blue  = argb & 0xff;
+
+                        sumA += alpha;
+                        sumR += red;
+                        sumG += green;
+                        sumB += blue;
+                        count++;
+                    }
+                }
+
+                // Compute mean
+                int avgA = sumA / count;
+                int avgR = sumR / count;
+                int avgG = sumG / count;
+                int avgB = sumB / count;
+
+                int newARGB = (avgA << 24) | (avgR << 16) | (avgG << 8) | avgB;
+                output.setRGB(x, y, newARGB);
+            }
+        }
 
         return output;
     }

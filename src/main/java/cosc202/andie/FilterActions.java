@@ -48,8 +48,8 @@ public class FilterActions {
         actions.add(new MedianFilterAction(bundle.getString("MEDIAN FILTER"), null, bundle.getString("APPLY A MEDIAN FILTER"), 0));
         actions.add(new BlockAveragingAction(bundle.getString("BLOCK FILTER"), null, bundle.getString("APPLY BLOCK FILTER"), KeyEvent.VK_B));
 
-        actions.add(new EmbossAction("EMBOSS FILTER", null, "APPLY BLOCK FILTER", KeyEvent.VK_B));
-        actions.add(new SobelAction("SOBEL FILTER", null, "APPLY BLOCK FILTER", KeyEvent.VK_B));
+        actions.add(new EmbossAction(bundle.getString("EMBOSS FILTER"), null, bundle.getString("EMBOSS FILTER"), KeyEvent.VK_B));
+        actions.add(new SobelAction(bundle.getString("SOBEL FILTER"), null, bundle.getString("SOBEL FILTER"), KeyEvent.VK_B));
         actions.add(new RandomScatterAction(bundle.getString("SCATTER FILTER"), null, bundle.getString("APPLY A RANDOM SCATTER FILTER"), KeyEvent.VK_R));
 
     }
@@ -573,7 +573,7 @@ public class FilterActions {
                 return;
             }
              // Pop-up dialog box to ask for the flavour value.
-            String option = JOptionPane.showInputDialog("Enter 1 through 8 to chose an Emboss Filter.");
+            String option = JOptionPane.showInputDialog(bundle.getString("EMBOSS INSTRUCTION"));
             
             try {
                 switch(option){
@@ -673,29 +673,34 @@ public class FilterActions {
                 return;
             }
              // Pop-up dialog box to ask for the flavour value.
-            String option = JOptionPane.showInputDialog("Enter \"h \"for Horizontal Sobel or \"v\" for Vertical Sobel, otherwise Combined Sobel will be used");
-            switch(option){
-                case("h"):
-                flavour = "hSoblel";
-                break;
-                case("v"):
-                flavour = "vSoblel";
-                break;
-            }
-            // }
-
-
-            // Create and apply the filter
+             
             try {
-                System.out.println(flavour);
-                target.getImage().apply(new EdgeDetection(flavour));
-                target.repaint();
-                target.getParent().revalidate();
                 
-            } catch(Exception ex) {
-                
-                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
-            }
+
+                String option = JOptionPane.showInputDialog(bundle.getString("SOBEL INSTRUCTION"));
+                switch(option){
+                    case("h"):
+                    flavour = "hSoblel";
+                    break;
+                    case("v"):
+                    flavour = "vSoblel";
+                    break;
+                }
+                // }
+
+
+                // Create and apply the filter
+                try {
+                    System.out.println(flavour);
+                    target.getImage().apply(new EdgeDetection(flavour));
+                    target.repaint();
+                    target.getParent().revalidate();
+
+                } catch(Exception ex) {
+
+                    JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
+                }
+            } catch(Exception ex) {}
         }
 
     }

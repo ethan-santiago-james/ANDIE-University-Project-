@@ -29,25 +29,26 @@ public class ConvolveOperation {
         int width = input.getWidth();
         int height = input.getHeight();
         
-       
-        
         int kWidth = kernel.getWidth();
         int kHeight = kernel.getHeight();
         
         float[] kernelArray = kernel.getKernelData(null);
+        System.out.println(Arrays.toString(kernelArray));
         int kRadius = (kWidth - 1)/2;
         
-        for (int y = kRadius; y < input.getHeight() - kRadius; y++) {
+        for (int y = 0; y < input.getHeight(); y++) {
            
-           for (int x = kRadius; x < input.getWidth() - kRadius; x++) {
+           for (int x = 0; x < input.getWidth(); x++) {
+               
+               
                
                int rgbA = input.getRGB(x,y);
                int A = (rgbA & 0xFF000000) >>> 24;
                int counter = 0;
                 
-               int R = 0;
-               int G = 0;
-               int B = 0;
+               float R = 0;
+               float G = 0;
+               float B = 0;
                //System.out.println(j);
                for (int k = y - kRadius; k < y + kRadius + 1; k++) {
                    
@@ -55,28 +56,130 @@ public class ConvolveOperation {
                    for (int l = x - kRadius; l < x + kRadius + 1; l++) {
                        
                        //System.out.println(l);
-                       int RGBA = input.getRGB(l,k);
+                       
+                       int actualX = Math.max(l, 0);
+                       actualX = Math.min(actualX, input.getWidth() - 1);
+
+                       int actualY = Math.max(k, 0);
+                       actualY = Math.min(actualY, input.getHeight() - 1);
+                       int RGBA = input.getRGB(actualX,actualY);
 
                        int a = (RGBA & 0xFF000000) >>> 24;
                        int r = (RGBA & 0x00FF0000) >> 16;
                        int g = (RGBA & 0x0000FF00) >> 8;
                        int b = (RGBA & 0x000000FF);
                        
-                       R += r*(int)(kernelArray[counter]);
-                       G += g*(int)(kernelArray[counter]);
-                       B += b*(int)(kernelArray[counter]);
+                       R += r*(kernelArray[counter]);
+                       G += g*(kernelArray[counter]);
+                       B += b*(kernelArray[counter]);
+                       counter++;
+                       
+                   }
+                   
+               }
+
+               int r = (int)Math.min(R+128, 255);
+               int g = (int)Math.min(G+128, 255);
+               int b = (int)Math.min(B+128, 255);
+               int ARGB = (A << 24) | (r << 16) | (g << 8) | b;
+               output.setRGB(x,y, ARGB);
+
+               counter = 0;
+               
+           }
+            
+        }
+        
+        return output;
+        
+        
+        
+    }
+    
+    /**
+     * Method used to apply a combined vertical, and horizontal edge detection feature
+     * @param kerTwo
+     * @param input
+     * @param output
+     * @return 
+     */
+    public BufferedImage filterCombined(Kernel kerTwo,BufferedImage input, BufferedImage output) {
+        
+        int width = input.getWidth();
+        int height = input.getHeight();
+        
+        int kWidth = kernel.getWidth();
+        int kHeight = kernel.getHeight();
+        
+        float[] kernelArray = kernel.getKernelData(null);
+        float[] kernelArrayTwo = kerTwo.getKernelData(null);
+        
+        System.out.println(Arrays.toString(kernelArray));
+        System.out.println(Arrays.toString(kernelArrayTwo));
+        int kRadius = (kWidth - 1)/2;
+        
+        for (int y = 0; y < input.getHeight(); y++) {
+           
+           for (int x = 0; x < input.getWidth(); x++) {
+               
+               
+               
+               int rgbA = input.getRGB(x,y);
+               int A = (rgbA & 0xFF000000) >>> 24;
+               int counter = 0;
+                
+               float R = 0;
+               float G = 0;
+               float B = 0;
+               
+               float R2 = 0;
+               float G2 = 0;
+               float B2 = 0;
+               //System.out.println(j);
+               for (int k = y - kRadius; k < y + kRadius + 1; k++) {
+                   
+                   //System.out.println(k);
+                   for (int l = x - kRadius; l < x + kRadius + 1; l++) {
+                       
+                       //System.out.println(l);
+                       
+                       int actualX = Math.max(l, 0);
+                       actualX = Math.min(actualX, input.getWidth() - 1);
+
+                       int actualY = Math.max(k, 0);
+                       actualY = Math.min(actualY, input.getHeight() - 1);
+                       int RGBA = input.getRGB(actualX,actualY);
+
+                       int a = (RGBA & 0xFF000000) >>> 24;
+                       int r = (RGBA & 0x00FF0000) >> 16;
+                       int g = (RGBA & 0x0000FF00) >> 8;
+                       int b = (RGBA & 0x000000FF);
+                       
+                       R += r*(kernelArray[counter]);
+                       G += g*(kernelArray[counter]);
+                       B += b*(kernelArray[counter]);
+                       
+                       R2 += r*(kernelArrayTwo[counter]);
+                       G2 += g*(kernelArrayTwo[counter]);
+                       B2 += b*(kernelArrayTwo[counter]);
                        counter++;
                        
                    }
                    
                }
                
-               R = Math.min(R+128, 255);
-               G = Math.min(G+128, 255);
-               B = Math.min(B+128, 255);
-               int ARGB = (A << 24) | (R << 16) | (G << 8) | B;
+               
+               int newR = (int)Math.sqrt(Math.pow(R,2) + Math.pow(R2,2));
+               int newG = (int)Math.sqrt(Math.pow(G,2) + Math.pow(G2,2));
+               int newB = (int)Math.sqrt(Math.pow(B,2) + Math.pow(B2,2));
+               
+               newR = Math.min(newR+128, 255);
+               newG = Math.min(newG+128, 255);
+               newB = Math.min(newB+128, 255);
+               
+               int ARGB = (A << 24) | (newR << 16) | (newG << 8) | newB;
                output.setRGB(x,y, ARGB);
-               counter = -1;
+               counter = 0;
                
            }
             

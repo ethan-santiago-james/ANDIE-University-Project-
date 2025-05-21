@@ -79,25 +79,64 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
      */
     @Override
     public BufferedImage apply(BufferedImage input){
-        int kernelSize = (int)Math.pow(2*radius+1,2);
-        float[] kernelArr = new float[kernelSize];
-        int count = 0;
+
+        
+        int width = input.getWidth();
+        int height = input.getHeight();
+        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+
+        int size = 2 * radius + 1;
+        float[][] kernel = new float[size][size];
         float sum = 0;
-        for(int x = -radius; x<=radius;x++){
-            for(int y = -radius; y<=radius;  y++){
-                kernelArr[count] = gaussian(x,y,radius);
-                sum+=kernelArr[count];
-                count++;
+
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                float value = gaussian(x, y, radius);
+                kernel[x + radius][y + radius] = value;
+                sum += value;
             }
         }
-        for(int i =0; i<kernelSize; i++){
-            kernelArr[i] = kernelArr[i]/sum;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                kernel[i][j] /= sum;
+            }
         }
-        
-        Kernel kernel = new Kernel(2 * radius + 1, 2 * radius + 1, kernelArr);
-        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                float sumA = 0, sumR = 0, sumG = 0, sumB = 0;
+
+                for (int ky = -radius; ky <= radius; ky++) {
+                    for (int kx = -radius; kx <= radius; kx++) {
+                        int px = Math.max(0, Math.min(x + kx, width - 1));
+                        int py = Math.max(0, Math.min(y + ky, height - 1));
+
+                        int argb = input.getRGB(px, py);
+
+                        float weight = kernel[kx + radius][ky + radius];
+
+                        int alpha = (argb >> 24) & 0xff;
+                        int red   = (argb >> 16) & 0xff;
+                        int green = (argb >> 8) & 0xff;
+                        int blue  = argb & 0xff;
+
+                        sumA += alpha * weight;
+                        sumR += red * weight;
+                        sumG += green * weight;
+                        sumB += blue * weight;
+                    }
+                }
+
+                int newA = Math.min(255, Math.max(0, Math.round(sumA)));
+                int newR = Math.min(255, Math.max(0, Math.round(sumR)));
+                int newG = Math.min(255, Math.max(0, Math.round(sumG)));
+                int newB = Math.min(255, Math.max(0, Math.round(sumB)));
+
+                int newARGB = (newA << 24) | (newR << 16) | (newG << 8) | newB;
+                output.setRGB(x, y, newARGB);
+            }
+        }
 
         return output;
     }

@@ -76,16 +76,22 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         
         BufferedImage output = new BufferedImage(input.getColorModel(),input.copyData(null),input.isAlphaPremultiplied(),null);
         
-            for (int y = radius; y < input.getHeight() - radius; y++) { // LOOPS THROUGH ALL IMAGE Y PIXELS
+            for (int y = 0; y < input.getHeight(); y++) { // LOOPS THROUGH ALL IMAGE Y PIXELS
 
-                for (int x = radius; x < input.getWidth() - radius; x++) { // LOOPS THROUGH ALL IMAGE X PIXELS
+                for (int x = 0; x < input.getWidth(); x++) { // LOOPS THROUGH ALL IMAGE X PIXELS
 
                     /* LOOPS THROUGH THE NEIGHBORS */
                     for (int a = y - radius; a < (y + radius + 1); a++) {
 
                         for (int b = x - radius; b < (x + radius + 1); b++) {
 
-                            int rgbA = input.getRGB(b,a);
+                            int actualA = Math.max(a, 0);
+                            actualA = Math.min(actualA, input.getHeight() - 1);
+                            
+                            int actualB = Math.max(b, 0);
+                            actualB = Math.min(actualB, input.getWidth() - 1);
+                            
+                            int rgbA = input.getRGB(actualB,actualA);
    
                             int A = (rgbA & 0xFF000000) >>> 24;
                             int R = (rgbA & 0x00FF0000) >> 16;

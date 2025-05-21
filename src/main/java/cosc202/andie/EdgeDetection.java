@@ -99,11 +99,11 @@ public class EdgeDetection implements ImageOperation, java.io.Serializable {
         float[] convolveArray = horizontalSobelArray;
 
         switch(this.flavour){
-            case "hSobel":  //HorizontalSobel
+            case "hSoblel":  //HorizontalSobel
                 convolveArray = horizontalSobelArray;
                 break;
 
-            case "vSobel":  //VerticalSobel
+            case "vSoblel":  //VerticalSobel
                 convolveArray = verticalSobelArray;
                 break;
 
@@ -148,17 +148,10 @@ public class EdgeDetection implements ImageOperation, java.io.Serializable {
                 Kernel kernelOne = new Kernel(3, 3, horizontalSobelArray);
                 Kernel kernelTwo = new Kernel(3, 3,verticalSobelArray);
                 
-                ConvolveOperation convOpOne = new ConvolveOperation(kernelOne);
-                ConvolveOperation convOpTwo = new ConvolveOperation(kernelTwo);
-                
-                BufferedImage outputTwo = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-                BufferedImage outputThree = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-                
-                convOpOne.filter(input, output);
-                convOpTwo.filter(input, outputTwo);
-                
-                applyCombined(output,outputTwo,outputThree);
-                return outputThree;
+                ConvolveOperation convOp = new ConvolveOperation(kernelOne);
+                convOp.filterCombined(kernelTwo, input, output);
+
+                return output;
         }
         
         Kernel kernel = new Kernel(3, 3, convolveArray);
@@ -169,41 +162,4 @@ public class EdgeDetection implements ImageOperation, java.io.Serializable {
          return output;
     }
     
-    /**
-     * Method used for the combined horizontal and vertical emboss filters
-     * 
-     */
-    public BufferedImage applyCombined(BufferedImage inputOne, BufferedImage inputTwo, BufferedImage outputThree) {
-       
-        
-        for (int i = 0; i < inputOne.getWidth(); i++) {
-            
-            for (int j = 0; j < inputTwo.getHeight(); j++) {
-                
-                int ARGB1 = inputOne.getRGB(i,j);
-                int ARGB2 = inputTwo.getRGB(i,j);
-                
-                int rOne = (ARGB1 & 0x00FF0000) >> 16;
-                int A = (ARGB1 & 0xFF000000) >>> 24;
-                int G = (ARGB1 & 0x0000FF00) >> 8;
-                int B = (ARGB1 & 0x000000FF);
-
-                int G2 = (ARGB2 & 0x0000FF00) >> 8;
-                int B2 = (ARGB2 & 0x000000FF);
-                int rTwo = (ARGB2 & 0x00FF0000) >> 16;
-                
-                int newR = (int)Math.sqrt(Math.pow(rOne,2) + Math.pow(rTwo,2));
-                int newG = (int)Math.sqrt(Math.pow(G,2) + Math.pow(G2,2));
-                int newB = (int)Math.sqrt(Math.pow(B,2) + Math.pow(B2,2));
-                
-                int newARGB = (A << 24) | (newR << 16) | (newG << 8) | newB;
-                outputThree.setRGB(i,j,newARGB);
-                
-            }
-            
-        }
-        
-        return outputThree;
-    }
-
 }
