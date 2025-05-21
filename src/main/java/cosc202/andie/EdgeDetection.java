@@ -4,15 +4,10 @@ import java.awt.image.*;
 
 /**
  * <p>
- * ImageOperation to apply a sharpening filter.
+ * ImageOperation to apply an edge detection filter.
  * </p>
  *
  * <p>
- * A Sharpen filter sharpens an image by replacing each pixel by an average of
- * the
- * pixels in a surrounding neighbourhood that is weighted away from the
- * surrounding pixels, and can be implemented by a
- * convolution.
  * </p>
  *
  * <p>
@@ -45,11 +40,11 @@ public class EdgeDetection implements ImageOperation, java.io.Serializable {
 
     /**
      * <p>
-     * Apply a Sharpen filter to an image.
+     * Apply a Edge detectio nfilter to an image.
      * </p>
      *
      * <p>
-     * As with many filters, the Sharpen filter is implemented via convolution. 
+     * As with many filters, the Edge detection filter is implemented via convolution. 
      * This filter uses a predefined convolution kernel so there is no way to adjust how sharp the blur should be.
      * </p>
      *
@@ -57,109 +52,158 @@ public class EdgeDetection implements ImageOperation, java.io.Serializable {
      */
     @Override
     public BufferedImage apply(BufferedImage input) {
+        
+         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+         
         float[] horizontalSobelArray = {-0.5f,  0f, 0.5f,
                                   -1f,    0f, 1f,
                                   -0.5f,  0f, 0.5f};
                                   
-        float[] verticalSobelArray = {-0.5f,  0f, 0.5f,
-                                  -1f,    0f, 1f,
-                                  -0.5f,  0f, 0.5f};
+        float[] verticalSobelArray = {-0.5f,  -1f, -0.5f,
+                                  0f,    0f, 0f,
+                                  0.5f,  1f, 0.5f};
 
-        float[] emboss1 = { 0, 1, 0,
-                            0, 0, 0,
-                            0,-1, 0};
-        
-        float[] emboss2 = { 0, 0, 1,
-                            0, 0, 0,
-                           -1, 0, 0};
-        
-        float[] emboss3 = { 0, 0, 0,
-                           -1, 0, 1,
+        float[] emboss1 = { 0, 0, 0,
+                            1, 0, -1,
                             0, 0, 0};
         
-        float[] emboss4 = {-1, 0, 0,
+        float[] emboss2 = { 1, 0, 0,
+                            0, 0, 0,
+                            0, 0, -1};
+        
+        float[] emboss3 = { 0, 1, 0,
+                            0, 0, 0,
+                            0, -1, 0};
+        
+        float[] emboss4 = { 0, 0, 1,
+                            0, 0, 0,
+                            -1, 0, 0};
+        
+        float[] emboss5 = { 0, 0, 0,
+                            -1, 0, 1,
+                            0, 0, 0};
+        
+        float[] emboss6 = { -1, 0, 0,
                             0, 0, 0,
                             0, 0, 1};
         
-        float[] emboss5 = { 0,-1, 0,
+        float[] emboss7 = { 0, -1, 0,
                             0, 0, 0,
                             0, 1, 0};
         
-        float[] emboss6 = { 0, 0,-1,
+        float[] emboss8 = { 0, 0, -1,
                             0, 0, 0,
                             1, 0, 0};
-        
-        float[] emboss7 = { 0, 0, 0,
-                            1, 0,-1,
-                            0, 0, 0};
-        
-        float[] emboss8 = { 1, 0, 0,
-                            0, 0, 0,
-                            0, 0, -1};
 
                             
         float[] convolveArray = horizontalSobelArray;
 
         switch(this.flavour){
             case "hSobel":  //HorizontalSobel
-            convolveArray = horizontalSobelArray;
-            break;
+                convolveArray = horizontalSobelArray;
+                break;
 
             case "vSobel":  //VerticalSobel
-            convolveArray = verticalSobelArray;
-            break;
+                convolveArray = verticalSobelArray;
+                break;
 
 
             //the 8 emboss filters are referred to as emboss1 through 8, 
             //starting with a vertical one with the positive "pointing" up and moving clockwise
 
             case "emboss1":
-            convolveArray = emboss1;
-            break;
+                convolveArray = emboss1;
+                break;
 
             case "emboss2":
-            convolveArray = emboss2;
-            break;
+                convolveArray = emboss2;
+                break;
 
             case "emboss3":
-            convolveArray = emboss3;
-            break;
+                convolveArray = emboss3;
+                break;
 
             case "emboss4":
-            convolveArray = emboss4;
-            break;
+                convolveArray = emboss4;
+                break;
 
             case "emboss5":
-            convolveArray = emboss5;
-            break;
+                convolveArray = emboss5;
+                break;
 
             case "emboss6":
-            convolveArray = emboss6;
-            break;
+                convolveArray = emboss6;
+                break;
 
             case "emboss7":
-            convolveArray = emboss7;
-            break;
+                convolveArray = emboss7;
+                break;
 
             case "emboss8":
-            convolveArray = emboss8;
-            break;
+                convolveArray = emboss8;
+                break;
 
             default:
-            Kernel kernel = new Kernel(3, 3, horizontalSobelArray);
-            ConvolveOp convOp = new ConvolveOp(kernel);
-            BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-            convOp.filter(input, output);
-            convolveArray = verticalSobelArray;
+
+                Kernel kernelOne = new Kernel(3, 3, horizontalSobelArray);
+                Kernel kernelTwo = new Kernel(3, 3,verticalSobelArray);
+                
+                ConvolveOperation convOpOne = new ConvolveOperation(kernelOne);
+                ConvolveOperation convOpTwo = new ConvolveOperation(kernelTwo);
+                
+                BufferedImage outputTwo = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+                BufferedImage outputThree = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+                
+                convOpOne.filter(input, output);
+                convOpTwo.filter(input, outputTwo);
+                
+                applyCombined(output,outputTwo,outputThree);
+                return outputThree;
         }
         
-
         Kernel kernel = new Kernel(3, 3, convolveArray);
-        ConvolveOp convOp = new ConvolveOp(kernel);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
+        ConvolveOperation convOp = new ConvolveOperation(kernel);
+        convOp.filter(input, output);   
 
-        return output;
+        
+         return output;
+    }
+    
+    /**
+     * Method used for the combined horizontal and vertical emboss filters
+     * 
+     */
+    public BufferedImage applyCombined(BufferedImage inputOne, BufferedImage inputTwo, BufferedImage outputThree) {
+       
+        
+        for (int i = 0; i < inputOne.getWidth(); i++) {
+            
+            for (int j = 0; j < inputTwo.getHeight(); j++) {
+                
+                int ARGB1 = inputOne.getRGB(i,j);
+                int ARGB2 = inputTwo.getRGB(i,j);
+                
+                int rOne = (ARGB1 & 0x00FF0000) >> 16;
+                int A = (ARGB1 & 0xFF000000) >>> 24;
+                int G = (ARGB1 & 0x0000FF00) >> 8;
+                int B = (ARGB1 & 0x000000FF);
+
+                int G2 = (ARGB2 & 0x0000FF00) >> 8;
+                int B2 = (ARGB2 & 0x000000FF);
+                int rTwo = (ARGB2 & 0x00FF0000) >> 16;
+                
+                int newR = (int)Math.sqrt(Math.pow(rOne,2) + Math.pow(rTwo,2));
+                int newG = (int)Math.sqrt(Math.pow(G,2) + Math.pow(G2,2));
+                int newB = (int)Math.sqrt(Math.pow(B,2) + Math.pow(B2,2));
+                
+                int newARGB = (A << 24) | (newR << 16) | (newG << 8) | newB;
+                outputThree.setRGB(i,j,newARGB);
+                
+            }
+            
+        }
+        
+        return outputThree;
     }
 
 }

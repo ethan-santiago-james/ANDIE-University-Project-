@@ -542,7 +542,7 @@ public class FilterActions {
          * </p>
          *
          * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
+         * @param icon An icon to use to r8epresent the action (ignored if null).
          * @param desc A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if
          * null).
@@ -574,47 +574,51 @@ public class FilterActions {
             }
              // Pop-up dialog box to ask for the flavour value.
             String option = JOptionPane.showInputDialog("Enter 1 through 8 to chose an Emboss Filter.");
-            switch(option){
-                case("1"):
-                flavour = "emboss1";
-                break;
-                case("2"):
-                flavour = "emboss2";
-                break;
-                case("3"):
-                flavour = "emboss3";
-                break;
-                case("4"):
-                flavour = "emboss4";
-                break;
-                case("5"):
-                flavour = "emboss5";
-                break;
-                case("6"):
-                flavour = "emboss6";
-                break;
-                case("7"):
-                flavour = "emboss7";
-                break;
-                default:
-                flavour = "emboss8";
-                break;
-                
-            }
-            // }
-
-
-            // Create and apply the filter
+            
             try {
-                System.out.println(flavour);
-                target.getImage().apply(new EdgeDetection(flavour));
-                target.repaint();
-                target.getParent().revalidate();
-                
-            } catch(Exception ex) {
-                
-                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE!"));
-            }
+                switch(option){
+                    case("1"):
+                    flavour = "emboss1";
+                    break;
+                    case("2"):
+                    flavour = "emboss2";
+                    break;
+                    case("3"):
+                    flavour = "emboss3";
+                    break;
+                    case("4"):
+                    flavour = "emboss4";
+                    break;
+                    case("5"):
+                    flavour = "emboss5";
+                    break;
+                    case("6"):
+                    flavour = "emboss6";
+                    break;
+                    case("7"):
+                    flavour = "emboss7";
+                    break;
+                    default:
+                    flavour = "emboss8";
+                    break;
+
+                }
+                // }
+
+
+                // Create and apply the filter
+                try {
+
+                    target.getImage().apply(new EdgeDetection(flavour));
+                    target.repaint();
+                    target.getParent().revalidate();
+
+                } catch(Exception ex) {
+
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
+                }
+            } catch(Exception ex) {}
         }
 
     }
@@ -690,7 +694,7 @@ public class FilterActions {
                 
             } catch(Exception ex) {
                 
-                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE!"));
+                JOptionPane.showMessageDialog(null,bundle.getString("PLEASE SELECT AN IMAGE."));
             }
         }
 

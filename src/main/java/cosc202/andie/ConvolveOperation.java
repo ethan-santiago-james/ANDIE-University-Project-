@@ -3,84 +3,91 @@ package cosc202.andie;
 import java.awt.image.*;
 import java.util.Arrays;
 
-/* 
+/**
  * kernel reimplementation to account for dissapearing edge pixels, most functionality not carried over 
 */
 public class ConvolveOperation {
     Kernel kernel;
 
+    /**
+     * Constructor for ConvolveOperation
+     * @param kernel 
+     */
     ConvolveOperation(Kernel kernel) {
         this.kernel = kernel;
     }
     boolean pos = true;
 
-    public BufferedImage filter(BufferedImage src, BufferedImage dst) {
+    /**
+     * Method used to filter the image based on the kernel with negative values shifted
+     * @param input
+     * @param output
+     * @return 
+     */
+    public BufferedImage filter(BufferedImage input, BufferedImage output) {
         
-        try {
-            if (src == dst) {
-                throw new IllegalArgumentException("Illegal argument: src cannot be the same as dst");
-            }
-            int[] size = { src.getWidth(), src.getHeight() };
-            int[] startPos = { src.getMinTileX(), src.getMinTileY() };
+        int width = input.getWidth();
+        int height = input.getHeight();
+        
+       
+        
+        int kWidth = kernel.getWidth();
+        int kHeight = kernel.getHeight();
+        
+        float[] kernelArray = kernel.getKernelData(null);
+        int kRadius = (kWidth - 1)/2;
+        
+        for (int y = kRadius; y < input.getHeight() - kRadius; y++) {
+           
+           for (int x = kRadius; x < input.getWidth() - kRadius; x++) {
+               
+               int rgbA = input.getRGB(x,y);
+               int A = (rgbA & 0xFF000000) >>> 24;
+               int counter = 0;
+                
+               int R = 0;
+               int G = 0;
+               int B = 0;
+               //System.out.println(j);
+               for (int k = y - kRadius; k < y + kRadius + 1; k++) {
+                   
+                   //System.out.println(k);
+                   for (int l = x - kRadius; l < x + kRadius + 1; l++) {
+                       
+                       //System.out.println(l);
+                       int RGBA = input.getRGB(l,k);
 
-            int[] kSize = { kernel.getWidth(), kernel.getHeight() };
-            float kStrength = 0;
-            float[] temp = new float[kSize[0] * kSize[1]];
-            for (float x : kernel.getKernelData(temp)) {
-                kStrength += x;
-                if(kStrength < 0){
-                    this.pos = false;
-                }
-            }
-            int count = 0;
-
-            // System.out.println(kStrength);
-            // System.out.println(Arrays.toString(kernel.getKernelData(temp)));
-            // System.out.println(src.getColorModel());
-
-            int currentR;
-            int currentG;
-            int currentB;
-            int currentColour;
-            System.out.println();
-            for (int x = startPos[0]; x < size[0]; x++) {
-                System.out.println(x);
-                for (int y = startPos[1]; y < size[1]; y++) {
-                    currentR = 0;
-                    currentG = 0;
-                    currentB = 0;
-                    count = 0;
-                    for (int i = -(kSize[0]-1) / 2; i <= (kSize[0]-1)/2; i++) {
-                        for (int j = -(kSize[1]-1) / 2; j <= (kSize[1]-1)/2; j++) {
-                            currentColour = src.getRGB(squish(x + i,0,size[0]-1), squish(y + j,0,size[1]-1));
-                            currentR += temp[count]*((currentColour & 0x00FF0000) >> 16);
-                            currentG += temp[count]*((currentColour & 0x0000FF00) >> 8);
-                            currentB += temp[count]*((currentColour & 0x000000FF));
-                            count++;
-                        }
-                    }
-                    dst.setRGB(x, y, ((255 << 24) | (currentR << 16) | (currentG << 8) | currentB));
-                }
-            }
-
-        } catch (IllegalArgumentException d) {
-            System.out.println(d+"Illegal Argument Exception ");
-        } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Array out of bounds: "+e);
+                       int a = (RGBA & 0xFF000000) >>> 24;
+                       int r = (RGBA & 0x00FF0000) >> 16;
+                       int g = (RGBA & 0x0000FF00) >> 8;
+                       int b = (RGBA & 0x000000FF);
+                       
+                       R += r*(int)(kernelArray[counter]);
+                       G += g*(int)(kernelArray[counter]);
+                       B += b*(int)(kernelArray[counter]);
+                       counter++;
+                       
+                   }
+                   
+               }
+               
+               R = Math.min(R+128, 255);
+               G = Math.min(G+128, 255);
+               B = Math.min(B+128, 255);
+               int ARGB = (A << 24) | (R << 16) | (G << 8) | B;
+               output.setRGB(x,y, ARGB);
+               counter = -1;
+               
+           }
+            
         }
-        System.out.println("Yabadabadoo");
-        return src;
+        
+        return output;
+        
+        
+        
     }
-
-
-    private int squish(int val, int lower, int upper){ 
-        if(val>upper){
-            return upper;
-        }else if(val<lower){
-            return lower;
-        }
-        return val;
-    }
+   
 }
 
 // ColorModel: #pixelBits = 24 numComponents = 3 color space =
