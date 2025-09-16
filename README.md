@@ -3,12 +3,9 @@
 
 ## Team Name: Team P
 
-### Team Members
+### Team Members (removed group member names for confidentiality)
 
-* Sam Hostad
 * Ethan James
-* Adam Lindbom
-* Bradyn Salmon
 
 ### How to operate the application
 
